@@ -6,7 +6,7 @@
         "ng": "ng",
         "start": "ng serve",
         "build": "ng build",
-        "build-deploy": "ng build --prod --base-href && git add .&& timestamp=$(date \"+%m-%d-%Y\") && git commit -m \"automated deployment $timestamp\" && git push;",
+        "build-deploy": "ng build --base-href /nwk-zola/ && git add . && timestamp=$(date +%m-%d-%Y) && git commit -m 'automated deployment '$timestamp && git push",
         "watch": "ng build --watch --configuration development",
         "test": "ng test"
     },
