@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 125 125">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #9bf78b;
+      }
+
+      .cls-2 {
+        fill: #c7b299;
+      }
+
+      .cls-3 {
+        fill: #515151;
+      }
+
+      .cls-4 {
+        fill: #c1c1c1;
+      }
+
+      .cls-5, .cls-6 {
+        fill: none;
+        stroke: #000;
+        stroke-width: 0.5px;
+      }
+
+      .cls-5 {
+        stroke-miterlimit: 10;
+      }
+
+      .cls-6 {
+        stroke-linejoin: round;
+      }
+
+      .cls-7 {
+        font-size: 4px;
+      }
+
+      .cls-7, .cls-9 {
+        font-family: CenturyGothic, Century Gothic;
+      }
+
+      .cls-8 {
+        font-size: 8px;
+        font-family: CenturyGothic-Bold, Century Gothic;
+        font-weight: 700;
+      }
+
+      .cls-9 {
+        font-size: 5px;
+        font-weight: 400;
+      }
+    </style>
+  </defs>
+  <title>LotDiagram</title>
+  <g id="YardSides">
+    <g id="FrontYard">
+      <rect class="cls-1" x="57.5" y="12.5" width="50" height="25"/>
+    </g>
+    <g id="RearYard">
+      <rect class="cls-1" x="57.5" y="82.5" width="50" height="30"/>
+    </g>
+    <rect id="LeftSide" class="cls-1" x="57.5" y="37.5" width="5" height="45"/>
+    <rect id="RightSide" class="cls-1" x="97.5" y="37.5" width="10" height="45"/>
+  </g>
+  <g id="Envelope">
+    <g id="Envelope-2" data-name="Envelope">
+      <rect class="cls-2" x="62.5" y="37.5" width="35" height="45"/>
+    </g>
+  </g>
+  <g id="Ways">
+    <rect id="Driveway" class="cls-3" x="97.5" y="12.5" width="10" height="50"/>
+    <rect id="Sidewalk" class="cls-4" x="57.5" y="16" width="40" height="3.5"/>
+    <rect id="Walkway" class="cls-4" x="78.25" y="19.5" width="3.5" height="18"/>
+    <rect id="Stoop" class="cls-4" x="78.25" y="32.75" width="3.5" height="6" transform="translate(115.75 -44.25) rotate(90)"/>
+  </g>
+  <g id="Outline">
+    <rect id="LotOutline" class="cls-5" x="57.5" y="12.5" width="50" height="100"/>
+  </g>
+  <g id="Scales">
+    <g id="LotDepth">
+      <g>
+        <line class="cls-6" x1="111.5" y1="12.69" x2="111.5" y2="112.31"/>
+        <rect x="110.28" y="12.5" width="2.44" height="0.38"/>
+        <rect x="110.28" y="112.13" width="2.44" height="0.38"/>
+      </g>
+    </g>
+    <g id="LotWidth">
+      <g>
+        <line class="cls-6" x1="107.31" y1="8.5" x2="57.69" y2="8.5"/>
+        <rect x="107.12" y="7.28" width="0.38" height="2.44"/>
+        <rect x="57.5" y="7.28" width="0.38" height="2.44"/>
+      </g>
+    </g>
+    <text class="cls-7" transform="translate(79.58 6.4)">50’</text>
+    <text class="cls-7" transform="translate(112.97 62.67)">100’</text>
+  </g>
+  <g id="Title">
+    <text class="cls-8" transform="translate(22.76 60.25)">R-1<tspan class="cls-9"><tspan x="-8.85" y="6">Single-family</tspan></tspan></text>
+  </g>
+</svg>

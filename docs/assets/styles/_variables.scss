@@ -1,0 +1,109 @@
+@use '../../../node_modules/@angular/material/theming'as *;
+
+$--vh: 1vh;
+$link-hover-decoration: none;
+$label-margin-bottom: 0;
+
+$success-colors: mat-palette($mat-green, 400);
+$warning-colors: mat-palette($mat-amber, 400);
+$nwk-primary-colors: mat-palette($mat-deep-purple);
+$nwk-accent-colors: mat-palette($mat-blue-gray, 100, 500, A100);
+$nwk-success-colors: mat-palette($mat-green, 100, 500, A100);
+$nwk-warn-colors: mat-palette($mat-deep-orange);
+$primary-color: mat-color($nwk-primary-colors);
+$accent-color: mat-color($nwk-accent-colors);
+$warn-color: mat-color($nwk-warn-colors);
+$success-color: mat-color($nwk-success-colors);
+
+$nwk-font-family: 'Segoe UI',
+'Open Sans',
+sans-serif;
+$nwk-sidebar-width: 25vw;
+$grey: rgba(0, 0, 0, 0.2);
+$transition-time: 0.2s;
+$transition: padding-left $transition-time,
+  border-left $transition-time,
+  color $transition-time;
+
+@mixin mat-icon-size($size: 24px) {
+    font-size: $size;
+    height: $size;
+    width: $size;
+}
+
+$flex-positions: ( "col":column, "row":row);
+@each $name, $position in $flex-positions { 
+  .flex {
+    display: flex !important;
+    padding: .5rem;
+    .mat-form-field-wrapper {width: 100%;margin: 0;
+      padding: 0;}
+    &-#{$name} { 
+      display: flex !important;
+      padding: 0 .5rem;
+      flex-wrap: wrap;
+      flex-direction: $position;
+    }
+  }
+}
+.flex_inline {display: inline-flex !important; }
+.cols-auto { flex: 1 1 auto; &[src] {width: auto !important} }
+$flex-positions: ("center": center, "end": flex-end, "start": flex-start);
+@each $name, $position in $flex-positions { 
+  .justify-content-#{$name} {justify-content: $position;}
+  .align-content-#{$name} {justify-content: $position;}
+  .align-items-#{$name} {align-items: $position;}
+  .align-self-#{$name} {align-items: $position;}
+}
+.justify-content-between {justify-content: space-between;}
+.justify-content-around {justify-content: space-around;}
+.justify-content-even {justify-content: space-evenly;}
+.align-content-between {align-content: space-between;}
+.align-content-around {align-content: space-around;}
+.align-items-stretch {align-items: stretch;}
+.align-self-stretch {align-items: stretch;}
+$breakpoints: ("xs": 0,"sm": 576px, "md": 768px, "lg": 992px, "xl": 1200px);
+
+@each $size, $point in $breakpoints {
+  .hide-above-#{$size} {
+    @media screen and (min-width: $point) { display: none; }
+  }
+  .hide-below-#{$size} {
+    @media screen and (max-width: $point) { display: none; }
+  }
+}
+$columns: 1,2,3,4,5,6,7,8,9,10,11,12;
+@each $col in $columns {
+  .cols {
+    display: inline-flex !important;
+    &-#{$col} { flex: 1 1 #{$col * 8.33%}; &[src] {width: #{$col * 8.33%} !important} }
+    &-xs-#{$col} {
+      @media screen and (max-width: 576px) { flex: 1 1 #{$col * 8.33%} !important;&[src] {width: #{$col * 8.33%} !important}}
+    }
+    &-sm-#{$col} {
+      @media screen and (min-width: 576px) and (max-width: 768px) { flex: 1 1 #{$col * 8.33%} !important; &[src] {width: #{$col * 8.33%} !important}}
+    }
+    &-md-#{$col} {
+      @media screen and (min-width: 768px) and (max-width: 992px) { flex: 1 1 #{$col * 8.33%} !important; &[src] {width: #{$col * 8.33%} !important}}
+    }
+    &-lg-#{$col} {
+      @media screen and (min-width: 992px) and (max-width: 1200px) { flex: 1 1 #{$col * 8.33%} !important; &[src] {width: #{$col * 8.33%} !important}}
+    }
+    &-xl-#{$col} {
+      @media screen and (min-width: 1200px) { flex: 1 1 #{$col * 8.33%} !important; &[src] {width: #{$col * 8.33%} !important}}
+    }
+  }
+}
+$margins: 1,2,3;
+@each $marg in $margins {
+  .margin {
+    &_left_#{$marg} { margin-left: #{$marg * 0.5}rem !important}
+    &_right_#{$marg} { margin-right: #{$marg * 0.5}rem !important}
+    &_#{$marg} { margin: #{$marg * 0.5}rem !important}
+  }
+}
+.v-align {
+  &-top {
+    vertical-align: text-top !important;
+  }
+}

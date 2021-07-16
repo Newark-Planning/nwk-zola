@@ -1,0 +1,97 @@
+<ng-content select='[header]'></ng-content>
+<span class="layers-title">
+  <mat-icon>layers</mat-icon>
+  Layers
+</span>
+<mat-table [dataSource]="layers" multiTemplateDataRows class="layer-table">
+    <ng-container matColumnDef="expand">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let row">
+            <button class="icon-button" [color]="selection.isSelected(row) ? 'primary' : 'secondary'">
+                <mat-icon>{{selection.isSelected(row)  ? 'expand_less' : 'chevron_right'}}</mat-icon>
+            </button>
+        </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>Layers</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{replaceUnderscore(row.get('className') ? row.get('className') : row.getClassName()) | titlecase}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="visible">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let row">
+            <button class="icon-button" [style.color]="row.getVisible() ? '#0d47a1' : 'lightgrey'" [title]="row.getVisible() ? 'Hide Group' : 'Show Group'" (click)="$event ? toggleVisible($event, row) : null">
+                <mat-icon>{{ row.getVisible() ? 'visibility' : 'visibility_off'}}</mat-icon>
+            </button>
+        </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="opacity">
+        <td mat-cell *matCellDef="let row" [attr.colspan]="cols.length">
+            <div class="row-detail" [@rowExpand]="selection.isSelected(row) ? 'expanded' : 'collapsed'" [style.height]="selection.isSelected(row) ? 'unset' : '0 !important'">
+                <table *ngIf="row.getLayersArray().length > 0">
+                    <tr class="opacity-row">
+                        <td>Opacity</td>
+                        <td>
+                            <mat-slider class="opacity-slider" [max]="1" [min]="0" [step]=".25" [tickInterval]="1" [value]="row.getOpacity()" (change)="setOpacity($event, row)">
+                            </mat-slider>
+                        </td>
+                        <td><i>{{row.getOpacity() | percent}}</i></td>
+                    </tr>
+                    <ng-container *ngFor="let lyr of row.getLayersArray()">
+                        <tr [ngClass]="lyr.getVisible() ? 'hasLegendPatches':''">
+                            <td>
+                                <button class="icon-button" [style.color]="lyr.getVisible() ? '#0d47a1' : 'lightgrey'" [title]="lyr.getVisible() ? 'Hide Layer' : 'Show Layer'" (click)="$event ? toggleVisible($event, lyr, row) : null">
+                                <mat-icon>{{ lyr.getVisible() ? 'visibility' : 'visibility_off'}}</mat-icon>
+                              </button>
+                            </td>
+                            <td>{{lyr.getClassName() === 'LU' ? 'Land Use' : replaceUnderscore(lyr.getClassName()) | titlecase}}</td>
+                            <td>
+                                <button class="icon-button" title="Layer Info" [matMenuTriggerFor]="layerMenu">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                                <mat-menu #layerMenu="matMenu">
+                                    <p class="menuTitle">{{replaceUnderscore(lyr.getClassName()) | titlecase}}</p>
+                                    <button mat-menu-item *ngIf="lyr.getVisible()" type="button" title="Highlight Layer" (click)="openDetails(lyr)">
+                                  <mat-icon>info</mat-icon>
+                                  <span>Highlight</span>
+                                </button>
+                                    <button mat-menu-item type="button" title="See Item Details" (click)="openDetails(lyr)">
+                                  <mat-icon>info</mat-icon>
+                                  <span>Details</span>
+                                </button>
+                                    <button mat-menu-item type="button" title="Go to Item Source" (click)="goToLyrSource(lyr)">
+                                  <mat-icon>launch</mat-icon>
+                                  <span>Layer Source</span>
+                                </button>
+                                </mat-menu>
+                            </td>
+                        </tr>
+                        <tr *ngIf="lyr.getVisible() === true && row.get('className') !== 'Basemap'" class="layer-legend-row">
+                            <table *ngIf="getLegendInfo(lyr) as legendItems">
+                                <tr *ngFor="let item of legendItems">
+                                    <td class="legend-patch" [ngSwitch]="item.type">
+                                        <div *ngSwitchCase="'point'" class="point-img" [ngStyle]="{'border-color': 'transparent'}">
+                                            <img *ngIf="item.image && !item.image.svg" [src]="item.image.src" [alt]="item.key">
+                                            <map-svg-pin *ngIf="item.image && item.image.svg" class="logo" [fillColor]="item.image.color"></map-svg-pin>
+                                        </div>
+                                        <div *ngSwitchCase="'line'" class="line-patch" [ngStyle]="{'border-color': 'transparent'}">
+                                            <hr [ngStyle]="{'border-color': item.patch.outline}" />
+                                        </div>
+                                        <div *ngSwitchDefault [ngStyle]="{'border-color': item.patch.outline}" [style.backgroundColor]="item.patch.fill"></div>
+                                    </td>
+                                    <td class="legend-key">{{item.key}}</td>
+                                    <td *ngIf="item.description" class="legend-description">{{item.description}}</td>
+                                </tr>
+                            </table>
+                        </tr>
+                    </ng-container>
+                </table>
+                <button *ngIf="row.getLayersArray() === undefined" class="icon-button" [style.color]="row.getVisible() ? '#0d47a1' : 'lightgrey'" (click)="$event ? openDetails(row) : null">
+                        <mat-icon>{{ row.getVisible() ? 'visibility' : 'visibility_off'}}</mat-icon>
+                    </button>
+            </div>
+        </td>
+    </ng-container>
+    <mat-row class="row" *matRowDef="let row; columns: cols;" [class.example-expanded-row]="selection.isSelected(row)" (click)="selection.toggle(row)"></mat-row>
+    <mat-row *matRowDef="let row; columns: ['opacity']" class="row-detail" [@rowExpand]="selection.isSelected(row) ? 'expanded' : 'collapsed'" style="overflow: hidden">
+    </mat-row>
+</mat-table>

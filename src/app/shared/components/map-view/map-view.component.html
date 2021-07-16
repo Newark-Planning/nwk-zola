@@ -1,0 +1,16 @@
+<div class="map"></div>
+<section class="layers-pane-sidebar" (click)="toggleLayersPane()">
+    <span class="action-handle"><mat-icon>{{layersPaneActive ? 'chevron_left' : 'chevron_right'}}</mat-icon></span>
+    <span class="layers-panel-title">Search & Layers</span>
+</section>
+<map-zoom [map]="instance"></map-zoom>
+<map-extent [map]="instance"></map-extent>
+<map-measure [map]="instance"></map-measure>
+<map-basemaps [map]="instance" [basemapLayers]="basemapGroup"></map-basemaps>
+<div id="pointer-popup">
+    <span [ngClass]="mouseTooltip.value !== '' ? '' : 'empty'" class="zoning-tooltip">{{mouseTooltip.layer}}: {{mouseTooltip.value}}</span>
+</div>
+<footer>
+    <map-scale [map]="instance"></map-scale>
+    <mat-progress-spinner class="progress-spinner" mode='indeterminate' *ngIf="loadingIndicator" diameter="40"></mat-progress-spinner>
+</footer>

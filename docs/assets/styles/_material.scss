@@ -1,0 +1,306 @@
+@use './variables' as *;
+@use '../../../node_modules/@angular/material/theming' as *;
+@include mat-core();
+$nwk-theme: mat-light-theme(( color: ( primary: $nwk-primary-colors, accent: $nwk-accent-colors, warn: $nwk-warn-colors)));
+@include angular-material-theme($nwk-theme);
+$custom-typography: mat-typography-config( $font-family: 'Segoe UI, sans-serif', $headline: mat-typography-level(32px, 48px, 700), $body-1: mat-typography-level(16px, 24px, 500));
+// Override typography CSS classes (e.g., mat-h1, mat-display-1, mat-typography, etc.).
+@include mat-base-typography($custom-typography);
+// Override typography for a specific Angular Material components.
+@include mat-checkbox-typography($custom-typography);
+// Override typography for all Angular Material, including mat-base-typography and all components.
+@include angular-material-typography($custom-typography);
+.mat-drawer-container {
+    color: unset !important;
+}
+
+.map-buttons-top {
+    &.right {
+        top: 1rem;
+        right: 2rem;
+    }
+    &.left {
+        top: 3rem;
+        left: 3rem;
+        @media screen and (max-width: 576px) {
+            top: 1rem;
+            left: 2rem;
+        }
+    }
+    &.left-mini {
+        top: 1rem;
+        left: 2rem;
+    }
+    position:absolute;
+    &.sat {
+        .general-button:not(.split),
+        .split {
+            box-shadow: 0 3px 10px black;
+        }
+    }
+}
+
+.ol-control>button {
+    cursor: pointer !important;
+}
+
+.ol-scale-line {
+    background: none !important;
+    bottom: .1rem !important;
+    left: .5rem !important;
+}
+
+.ol-scale-line-inner {
+    border: 0.1rem solid grey !important;
+    border-top: none !important;
+    color: grey !important;
+    margin: 0.15rem !important;
+    font: 0.5rem "Segoe UI" !important;
+    height: 0.85rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ol-attribution {
+    &.ol-collapsed {
+        background-color: transparent !important;
+    }
+    &:not(.ol-collapsed) {
+        background-color: white !important;
+    }
+    right: 0.5rem !important;
+    bottom: 0.5rem !important;
+    ul {
+        &::before {
+            content: "Attributions";
+            font-size: 1rem;
+            display: block;
+            font-weight: 700;
+            text-align: center;
+        }
+        max-width: 20rem;
+        list-style-type: circle;
+        text-align: center;
+        li {
+            font-size: .9rem;
+            &:not(:last-child)::after {
+                content: ", ";
+            }
+        }
+    }
+    button {
+        background-color: rgba(0, 0, 0, 0.5) !important;
+        border-radius: .2rem !important;
+        cursor: pointer;
+    }
+}
+
+.mat-tooltip {
+    // making the font size on the mat-tooltip 1.5rem globally
+    font-size: 1.1rem;
+    &.legend-tooltip {
+        // to modify the tooltip create a class like this
+        font-size: 1.2rem;
+    }
+}
+
+.mat-button-toggle-label-content {
+    line-height: inherit !important;
+    padding: .25rem !important;
+    min-width: 3rem;
+}
+
+.menuTitle {
+    font-size: 0.5em;
+    margin-block: 0;
+    line-height: 1em;
+    text-align: center;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+}
+
+.zoom-extent-control {
+    display: inline-block !important;
+    margin: 0px !important;
+    padding: 0px !important;
+    color: black;
+    -webkit-text-fill-color: black;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+    font-size: 1em !important;
+    height: 1.6em !important;
+    width: 1.6em !important;
+    line-height: 1em;
+    background: none !important;
+    border: none;
+    border-radius: 0.15em !important;
+}
+
+.control-button {
+    color: black;
+    -webkit-text-fill-color: black;
+    background: white !important;
+    font-size: 1em !important;
+    height: 1.6em !important;
+    width: 1.6em !important;
+    border-radius: 0.15em !important;
+    box-shadow: 0px 1px 0.75px -0.5px rgba(0, 0, 0, 0.2), 0px 0.5px 0.75px 0px rgba(0, 0, 0, 0.14), 0px 0.5px 1.5px 0px rgba(0, 0, 0, 0.12) !important;
+    border: 0.05em solid grey !important;
+    padding: 0.1em !important;
+    transition: background 500ms cubic-bezier(0.075, 0.82, 0.165, 1);
+    &:hover {
+        background: rgb(240 240 250) !important;
+        transition: background 500ms cubic-bezier(0.075, 0.82, 0.165, 1);
+    }
+    &:active {
+        color: white;
+        -webkit-text-fill-color: white;
+        background: rgb(240 240 250) !important;
+    }
+    &.active {
+        border-radius: 0.15em 0 0 0.15em !important;
+    }
+    &.close {
+        background: black;
+        color: white;
+        -webkit-text-fill-color: white;
+        border-radius: 0 0.15rem 0.15rem 0 !important;
+    }
+}
+
+.icon-button {
+    background: none;
+    border: none;
+    vertical-align: middle;
+    font-size: 1.2em;
+    cursor: pointer;
+    padding: 0.1em 0.15em !important;
+    margin: 0 !important;
+    line-height: 1 !important;
+    transition: background 500ms cubic-bezier(0.075, 0.82, 0.165, 1);
+    mat-icon,
+    .material-icons {
+        vertical-align: middle !important;
+        max-height: 1em !important;
+        line-height: 1 !important;
+        max-width: 1em !important;
+        font-size: inherit;
+    }
+    &:hover {
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: 0.15em !important;
+        transition: background 500ms cubic-bezier(0.075, 0.82, 0.165, 1);
+    }
+    &:active {
+        color: white;
+        -webkit-text-fill-color: white;
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: 0.15em !important;
+    }
+}
+
+.ol-zoom {
+    top: 0 !important;
+    left: 0 !important;
+    padding: 0 !important;
+    background: none;
+    border-radius: 0 !important;
+    button:first-of-type {
+        border-bottom: none !important;
+        border-radius: 0.15em 0.15em 0 0 !important;
+    }
+    button:last-of-type {
+        border-top: 0.05px solid lightgray !important;
+        border-radius: 0 0 0.15em 0.15em !important;
+    }
+}
+
+map-search-bar {
+    display: flex;
+    font-size: 1em !important;
+    /* height: 1.6em !important; */
+    /* border-radius: 0.15em !important; */
+    width: 100%;
+    /* border-radius: 0.12em; */
+    /* position: absolute; */
+    /* top: 0.55em; */
+    /* box-shadow: 0px 1px 0.75px -0.5px rgb(0 0 0 / 20%), 0px 0.5px 0.75px 0px rgb(0 0 0 / 14%), 0px 0.5px 1.5px 0px rgb(0 0 0 / 12%) !important; */
+    /* border: 0.05em solid grey !important; */
+    background: #0d47a1;
+    /* max-width: 30em; */
+    justify-content: space-between;
+    padding: 0.5em 0.25em;
+    align-items: center;
+    left: 3.4em;
+    transition: transform 400ms cubic-bezier(0.075, 0.82, 0.165, 1);
+    flex-wrap: wrap;
+    .search-icon:first-of-type {
+        color: white;
+        -webkit-text-fill-color: white;
+        flex: 1 1 15%;
+        height: auto !important;
+        line-height: 1.25em;
+        user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+    }
+    .search-box {
+        background: white;
+        display: flex;
+        border: none;
+        height: 2em;
+        font-size: 0.6em;
+        padding: 0.15em;
+        flex: 1 1 85%;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 0.15em;
+        input {
+            border: none;
+            font-size: inherit;
+            width: 80%;
+            flex: 1 1 auto;
+            padding: 0.1em;
+            &:focus-visible,
+            &:active {
+                outline: none;
+            }
+        }
+        button {
+            color: black;
+            -webkit-text-fill-color: black;
+        }
+    }
+    .change-search-type {
+        display: flex;
+        font-size: 0.5em;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        color: white;
+        -webkit-text-fill-color: white;
+        p {
+            margin-block: 0 !important;
+            flex: 1 1 40%;
+        }
+        mat-select {
+            flex: 1 1 auto;
+            padding: 0.35em;
+            border-radius: 0.24em;
+            cursor: pointer;
+            border: 0.05em solid white;
+            line-height: 1;
+            &>.mat-select-arrow {
+                color: white;
+                -webkit-text-fill-color: white;
+            }
+        }
+    }
+    @media only screen and (max-width: 769px) {
+        left: 0.75rem;
+        width: calc(100vw - 5.5rem);
+    }
+}

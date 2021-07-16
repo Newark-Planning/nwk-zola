@@ -1,0 +1,53 @@
+ {
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "id": 2,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -74.1907151406746,
+                    40.7044235503259
+                ]
+            },
+            "properties": {
+                "LINE": "NJT",
+                "ICON": "Logo_Airport",
+                "STATION": "EWR"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 3,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -74.1645455781596,
+                    40.7342646794681
+                ]
+            },
+            "properties": {
+                "LINE": "NJT",
+                "ICON": "Logo_Penn",
+                "STATION": "Penn Stn."
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 4,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -74.1719003192693,
+                    40.7476274478439
+                ]
+            },
+            "properties": {
+                "LINE": "NJT",
+                "ICON": "Logo_Broad",
+                "STATION": "Broad St."
+            }
+        }
+    ]
+}

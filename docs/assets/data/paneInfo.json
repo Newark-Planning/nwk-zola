@@ -1,0 +1,14 @@
+{
+    "Penn Stn.": {
+        "TYPE": "Transit Hub",
+        "NAME": "Newark Penn Station",
+        "DESCRIPTION": "<p>Large Multi-Modal Transit hub serving as one of the main centers of activity in Newark.</p>",
+        "IMGSRC": "assets/img/zoningThumbs/R-1_Thumb.jpg"
+    },
+    "Broad St.": {
+        "TYPE": "Transit Hub",
+        "NAME": "Broad Street Station",
+        "DESCRIPTION": "<p>Multi-Modal Transit hub serving as one of the main centers of activity in Newark. Provides access to New Jersey Transit Commuter Rail, Light Rail and Bus services.</p>",
+        "IMGSRC": "assets/img/zoningThumbs/R-2_Thumb.jpg"
+    }
+}

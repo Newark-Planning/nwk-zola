@@ -1,0 +1,155 @@
+[{
+        "ID": "RDV - Broad St",
+        "PLAN": "Broad Street Station Plan",
+        "DATE": "12/3/2008",
+        "DOCUMENTS": [{
+            "name": "Plan",
+            "link": "https://dl.airtable.com/.attachments/f1163fbf5424bdf45265b6925658ab9d/ec093924/BroadStreetStationPlan.pdf"
+        }],
+        "WARDS": [
+            "Central"
+        ],
+        "DESCRIPTION": "Redevelopment Plan for the area around Broad Street Station."
+    },
+    {
+        "ID": "RDV - Kent Brenner",
+        "PLAN": "Kent Brenner Springfield Redevelopment Plan",
+        "DATE": "4/1/2009",
+        "DOCUMENTS": [{
+            "name": "Plan",
+            "link": "https://dl.airtable.com/.attachments/4fe84fbac436e5eb850102591cc26ccc/778f027f/KentBrennerSpringfieldRedevelopmentPlan.pdf"
+        }],
+        "WARDS": [
+            "West",
+            "Central",
+            "South"
+        ],
+        "DESCRIPTION": "Redevelopment Plan for areas in the West and Central. From 2009."
+    },
+    {
+        "ID": "RDV - Lincoln Park",
+        "PLAN": "Lincoln Park Redevelopment Plan",
+        "DATE": "1/14/2011",
+        "DOCUMENTS": [{
+            "name": "Plan",
+            "link": "https://dl.airtable.com/.attachments/15cac210659f0c4f29c72849df16736b/5cd8b4b0/4.LincolnParkRedevelopmentPlan.pdf"
+        }],
+        "WARDS": [
+            "Central"
+        ],
+        "DESCRIPTION": "The zoning, design standards and guidelines within this Plan are meant to invigorate the area, provide incentives for investment, and ensure the Lincoln Park Neighborhood develops according to the community’s vision, while retaining important historical and cultural assets and simultaneously spurring growth and create a vibrant area"
+    },
+    {
+        "ID": "RDV - Downtown Core",
+        "PLAN": "Newark Downtown Core District",
+        "DATE": "8/6/2004",
+        "DOCUMENTS": [{
+            "name": "Plan",
+            "link": "https://dl.airtable.com/.attachments/161d5327063c83570ab756471f1d53e0/80cefc39/DowntownCoreRedevelopmentPlan.pdf"
+        }],
+        "WARDS": [
+            "East"
+        ],
+        "DESCRIPTION": "The purpose of this Plan is to set forth the terms and conditions under which the Core Area and/or the portion of the Gateway Plan area that has not yet been redeveloped may be redeveloped by a designated Redeveloper. In the amending of the Gateway Plan, the purpose of the Plan is also to eliminate any inconsistencies as may exist between the Gateway Plan and the concepts embodied in the Core Plan."
+    },
+    {
+        "ID": "RDV - Newark Riverfront",
+        "PLAN": "Newark Riverfront Public Access & Redevelopment Plan",
+        "DATE": "8/7/2013",
+        "DOCUMENTS": [{
+                "name": "Plan",
+                "link": "https://dl.airtable.com/.attachments/976f8f75b164a65cb43b6aa6d0e4d445/7fc5e5b6/NewarkRiver_sPublicAccess_RedevelopmentPlan.pdf"
+            },
+            {
+                "name": "2017 Amendment",
+                "link": "https://dl.airtable.com/.attachments/5bf0b5c1f0af2cafd04ab10dcc974410/2d9781e2/RiverfrontAmendment.pdf"
+            }
+        ],
+        "WARDS": [
+            "Central",
+            "East",
+            "North"
+        ],
+        "DESCRIPTION": "This plan updates Newark’s municipal development regulations along five miles of the city’s Passaic Riverfront. The plan was amended August 2nd, 2017; see second file."
+    },
+    {
+        "ID": "RDV - Northern Fairmount",
+        "PLAN": "Northern Fairmount Neighborhood Redevelopment Plan",
+        "DATE": "2/1/2010",
+        "DOCUMENTS": [{
+            "name": "Plan",
+            "link": "https://dl.airtable.com/.attachments/103d6f64383bca7c82ffe631f9b03e18/dcdd9063/NorthernFairmontRedevelopmentPlan.pdf"
+        }],
+        "WARDS": [
+            "West"
+        ],
+        "DESCRIPTION": ""
+    },
+    {
+        "ID": "RDV - Old 3rd Ward",
+        "PLAN": "Old Third Urban Renewal Project",
+        "DATE": "3/31/2008",
+        "DOCUMENTS": [{
+            "name": "Plan",
+            "link": "https://dl.airtable.com/.attachments/39ad653944a0df1140c2f871be88ad59/056442b7/OldThirdWardRedevelopmentPlan.pdf"
+        }],
+        "WARDS": [
+            "Central"
+        ],
+        "DESCRIPTION": ""
+    },
+    {
+        "ID": "RDV - Bergen St",
+        "PLAN": "South Bergen Street Redevelopment Plan",
+        "DATE": "1/5/2017",
+        "DOCUMENTS": [{
+            "name": "Plan",
+            "link": "https://dl.airtable.com/.attachments/5881c525a7358d10bc0b3cc98ac7d046/0b51853b/SouthBergenStreetRedevelopmentPlan8204.pdf"
+        }],
+        "WARDS": [
+            "South"
+        ],
+        "DESCRIPTION": ""
+    },
+    {
+        "ID": "RDV - Living Downtown",
+        "PLAN": "The Living Downtown Plan",
+        "DATE": "5/23/2008",
+        "DOCUMENTS": [{
+            "name": "Plan",
+            "link": "https://dl.airtable.com/.attachments/ee0d4639b0a5238a5b313bccec5ceae4/9ba21031/LivingDowntownRedevelopmentPlan.pdf"
+        }],
+        "WARDS": [
+            "Central",
+            "East"
+        ],
+        "DESCRIPTION": ""
+    },
+    {
+        "ID": "RDV - West Market",
+        "PLAN": "West Market Neighborhood Redevelopment Plan",
+        "DATE": "6/30/2009",
+        "DOCUMENTS": [{
+            "name": "Plan",
+            "link": "https://dl.airtable.com/.attachments/84702e7368126784baa33d07edc2d371/4db07c3b/WestMarketNeighborhoodRedevelopmentPlan.pdf"
+        }],
+        "WARDS": [
+            "Central",
+            "West"
+        ],
+        "DESCRIPTION": ""
+    },
+    {
+        "ID": "RDV - West Ward MNI",
+        "PLAN": "West Ward Model Neighborhood Initiative Redevelopment Plan",
+        "DATE": "7/11/2016",
+        "DOCUMENTS": [{
+            "name": "Plan",
+            "link": "https://dl.airtable.com/.attachments/7ab9c0f1c64c02ff8ef36d22b6deb226/42f44e8a/WestWardMNIRedevelopmentPlan.pdf"
+        }],
+        "WARDS": [
+            "West"
+        ],
+        "DESCRIPTION": ""
+    }
+]

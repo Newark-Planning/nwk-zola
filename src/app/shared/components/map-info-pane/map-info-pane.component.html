@@ -1,0 +1,107 @@
+<a mat-icon-button title="Close Info Pane" (click)="closePane()">
+    <mat-icon>close</mat-icon>
+</a>
+<section *ngIf="paneContent | async as content">
+    <div class="pane-header">
+        <div class="info-pane-header" [ngClass]="selection.layer === 'Zoning_Districts' ? 'Zone_'+selection.value : 'Layer_'+selection.layer">
+            <span *ngIf="content.TYPE">{{content.TYPE}}</span>
+            <span *ngIf="content.NAME">{{content.NAME}}</span>
+            <h5 *ngIf="selection.value">{{selection.value}}</h5>
+        </div>
+        <img *ngIf="content.IMGSRC" [src]="content.IMGSRC">
+    </div>
+    <div class="info-pane-description" *ngIf="content.DESCRIPTION" [innerHtml]="content.DESCRIPTION"></div>
+    <mat-accordion class="zone-info-accordion" *ngIf="selection.layer === 'Zoning_Districts'">
+        <mat-expansion-panel *ngIf="content.BUILDING_TYPES && content.BUILDING_TYPES.length > 0">
+            <mat-expansion-panel-header style="max-height: 2.5rem;">
+                <mat-panel-title>
+                    Building Types Allowed within {{selection.value}}
+                </mat-panel-title>
+                <mat-panel-description>
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div class="bldg-types">
+                <mat-table [dataSource]="content.BUILDING_TYPES">
+                    <ng-container matColumnDef="BUILDING_TYPES">
+                        <mat-header-cell *matHeaderCellDef>BUILDING TYPES</mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            {{row}}
+                            <a title="See Bulk Standards" [href]="getBldgTypeLink(selection.value, row)" target="_blank">
+                                <mat-icon>info</mat-icon>
+                            </a>
+                        </mat-cell>
+                    </ng-container>
+                    <mat-header-row *matHeaderRowDef="['BUILDING_TYPES']; sticky: true"></mat-header-row>
+                    <mat-row class='row' *matRowDef="let row; columns: ['BUILDING_TYPES']"></mat-row>
+                </mat-table>
+            </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel *ngIf="content.USES && content.USES.length > 0">
+            <mat-expansion-panel-header style="max-height: 2.5rem;">
+                <mat-panel-title>
+                    Uses Allowed within {{selection.value}}
+                </mat-panel-title>
+                <mat-panel-description>
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <p class="uses-filter">
+                Filter Use Type:
+                <mat-button-toggle-group name="Use Type" value="USE_TYPE.All" aria-label="Use Type" (change)="filterUses($event.value)">
+                    <mat-button-toggle value="USE_TYPE.All">All</mat-button-toggle>
+                    <mat-button-toggle value="USE_TYPE.Principal">Principal</mat-button-toggle>
+                    <mat-button-toggle value="USE_TYPE.Accessory">Accessory</mat-button-toggle>
+                </mat-button-toggle-group>
+            </p>
+            <p class="uses-filter">
+                Filter Approval Type:
+                <mat-button-toggle-group name="Use Allowance" value="ALLOWANCE.All" aria-label="Use Allowance" (change)="filterUses($event.value)">
+                    <mat-button-toggle value="ALLOWANCE.All">All</mat-button-toggle>
+                    <mat-button-toggle value="ALLOWANCE.P">Permitted</mat-button-toggle>
+                    <mat-button-toggle value="ALLOWANCE.C">Conditional</mat-button-toggle>
+                </mat-button-toggle-group>
+            </p>
+            <div class="zone-uses">
+                <mat-table [dataSource]="zoneUsesSource" multiTemplateDataRows>
+                    <ng-container matColumnDef="TYPE">
+                        <mat-header-cell *matHeaderCellDef>TYPE</mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            <a class="use-type" [title]="row.USE_TYPE + ' Use'" [ngClass]="row.USE_TYPE">{{row.USE_TYPE}}</a>
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="USE">
+                        <mat-header-cell *matHeaderCellDef>USE</mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            {{row.USE}}
+                            <a title="See Definition" [href]="'https://ecode360.com/'+row.ID" target="_blank">
+                                <mat-icon>info</mat-icon>
+                            </a>
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="PERMISSION">
+                        <mat-header-cell *matHeaderCellDef>PERMISSION</mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            <a class="use-permission" *ngIf="row.ALLOWANCE !== '' else permissionNA" [title]="row.ALLOWANCE === 'Permitted' ? 'Permitted Use' : 'Conditional Use'" [ngClass]="row.ALLOWANCE">{{row.ALLOWANCE}}</a>
+                            <ng-template #permissionNA>
+                                <a class="use-permission n-a" title="Requires Special Rules or Not Available">?</a>
+                            </ng-template>
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="NOTES">
+                        <mat-cell *matCellDef="let row">^{{row.NOTES}}</mat-cell>
+                    </ng-container>
+                    <mat-header-row *matHeaderRowDef="['TYPE','USE','PERMISSION']; sticky: true"></mat-header-row>
+                    <mat-row class='row' *matRowDef="let row; columns: ['TYPE','USE','PERMISSION']" [ngClass]="checkNotes(0, row) ? 'row-has-notes' : ''"></mat-row>
+                    <mat-row class='row-notes' *matRowDef="let row; columns: ['NOTES']; when: checkNotes"></mat-row>
+                </mat-table>
+            </div>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <div class="plan-details" *ngIf="planDetails | async as planDeets">
+        <h5 *ngIf="planDeets.PLAN">{{planDeets.PLAN}}</h5>
+        <h5 *ngIf="planDeets.DATE">{{planDeets.DATE}}</h5>
+        <div class="plan-links">
+            <a mat-button *ngFor="let doc of planDeets.DOCUMENTS" [href]="doc.link" target="_blank">{{doc.name}}</a>
+        </div>
+        <p *ngIf="planDeets.DESCRIPTION">{{planDeets.DESCRIPTION}}</p>
+    </div>
+</section>

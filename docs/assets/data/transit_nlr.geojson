@@ -1,0 +1,230 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "id": 5,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -74.1781895397278,
+                    40.772345971121
+                ]
+            },
+            "properties": {
+                "LINE": "NLR",
+                "STATION": "Davenport Ave."
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 7,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -74.1707929204677,
+                    40.737443510919
+                ]
+            },
+            "properties": {
+                "LINE": "NLR",
+                "STATION": "Military Park"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 8,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -74.1740350044378,
+                    40.7383572098915
+                ]
+            },
+            "properties": {
+                "LINE": "NLR",
+                "STATION": "Washington St."
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 9,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -74.1811894681795,
+                    40.7424173096569
+                ]
+            },
+            "properties": {
+                "LINE": "NLR",
+                "STATION": "Warren St."
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 10,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -74.1830091116439,
+                    40.7453499159086
+                ]
+            },
+            "properties": {
+                "LINE": "NLR",
+                "STATION": "Norfolk St."
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 11,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -74.1746657092512,
+                    40.7796464291503
+                ]
+            },
+            "properties": {
+                "LINE": "NLR",
+                "STATION": "Branch Brook Park"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 12,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -74.1798833926941,
+                    40.7654436194093
+                ]
+            },
+            "properties": {
+                "LINE": "NLR",
+                "STATION": "Bloomfield Ave."
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 13,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -74.1849421866487,
+                    40.7506316855039
+                ]
+            },
+            "properties": {
+                "LINE": "NLR",
+                "STATION": "Orange St."
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 14,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -74.1849832263476,
+                    40.7585341038795
+                ]
+            },
+            "properties": {
+                "LINE": "NLR",
+                "STATION": "Park Ave."
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 15,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -74.1806309462053,
+                    40.7803348492303
+                ]
+            },
+            "properties": {
+                "LINE": "NLR",
+                "STATION": "Silver Lake"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 16,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -74.1879601668018,
+                    40.7804565177574
+                ]
+            },
+            "properties": {
+                "LINE": "NLR",
+                "STATION": "Grove St."
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 17,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -74.1655814511084,
+                    40.7395088962827
+                ]
+            },
+            "properties": {
+                "LINE": "NLR",
+                "STATION": "NJPAC/Center St."
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 18,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -74.1684908494334,
+                    40.7441698679629
+                ]
+            },
+            "properties": {
+                "LINE": "NLR",
+                "STATION": "Atlantic St."
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 19,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -74.1698504734389,
+                    40.7439518142201
+                ]
+            },
+            "properties": {
+                "LINE": "NLR",
+                "STATION": "Washington Park"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 20,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -74.1696614170654,
+                    40.7460232047519
+                ]
+            },
+            "properties": {
+                "LINE": "NLR",
+                "STATION": "Riverfront Stadium"
+            }
+        }
+    ]
+}

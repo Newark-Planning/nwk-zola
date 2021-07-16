@@ -1,1 +1,366 @@
 /* You can add global styles to this file, and also import other style files */
+
+@use "assets/styles/variables"as *;
+@import "assets/styles/fonts";
+@import "assets/styles/material";
+:host {
+    font-family: $nwk-font-family;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    font-family: $nwk-font-family;
+    margin: 0 !important;
+    font-size: calc(6px + .33vw + .85vh) !important;
+    font-size: calc(6px + .33vw + (var(--vh, 1vw) * 0.85)) !important;
+    line-height: calc(1em + 1.15vh) !important;
+    line-height: calc(1em + (var(--vh, 1vw) * 1.15)) !important;
+}
+
+.mat-expansion-panel-content {
+    font: 500 1rem/2rem Segoe UI, sans-serif !important;
+}
+
+.mat-toolbar,
+.mat-toolbar h1,
+.mat-toolbar h2,
+.mat-toolbar h3,
+.mat-toolbar h4,
+.mat-toolbar h5,
+.mat-toolbar h6 {
+    font: 500 1.3rem/2rem Segoe UI, sans-serif !important;
+}
+
+.mat-button,
+.mat-fab,
+.mat-flat-button,
+.mat-icon-button,
+.mat-mini-fab,
+.mat-raised-button,
+.mat-stroked-button {
+    font-size: 1rem !important;
+}
+
+.mat-expansion-panel-header {
+    font-size: 0.7em !important;
+}
+
+.mat-button-toggle,
+.mat-card {
+    line-height: 1.5rem !important;
+}
+
+.program-card {
+    margin: 0.33rem !important;
+    border-width: .1rem !important;
+    padding: .5rem !important;
+}
+
+.mat-toolbar-row,
+.mat-toolbar-single-row {
+    padding: 0 1rem !important;
+    height: 4.6rem !important;
+}
+
+.newark-title {
+    border-bottom: .2rem solid #fff;
+    padding: 1.3rem .85rem
+}
+
+.mat-raised-button,
+.mat-stroked-button {
+    min-width: 5rem !important;
+    line-height: 2rem !important;
+    padding: 0 1rem !important;
+    border-radius: .2rem !important;
+    border-width: .2rem;
+}
+
+.mat-expansion-panel-header {
+    padding: 0 2rem;
+    border-radius: .2rem;
+}
+
+.mat-expansion-panel-body {
+    padding: 0 1.5rem 1rem;
+    @media screen and (max-width: 768px) {
+        padding: .2rem !important;
+    }
+}
+
+.mat-card {
+    padding: 1rem;
+    border-radius: .2rem;
+}
+
+.mat-card-actions {
+    flex-wrap: wrap;
+}
+
+.material-icons {
+    font-size: inherit;
+    line-height: 2em;
+    height: 2em !important;
+    width: auto !important;
+}
+
+.mat-sidenav-container {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    @media screen and (max-width: 500px) {
+        width: 100vw;
+    }
+    .mat-sidenav {
+        padding: 0px;
+        width: $nwk-sidebar-width;
+        box-shadow: 0 8px 10px -5px rgba(0, 0, 0, .2), 0 16px 24px 2px rgba(0, 0, 0, .14), 0 6px 30px 5px rgba(0, 0, 0, .12);
+        @media only screen and (max-width: 576px) {
+            width: 100vw;
+        }
+        @media only screen and (min-width: 576px) and (max-width: 768px) {
+            width: 66vw;
+        }
+        @media only screen and (min-width: 576px) and (max-width: 768px) {
+            width: 50vw;
+        }
+        @media only screen and (min-width: 768px) and (max-width: 1200px) {
+            width: 40vw;
+        }
+        @media only screen and (min-width: 1200px) {
+            width: 30vw;
+        }
+        .mat-drawer-content {
+            background-color: white;
+        }
+    }
+    .mat-sidenav-content {
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.intro-pic {
+    display: flex;
+    float: left;
+    width: 40%;
+    height: 43vh;
+    margin: 0 2rem 0 2rem;
+    margin-top: 0px;
+    border-radius: 0.2rem;
+    box-shadow: .1rem .1rem .15rem gray;
+    &.card {
+        width: 80%;
+        height: auto;
+        margin: auto;
+        float: unset;
+        box-shadow: none;
+    }
+    &.card-img {
+        height: unset;
+        max-height: 43vh;
+    }
+    &.logo {
+        background: seagreen;
+        object-fit: contain;
+        padding: 3rem;
+    }
+    &.logo-sm {
+        width: 10rem;
+        height: auto;
+        float: left;
+    }
+    &.hide-sm {
+        display: flex;
+    }
+    @media screen and (max-width: 768px) {
+        width: 100%;
+        max-height: 40vh;
+        object-fit: cover;
+        margin: 1rem auto !important;
+        float: none;
+        background: linear-gradient(to right, rgba(0, 0, 0, .25) 0%, rgba(260, 260, 260, .25) 25%, rgba(260, 260, 260, .5) 75%, rgba(0, 0, 0, .25) 100%);
+        &.card {
+            width: 100%;
+        }
+        &.hide-sm {
+            display: none !important;
+        }
+    }
+}
+
+.toolbar-spacer {
+    display: flex;
+    align-items: center;
+    &.right-icon {
+        justify-content: flex-end;
+        flex: 1 1 85%;
+    }
+    &.left-icon {
+        justify-content: flex-start;
+        flex: 1 1 auto;
+        margin-top: .5rem;
+        @media screen and (max-width: 576px) {
+            flex: 1 1 15%;
+        }
+        @media screen and (min-width: 576px) and (max-width: 769px) {
+            flex: 1 1 6%;
+        }
+    }
+    &.right-space {
+        justify-content: flex-end;
+        flex: 1 1 15%;
+        @media screen and (max-width: 576px) {
+            flex: 1 1 5%;
+        }
+        @media screen and (min-width: 576px) and (max-width: 769px) {
+            flex: 1 1 10%;
+        }
+    }
+    &.left-space {
+        justify-content: flex-start;
+        flex: 1 1 15%;
+        @media screen and (max-width: 576px) {
+            flex: 1 1 5%;
+        }
+        @media screen and (min-width: 576px) and (max-width: 769px) {
+            flex: 1 1 10%;
+        }
+    }
+}
+
+.content-container {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 4.6rem);
+    width: 100%;
+    margin-top: 4.6rem !important;
+    @media only screen and (max-width: 768px) {
+        margin-top: 4.6rem !important;
+    }
+}
+
+#inner-sidenav {
+    .mat-table {
+        width: 100%;
+        max-height: 70vh;
+        overflow: auto;
+    }
+    .side-button {
+        width: 100%;
+        background-color: grey;
+        color: white;
+        border-radius: 0;
+        justify-content: center;
+        margin-left: -.25rem !important;
+    }
+    .mat-sidenav {
+        box-shadow: none;
+        list-style: none;
+        .mat-drawer-inner-container {
+            overflow-x: hidden !important;
+        }
+        li {
+            cursor: pointer;
+        }
+    }
+    .router-tree-node {
+        width: 90% !important;
+        cursor: pointer;
+        margin: 2rem auto !important;
+        list-style: none !important;
+    }
+    .mat-checkbox-checked .mat-checkbox-background {
+        background-color: black;
+    }
+    .mat-sidenav-content {
+        padding: 1rem
+    }
+    .mat-column-select {
+        display: flex;
+        flex: 1 1 10%;
+        justify-content: center
+    }
+    .mat-column-label {
+        flex: 1 1 55%
+    }
+    .mat-column-id,
+    .mat-column-pubDate {
+        flex: 1 1 15%
+    }
+    .mat-form-field {
+        width: 80%;
+        margin: auto;
+        padding: 0 2rem;
+    }
+    .row:hover {
+        background: lightblue;
+        cursor: pointer
+    }
+}
+
+.mat-tooltip-panel {
+    font-size: 1.2rem;
+}
+
+.float-img {
+    float: left;
+    max-width: 25rem;
+    max-height: 35rem;
+    margin: 0 1rem 1rem 0rem;
+}
+
+.text-table {
+    width: 100%;
+    tbody {
+        vertical-align: top;
+    }
+    tr {
+        display: flex;
+        align-items: center;
+        padding: .5rem;
+    }
+    td {
+        padding: .25rem
+    }
+    td.side-header {
+        background-color: rgba(50, 50, 50, .1);
+        text-align: center;
+        flex: 1 1 33%;
+        align-self: stretch;
+    }
+    td.propVals {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 66%;
+        align-self: center;
+    }
+    @media screen and (max-width: 769px) {
+        tr {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+}
+
+ul.text-list {
+    list-style: none;
+    /* Remove list bullets */
+    padding: 0;
+    margin: 0;
+    li {
+        padding-left: 2rem;
+        margin-bottom: 1rem;
+    }
+    li:before {
+        content: "\2192";
+        padding-right: .5rem;
+        color: inherit;
+        margin-left: -1.5rem;
+    }
+}

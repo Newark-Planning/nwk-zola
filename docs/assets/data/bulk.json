@@ -1,0 +1,907 @@
+{
+    "buildingTypes": {
+        "One-family": {
+            "zones": [
+                "R-1",
+                "R-2",
+                "R-3",
+                "R-4",
+                "MX-1",
+                "MX-2"
+            ],
+            "Notes": "For accessory bulldings in residential districts see Note 7 on page 114. For fire escapes, see Note 9 on page 115.",
+            "Min Lot Size for Subdivision": {
+                "If R-1": 5000,
+                "Else": 2500
+            },
+            "Min Lot Width for Subdivision": {
+                "If R-1": 50,
+                "Else": 25
+            },
+            "Max Building Height": {
+                "stories": 3,
+                "height": 36,
+                "If R-1, height": 35,
+                "notes": "For towers, cupolas, and other elements of architectural character, see Note 1 on page 114."
+            },
+            "Front Yard": {
+                "If R-1": [
+                    "Front setback shall match the shorter front setback of the two closest principle buildings on each side of the project site on the same block as the site up to 50 feet. If no prevailing setback, 15 feet max and min.",
+                    "For through lots, a front yard shall be provided at each street.",
+                    "For corner lots, there shall be a front yard on each street-facing frontage, provided that the width of such lot for building purposes shall not be reduced to less than 25 feet and no accessory building shall project into the front yard on either street.",
+                    "No front yard on the longer side of a corner need exceed 12½ feet."
+                ],
+                "Else": [
+                    "Front setback shall match the shorter front setback of the two closest principle buildings on each side of the project site on the same block as the site or 6 feet if no prevailing setback.",
+                    "Regarding exceptions for bay windows, balconies, stoops, porches, and other elements of architectural character, see Note 2 on page 114.",
+                    "For through lots, see Note 3 on page 114.",
+                    "For corner lots, see Note 4 on page 114."
+                ]
+            },
+            "Side Yard": {
+                "If R-1": [
+                    "One side yard must be 10 feet minimum and other must be 5 feet minimum.",
+                    "For ornamental features, window sills, bay windows, and balconies, see Note 10 on page 115.",
+                    "For chimneys, see Note 12 on page 115."
+                ],
+                "Else": [
+                    "3 ft minimum"
+                ]
+            },
+            "Min Rear Yard": {
+                "If R-1": [
+                    30,
+                    "For ornamental features, window sills, bay windows, and balconies, see Note 10 on page 115.",
+                    "For chimneys, see Note 12 on page 115.",
+                    "When a rear yard opens onto a public alley, see Note 13 on page 115."
+                ],
+                "Else": 30
+            },
+            "Min Lot Area per Dwelling": "n/a",
+            "Max Lot Coverage": {
+                "If R-1": 0.40,
+                "Else": 0.5
+            },
+            "Max Impervious (Paved) Yard Area": {
+                "Front Yard": {
+                    "If R-1": 0.30,
+                    "Else": 0.65
+                },
+                "Rear Yard": {
+                    "If R-1": 0.50,
+                    "Else": 0.30
+                },
+                "notes": "Only one driveway no wider than 10 feet permitted in the front yard. A paved walkway is permitted along one side of a dwelling at the side yard."
+            },
+            "Min Building Transparency": {
+                "Primary Front Facade": 0.30,
+                "Street-Facing Side & Rear Facades": 0.20,
+                "Non-Street-Facing Facades": "10% or max allowed by construction code, whichever is greater.",
+                "notes": "All transparent glazing areas on door panels count towards this requirement, but door panels themselves do not count towards this requirement."
+            },
+            "Orientation of Primary Entrance": [
+                "Primary street-facing façade must include primary entrance.",
+                "Corner lots must include two entrances, one on each street-facing façade."
+            ],
+            "Active Ground Floor Reqs": "n/a"
+        },
+        "Two-family": {
+            "zones": [
+                "R-2",
+                "R-3",
+                "R-4",
+                "MX-1",
+                "MX-2"
+            ],
+            "Notes": "For accessory bulldings in residential districts see Note 7 on page 114.",
+            "Min Lot Size for Subdivision": 2500,
+            "Min Lot Width for Subdivision": 25,
+            "Max Building Height": {
+                "stories": 3,
+                "height": 36,
+                "notes": "For towers, cupolas, and other elements of architectural character, see Note 1 on page 114."
+            },
+            "Front Yard": [
+                "Front setback shall match the shorter front setback of the two closest principle buildings on each side of the project site on the same block as the site or 6 feet if no prevailing setback.",
+                "Regarding exceptions for bay windows, balconies, stoops, porches, and other elements of architectural character, see Note 2 on page 114.",
+                "For through lots, see Note 3 on page 114.",
+                "For corner lots, see Note 4 on page 114.",
+                "For stoops, see Note 8 on page 115.",
+                "For porches, see Note 11 on page 115."
+            ],
+            "Side Yard": [
+                "3 ft minimum",
+                "For party walls and other exceptions, see Note 5 on page 114.",
+                "For ornamental features, window sills, bay windows, and balconies, see Note 10 on page 115.",
+                "For chimneys, see Note 12 on page 115."
+            ],
+            "Min Rear Yard": [
+                30,
+                "For ornamental features, window sills, bay windows, and balconies, see Note 10 on page 115."
+            ],
+            "Min Lot Area per Dwelling": 1250,
+            "Max Lot Coverage": 0.5,
+            "Max Impervious (Paved) Yard Area": {
+                "Front Yard": 0.60,
+                "Rear Yard": 0.30,
+                "notes": "Only one driveway no wider than 10 feet permitted in the front yard. A paved walkway is permitted along one side of a dwelling at the side yard."
+            },
+            "Min Building Transparency": {
+                "Primary Front Facade": 0.30,
+                "Street-Facing Side & Rear Facades": 0.20,
+                "Non-Street-Facing Facades": "10% or max allowed by construction code, whichever is greater.",
+                "notes": "All transparent glazing areas on door panels count towards this requirement, but door panels themselves do not count towards this requirement."
+            },
+            "Orientation of Primary Entrance": [
+                "Primary street-facing façade must include primary entrance.",
+                "All units must be accessible from front or side façade. Rear primary entrances are prohibited."
+            ],
+            "Active Ground Floor Reqs": "n/a"
+        },
+        "Three-family": {
+            "zones": [
+                "R-3",
+                "R-4",
+                "MX-1",
+                "MX-2"
+            ],
+            "Notes": "For accessory bulldings in residential districts see Note 7 on page 114.",
+            "Min Lot Size for Subdivision": 3500,
+            "Min Lot Width for Subdivision": 35,
+            "Max Building Height": {
+                "stories": 3,
+                "height": 36,
+                "notes": "For towers, cupolas, and other elements of architectural character, see Note 1 on page 114."
+            },
+            "Front Yard": [
+                "Front setback shall match the shorter front setback of the two closest principle buildings on each side of the project site on the same block as the site or 6 feet if no prevailing setback.",
+                "Regarding exceptions for bay windows, balconies, stoops, porches, and other elements of architectural character, see Note 2 on page 114.",
+                "For through lots, see Note 3 on page 114.",
+                "For corner lots, see Note 4 on page 114."
+            ],
+            "Side Yard": [
+                "3 ft minimum",
+                "For party walls and other exceptions, see Note 5 on page 114.",
+                "For ornamental features, window sills, bay windows, and balconies, see Note 10 on page 115."
+            ],
+            "Min Rear Yard": [
+                30,
+                "For ornamental features, window sills, bay windows, and balconies, see Note 10 on page 115.",
+                "When a rear yard opens onto a public alley, see Note 13 on page 115."
+            ],
+            "Min Lot Area per Dwelling": 1165,
+            "Max Lot Coverage": 0.55,
+            "Max Impervious (Paved) Yard Area": {
+                "Front Yard": 0.55,
+                "Rear Yard": 0.75,
+                "notes": "Only one driveway no wider than 10 feet permitted in the front yard. A paved walkway is permitted along one side of a dwelling at the side yard."
+            },
+            "Min Building Transparency": {
+                "Primary Front Facade": 0.30,
+                "Street-Facing Side & Rear Facades": 0.20,
+                "Non-Street-Facing Facades": "10% or max allowed by construction code, whichever is greater.",
+                "notes": "All transparent glazing areas on door panels count towards this requirement, but door panels themselves do not count towards this requirement."
+            },
+            "Orientation of Primary Entrance": [
+                "Primary street-facing façade must include primary entrance.",
+                "All units must be accessible from front or side façade. Rear primary entrances are prohibited."
+            ],
+            "Active Ground Floor Reqs": "n/a"
+        },
+        "Townhouse": {
+            "zones": [
+                "R-2",
+                "R-3",
+                "R-4",
+                "MX-1",
+                "MX-2",
+                "INST"
+            ],
+            "Notes": [
+                "At least 3 adjacent town houses with 1-3 families in each with shared side driveway",
+                "For accessory bulldings in residential districts see Note 7 on page 114."
+            ],
+            "Min Lot Size for Subdivision": 7000,
+            "Min Lot Width for Subdivision": 70,
+            "Max Building Height": {
+                "stories": 3,
+                "height": 36,
+                "notes": "For towers, cupolas, and other elements of architectural character, see Note 1 on page 114."
+            },
+            "Front Yard": [
+                "Front setback shall match the shorter front setback of the two closest principle buildings on each side of the project site on the same block as the site or 6 feet if no prevailing setback.",
+                "Regarding exceptions for bay windows, balconies, stoops, porches, and other elements of architectural character, see Note 2 on page 114.",
+                "For through lots, see Note 3 on page 114.",
+                "For corner lots, see Note 4 on page 114."
+            ],
+            "Side Yard": [
+                "3 ft minimum",
+                "For party walls and other exceptions, see Note 5 on page 114.",
+                "10-foot-wide driveway may be placed at side property line."
+            ],
+            "Min Rear Yard": 30,
+            "Min Lot Area per Dwelling": 770,
+            "Max Lot Coverage": 0.60,
+            "Max Impervious (Paved) Yard Area": {
+                "Front Yard": 0.55,
+                "Rear Yard": 0.15,
+                "notes": "Only one driveway no wider than 10 feet permitted in the front yard. A paved walkway is permitted along one side of a dwelling at the side yard."
+            },
+            "Min Building Transparency": {
+                "Primary Front Facade": 0.30,
+                "Street-Facing Side & Rear Facades": 0.20,
+                "Non-Street-Facing Facades": "10% or max allowed by construction code, whichever is greater.",
+                "notes": "All transparent glazing areas on door panels count towards this requirement, but door panels themselves do not count towards this requirement."
+            },
+            "Orientation of Primary Entrance": [
+                "Primary street-facing façade must include primary entrance.",
+                "All units must be accessible from front or side façade. Rear primary entrances are prohibited."
+            ],
+            "Active Ground Floor Reqs": "n/a"
+        },
+        "Low-rise multifamily & Four-Family": {
+            "zones": [
+                "R-4",
+                "R-5",
+                "R-6",
+                "C-1",
+                "MX-1",
+                "MX-2",
+                "INST"
+            ],
+            "Notes": "For accessory bulldings in residential districts see Note 7 on page 114.",
+            "Min Lot Size for Subdivision": 10000,
+            "Min Lot Width for Subdivision": 100,
+            "Max Building Height": {
+                "stories": 4,
+                "height": 48,
+                "notes": "For towers, cupolas, and other elements of architectural character, see Note 1 on page 114."
+            },
+            "Front Yard": [
+                "Front setback shall match the shorter front setback of the two closest principle buildings on each side of the project site on the same block as the site or 6 feet if no prevailing setback.",
+                "Regarding exceptions for bay windows, balconies, stoops, porches, and other elements of architectural character, see Note 2 on page 114.",
+                "For through lots, see Note 3 on page 114.",
+                "For corner lots, see Note 4 on page 114."
+            ],
+            "Side Yard": [
+                "5 ft minimum",
+                "For party walls and other exceptions, see Note 6 on page 114."
+            ],
+            "Min Rear Yard": 30,
+            "Min Lot Area per Dwelling": 625,
+            "Max Lot Coverage": 0.66,
+            "Max Impervious (Paved) Yard Area": {
+                "Front Yard": 0.55,
+                "Rear Yard": 0.30
+            },
+            "Min Building Transparency": {
+                "Primary Front Facade": 0.50,
+                "Street-Facing Side & Rear Facades": 0.35,
+                "Non-Street-Facing Facades": "20% or max allowed by construction code, whichever is greater.",
+                "notes": [
+                    "All transparent glazing areas on door panels count towards this requirement, but door panels themselves do not count towards this requirement.",
+                    "If there is retail, office or personal services on the ground floor between zero (0) and 14 feet, the front façade must have 65% transparency."
+                ]
+            },
+            "Orientation of Primary Entrance": [
+                "Primary street-facing façade must include primary entrance.",
+                "All units must be accessible from front or side façade. Rear primary entrances are prohibited.",
+                "If there is one or more units of retail, office, or personal services on the ground floor between zero (0) and 14 feet, each unit must have its own primary entrance on the street-facing façade."
+            ],
+            "Active Ground Floor Reqs": "If there is one or more units of retail, office or personal services on the gorund floor, the ground floor shall have a 14 feet max floor-to-floor height."
+        },
+        "Mid-rise multifamily": {
+            "zones": [
+                "R-5",
+                "R-6",
+                "INST"
+            ],
+            "Notes": "For accessory bulldings in residential districts see Note 7 on page 114.",
+            "Min Lot Size for Subdivision": 10000,
+            "Min Lot Width for Subdivision": 100,
+            "Max Building Height": {
+                "stories": 8,
+                "height": 96,
+                "notes": "For towers, cupolas, and other elements of architectural character, see Note 1 on page 114."
+            },
+            "Front Yard": [
+                "Front setback shall match the shorter front setback of the two closest principle buildings on each side of the project site on the same block as the site or 6 feet if no prevailing setback.",
+                "Regarding exceptions for bay windows, balconies, stoops, porches, and other elements of architectural character, see Note 2 on page 114.",
+                "For through lots, see Note 3 on page 114.",
+                "For corner lots, see Note 4 on page 114."
+            ],
+            "Side Yard": [
+                "5 ft minimum",
+                "For party walls and other exceptions, see Note 6 on page 114."
+            ],
+            "Min Rear Yard": 30,
+            "Min Lot Area per Dwelling": 350,
+            "Max Lot Coverage": 0.60,
+            "Max Impervious (Paved) Yard Area": {
+                "Front Yard": 0.55,
+                "Rear Yard": 0.30
+            },
+            "Min Building Transparency": {
+                "Primary Front Facade": 0.50,
+                "Street-Facing Side & Rear Facades": 0.35,
+                "Non-Street-Facing Facades": "20% or max allowed by construction code, whichever is greater.",
+                "notes": [
+                    "All transparent glazing areas on door panels count towards this requirement, but door panels themselves do not count towards this requirement.",
+                    "If there is retail, office or personal services on the ground floor between zero (0) and 14 feet, the front façade must have 65% transparency."
+                ]
+            },
+            "Orientation of Primary Entrance": [
+                "Primary street-facing façade must include primary entrance.",
+                "All units must be accessible from front or side façade. Rear primary entrances are prohibited.",
+                "If there is one or more units of retail, office, or personal services on the ground floor between zero (0) and 14 feet, each unit must have its own primary entrance on the street-facing façade."
+            ],
+            "Active Ground Floor Reqs": "If there is one or more units of retail, office or personal services on the gorund floor, the ground floor shall have a 14 feet max floor-to-floor height."
+        },
+        "High-rise multifamily": {
+            "zones": [
+                "R-6"
+            ],
+            "Min Lot Size for Subdivision": 10000,
+            "Min Lot Width for Subdivision": 100,
+            "Max Building Height": {
+                "stories": 10,
+                "height": 120,
+                "notes": "An additional 1 story per 12 feet of height shall be permitted for each additional 1,000 SF of lot area up to 20,000 SF, for a maximum height of 20 stories and 243 feet."
+            },
+            "Front Yard": [
+                "Front setback shall match the shorter front setback of the two closest principle buildings on each side of the project site on the same block as the site or 6 feet if no prevailing setback.",
+                "Regarding exceptions for bay windows, balconies, stoops, porches, and other elements of architectural character, see Note 2 on page 114.",
+                "For through lots, see Note 3 on page 114.",
+                "For corner lots, see Note 4 on page 114."
+            ],
+            "Side Yard": "10 ft minimum",
+            "Min Rear Yard": 30,
+            "Min Lot Area per Dwelling": 300,
+            "Max Lot Coverage": 0.60,
+            "Max Impervious (Paved) Yard Area": {
+                "Front Yard": 0.55,
+                "Rear Yard": 0.30
+            },
+            "Min Building Transparency": {
+                "Primary Front Facade": 0.50,
+                "Street-Facing Side & Rear Facades": 0.35,
+                "Non-Street-Facing Facades": "20% or max allowed by construction code, whichever is greater.",
+                "notes": [
+                    "All transparent glazing areas on door panels count towards this requirement, but door panels themselves do not count towards this requirement.",
+                    "If there is retail, office or personal services on the ground floor between zero (0) and 14 feet, the front façade must have 65% transparency."
+                ]
+            },
+            "Orientation of Primary Entrance": [
+                "Primary street-facing façade must include primary entrance.",
+                "All units must be accessible from front or side façade. Rear primary entrances are prohibited.",
+                "If there is one or more units of retail, office, or personal services on the ground floor between zero (0) and 14 feet, each unit must have its own primary entrance on the street-facing façade."
+            ],
+            "Active Ground Floor Reqs": "If there is one or more units of retail, office or personal services on the gorund floor, the ground floor shall have a 14 feet max floor-to-floor height."
+        },
+        "Ground-floor commercial with commercial or residential above": {
+            "zones": [
+                "R-4",
+                "R-5",
+                "R-6",
+                "C-1",
+                "C-2",
+                "C-3",
+                "MX-1",
+                "MX-2",
+                "INST"
+            ],
+            "Min Lot Size for Subdivision": 3500,
+            "Min Lot Width for Subdivision": 35,
+            "Max Building Height": {
+                "If C1": "4 stories and 48 feet",
+                "If C2": "5 stories and 60 feet",
+                "If C3": "8 stories and 96 feet",
+                "If MX-1 or MX-2": "4 stories and 48 feet"
+            },
+            "Front Yard": {
+                "Minimum": 0,
+                "Maximum": 5,
+                "notes": "Regarding exceptions for bay windows, balconies, stoops, porches, and other elements of architectural character, see Note 2 on page 114."
+            },
+            "Side Yard": "0 ft min and max",
+            "Min Rear Yard": {
+                "Abutting a residential district or residential use": 25,
+                "Abutting a nonresidential district": 20
+            },
+            "Min Lot Area per Dwelling": {
+                "If C1": 580,
+                "If C2": 340,
+                "If C3": 310
+            },
+            "Max Lot Coverage": 0.80,
+            "Max Impervious (Paved) Yard Area": {
+                "Front Yard": "n/a",
+                "Rear Yard": 0.50
+            },
+            "Min Building Transparency": {
+                "Ground-level street-facing façade below 14 feet in height": [
+                    0.65,
+                    "Ground-level windows must allow views of indoor nonresidential space or product display areas.",
+                    "Corner uses having frontage on two streets shall meet this requirement for each of the street frontages."
+                ],
+                "Primary Front Facade (excluding ground-level façade)": 0.50,
+                "Street-Facing Side & Rear Facades": 0.35,
+                "Non-Street-Facing Facades": "20% or max allowed by construction code, whichever is greater.",
+                "notes": [
+                    "All transparent glazing areas on door panels count towards this requirement, but door panels themselves do not count towards this requirement.",
+                    "Reflective, mirrored, smoked and dark tinted glass are prohibited on façades facing a public street."
+                ]
+            },
+            "Orientation of Primary Entrance": [
+                "Primary street-facing façade must include primary entrance.",
+                "Buildings may have more than one principal façade and/or entry.",
+                "Entries to non-residential uses shall have their own individual entrance from a sidewalk or walkway; mall-style interior retail entrances are prohibited."
+            ],
+            "Active Ground Floor Reqs": "Ground floor shall have a 14 feet min floor-to-floor height."
+        },
+        "Detached commercial": {
+            "zones": [
+                "C-3",
+                "I-1",
+                "MX-1",
+                "EWR-S"
+            ],
+            "Min Lot Size for Subdivision": 5000,
+            "Min Lot Width for Subdivision": 50,
+            "Max Building Height": {
+                "In MX-1 zone": "4 stories and 48 feet",
+                "In C-3, I-1, & EWR-S zones": "8 stories and 96 feet"
+            },
+            "Front Yard": {
+                "Minimum": 0,
+                "Maximum": 5
+            },
+            "Side Yard": "0 ft or 5 ft",
+            "Min Rear Yard": {
+                "Abutting a residential district": 25,
+                "Abutting a nonresidential district": 20
+            },
+            "Min Lot Area per Dwelling": "n/a",
+            "Max Lot Coverage": 0.85,
+            "Max Impervious (Paved) Yard Area": {
+                "Front Yard": 0.55,
+                "Rear Yard": 0.60
+            },
+            "Min Building Transparency": {
+                "Ground-level street-facing façade below 14 feet in height": [
+                    0.65,
+                    "Ground-level windows must allow views of indoor nonresidential space or product display areas.",
+                    "Corner uses having frontage on two streets shall meet this requirement for each of the street frontages."
+                ],
+                "Primary Front Facade (excluding ground-level façade)": 0.50,
+                "Street-Facing Side & Rear Facades": 0.35,
+                "Non-Street-Facing Facades": "20% or max allowed by construction code, whichever is greater.",
+                "notes": [
+                    "All transparent glazing areas on door panels count towards this requirement, but door panels themselves do not count towards this requirement.",
+                    "Reflective, mirrored, smoked and dark tinted glass are prohibited on façades facing a public street."
+                ]
+            },
+            "Orientation of Primary Entrance": [
+                "Primary street-facing façade must include primary entrance.",
+                "Buildings may have more than one principal façade and/or entry (§40:7-2-2)",
+                "Entries to non-residential uses shall have their own individual entrance from a sidewalk or walkway; mall-style interior retail entrances are prohibited (§40:8-2-19)"
+            ],
+            "Active Ground Floor Reqs": [
+                "Ground floor shall have a 14 feet min floor-to-floor height.",
+                "Maximum 30% of primary lot frontage may be used for parking.",
+                "Minimum 50% of primary lot frontage must be occupied by building at front setback."
+            ]
+        },
+        "Industrial": {
+            "zones": [
+                "I-1",
+                "I-2",
+                "I-3",
+                "MX-2",
+                "EWR-S"
+            ],
+            "Min Lot Size for Subdivision": 5000,
+            "Min Lot Width for Subdivision": 50,
+            "Max Building Height": {
+                "If MX-1": "4 stories and 48 feet",
+                "If I-1, I-2, I-3 or EWR-S": "8 stories and 96 feet"
+            },
+            "Front Yard": "Front setback shall match the shorter front setback of the two closest principle buildings on each side of the project site on the same block as the site or 6 feet if no prevaling setback.",
+            "Side Yard": "3 ft minimum",
+            "Min Rear Yard": {
+                "Abutting a residential district": 50,
+                "Abutting a nonresidential district": 20
+            },
+            "Min Lot Area per Dwelling": "n/a",
+            "Max Lot Coverage": 0.85,
+            "Max Impervious (Paved) Yard Area": {
+                "Front Yard": 0.55,
+                "Rear Yard": 0.30
+            },
+            "Min Building Transparency": {
+                "Primary Front Facade": 0.25
+            },
+            "Orientation of Primary Entrance": "Primary street-facing façade must include primary entrance.",
+            "Active Ground Floor Reqs": "n/a"
+        },
+        "University": {
+            "zones": [
+                "INST"
+            ],
+            "Min Lot Size for Subdivision": 10000,
+            "Min Lot Width for Subdivision": 100,
+            "Max Building Height": {
+                "stories": 20,
+                "height": 210
+            },
+            "Front Yard": {
+                "Minimum": 5,
+                "Maximum": 10
+            },
+            "Side Yard": 5,
+            "Min Rear Yard": 30,
+            "Min Lot Area per Dwelling": "n/a",
+            "Max Lot Coverage": 0.80,
+            "Max Impervious (Paved) Yard Area": {
+                "Front Yard": 0.55,
+                "Rear Yard": 0.30
+            },
+            "Min Building Transparency": {
+                "Primary Front Façade": 0.50,
+                "Street-Facing Side and Rear Façades": 0.50,
+                "Non-Street Facing Walls": "35% or the maximum amount allowed by construction code, whichever is greater.",
+                "notes": "All transparent glazing areas on door panels count towards this requirement, but door panels themselves do not count towards this requirement. Reflective, mirrored, smoked and dark tinted glass is prohibited on façades facing a public street."
+            },
+            "Orientation of Primary Entrance": [
+                "Primary street-facing façade must include primary entrance.",
+                "Rear primary entrances are prohibited."
+            ],
+            "Active Ground Floor Reqs": "n/a"
+        },
+        "Hospital or Medical Institution": {
+            "zones": [
+                "INST"
+            ],
+            "Min Lot Size for Subdivision": 10000,
+            "Min Lot Width for Subdivision": 100,
+            "Max Building Height": {
+                "stories": 20,
+                "height": 210
+            },
+            "Front Yard": {
+                "Minimum": 5,
+                "Maximum": 10
+            },
+            "Side Yard": 5,
+            "Min Rear Yard": 30,
+            "Min Lot Area per Dwelling": "n/a",
+            "Max Lot Coverage": "n/a",
+            "Max Impervious (Paved) Yard Area": {
+                "Front Yard": 0.55,
+                "Rear Yard": 0.30
+            },
+            "Min Building Transparency": {
+                "Primary Front Façade": 0.50,
+                "Street-Facing Side and Rear Façades": 0.50,
+                "Non-Street Facing Walls": "35% or the maximum amount allowed by construction code, whichever is greater.",
+                "notes": "All transparent glazing areas on door panels count towards this requirement, but door panels themselves do not count towards this requirement. Reflective, mirrored, smoked and dark tinted glass is prohibited on façades facing a public street."
+            },
+            "Orientation of Primary Entrance": [
+                "Primary street-facing façade must include primary entrance.",
+                "Rear primary entrances are prohibited."
+            ],
+            "Active Ground Floor Reqs": "n/a"
+        },
+        "Schools (Elementary, Middle, High Schools)": {
+            "zones": [
+                "R-2",
+                "R-3",
+                "R-4",
+                "R-5",
+                "R-6",
+                "C-1",
+                "C-2",
+                "C-3",
+                "MX-1",
+                "INST"
+            ],
+            "Min Lot Size for Subdivision": 10000,
+            "Min Lot Width for Subdivision": 100,
+            "Max Building Height": {
+                "stories": 5,
+                "height": 55
+            },
+            "Front Yard": {
+                "Minimum": 5,
+                "Maximum": 10
+            },
+            "Side Yard": 5,
+            "Min Rear Yard": 30,
+            "Min Lot Area per Dwelling": "n/a",
+            "Max Lot Coverage": 0.65,
+            "Max Impervious (Paved) Yard Area": {
+                "Front Yard": 0.55,
+                "Rear Yard": 0.30
+            },
+            "Min Building Transparency": {
+                "Primary Front Façade": 0.50,
+                "Street-Facing Side and Rear Façades": 0.50,
+                "Non-Street Facing Walls": "35% or the maximum amount allowed by construction code, whichever is greater.",
+                "notes": "All transparent glazing areas on door panels count towards this requirement, but door panels themselves do not count towards this requirement."
+            },
+            "Orientation of Primary Entrance": [
+                "Primary street-facing façade must include primary entrance.",
+                "Rear primary entrances are prohibited."
+            ],
+            "Active Ground Floor Reqs": "n/a"
+        },
+        "Place of Worship": {
+            "zones": [
+                "R-2",
+                "R-3",
+                "R-4",
+                "R-5",
+                "R-6",
+                "C-1",
+                "C-2",
+                "C-3",
+                "I-1",
+                "MX-1",
+                "MX-2",
+                "INST"
+            ],
+            "Min Lot Size for Subdivision": 10000,
+            "Min Lot Width for Subdivision": 100,
+            "Max Building Height": {
+                "stories": 2,
+                "height": 30,
+                "notes": "excluding steeple, tower or cupola element, which can be 30 feet above permitted height"
+            },
+            "Front Yard": {
+                "Minimum": 5,
+                "Maximum": 10
+            },
+            "Side Yard": 5,
+            "Min Rear Yard": 20,
+            "Min Lot Area per Dwelling": "n/a",
+            "Max Lot Coverage": 0.65,
+            "Max Impervious (Paved) Yard Area": {
+                "Front Yard": 0.55,
+                "Rear Yard": 0.20
+            },
+            "Min Building Transparency": {
+                "Primary Front Façade": 0.50,
+                "Street-Facing Façades and Side": 0.35,
+                "Rear Façade": 0.20,
+                "Non-Street Facing Façades": "20% or the maximum allowed by construction code, whichever is greater",
+                "notes": "All transparent glazing areas on door panels count towards this requirement, but door panels themselves do not count towards this requirement."
+            },
+            "Orientation of Primary Entrance": [
+                "Primary street-facing façade must include primary entrance.",
+                "Rear primary entrances are prohibited."
+            ],
+            "Active Ground Floor Reqs": "n/a"
+        },
+        "Community Center, Stand-Alone Daycare or Preschool in a Non-residential Area, and other Civic Buildings": {
+            "zones": [
+                "R-4",
+                "R-5",
+                "R-6",
+                "C-1",
+                "C-2",
+                "C-3",
+                "MX-1",
+                "MX-2"
+            ],
+            "Min Lot Size for Subdivision": 5000,
+            "Min Lot Width for Subdivision": 50,
+            "Max Building Height": {
+                "stories": 3,
+                "height": 35,
+                "notes": "excluding steeple, tower or cupola element, which can be 30 feet above permitted height"
+            },
+            "Front Yard": {
+                "Minimum": 5,
+                "Maximum": 10
+            },
+            "Side Yard": 5,
+            "Min Rear Yard": 30,
+            "Min Lot Area per Dwelling": "n/a",
+            "Max Lot Coverage": 0.65,
+            "Max Impervious (Paved) Yard Area": {
+                "Front Yard": 0.55,
+                "Rear Yard": 0.20
+            },
+            "Min Building Transparency": {
+                "Primary Front Façade": 0.50,
+                "Street-Facing Side and Rear Façades": 0.50,
+                "Non-Street Facing Façades": "35% or the maximum allowed by construction code, whichever is greater",
+                "notes": "All transparent glazing areas on door panels count towards this requirement, but door panels themselves do not count towards this requirement. Reflective, mirrored, smoked and dark tinted glass is prohibited on façades facing a public street."
+            },
+            "Orientation of Primary Entrance": [
+                "Primary street-facing façade must include primary entrance.",
+                "Rear primary entrances are prohibited."
+            ],
+            "Active Ground Floor Reqs": "n/a"
+        }
+    },
+    "zones": {
+        "R-1": {
+            "buildingTypes": [
+                "One-family"
+            ]
+        },
+        "R-2": {
+            "buildingTypes": [
+                "One-family",
+                "Two-family",
+                "Townhouse",
+                "Schools (Elementary, Middle, High Schools)",
+                "Place of Worship"
+            ]
+        },
+        "R-3": {
+            "buildingTypes": [
+                "One-family",
+                "Two-family",
+                "Three-family",
+                "Townhouse",
+                "Schools (Elementary, Middle, High Schools)",
+                "Place of Worship"
+            ]
+        },
+        "R-4": {
+            "buildingTypes": [
+                "One-family",
+                "Two-family",
+                "Three-family",
+                "Townhouse",
+                "Low-rise multifamily & Four-Family",
+                "Ground-floor commercial with commercial or residential above",
+                "Schools (Elementary, Middle, High Schools)",
+                "Place of Worship",
+                "Community Center, Stand-Alone Daycare or Preschool in a Non-residential Area, and other Civic Buildings"
+            ]
+        },
+        "R-5": {
+            "buildingTypes": [
+                "Low-rise multifamily & Four-Family",
+                "Mid-rise multifamily",
+                "Ground-floor commercial with commercial or residential above",
+                "Schools (Elementary, Middle, High Schools)",
+                "Place of Worship",
+                "Community Center, Stand-Alone Daycare or Preschool in a Non-residential Area, and other Civic Buildings"
+            ]
+        },
+        "R-6": {
+            "buildingTypes": [
+                "Low-rise multifamily & Four-Family",
+                "Mid-rise multifamily",
+                "High-rise multifamily",
+                "Ground-floor commercial with commercial or residential above",
+                "Schools (Elementary, Middle, High Schools)",
+                "Place of Worship",
+                "Community Center, Stand-Alone Daycare or Preschool in a Non-residential Area, and other Civic Buildings"
+            ]
+        },
+        "C-1": {
+            "buildingTypes": [
+                "Low-rise multifamily & Four-Family",
+                "Ground-floor commercial with commercial or residential above",
+                "Schools (Elementary, Middle, High Schools)",
+                "Place of Worship",
+                "Community Center, Stand-Alone Daycare or Preschool in a Non-residential Area, and other Civic Buildings"
+            ]
+        },
+        "C-2": {
+            "buildingTypes": [
+                "Ground-floor commercial with commercial or residential above",
+                "Schools (Elementary, Middle, High Schools)",
+                "Place of Worship",
+                "Community Center, Stand-Alone Daycare or Preschool in a Non-residential Area, and other Civic Buildings"
+            ]
+        },
+        "C-3": {
+            "buildingTypes": [
+                "Ground-floor commercial with commercial or residential above",
+                "Detached commercial",
+                "Schools (Elementary, Middle, High Schools)",
+                "Place of Worship",
+                "Community Center, Stand-Alone Daycare or Preschool in a Non-residential Area, and other Civic Buildings"
+            ]
+        },
+        "I-1": {
+            "buildingTypes": [
+                "Detached commercial",
+                "Industrial",
+                "Place of Worship"
+            ]
+        },
+        "I-2": {
+            "buildingTypes": [
+                "Industrial"
+            ]
+        },
+        "I-3": {
+            "buildingTypes": [
+                "Industrial"
+            ]
+        },
+        "MX-1": {
+            "buildingTypes": [
+                "One-family",
+                "Two-family",
+                "Three-family",
+                "Townhouse",
+                "Low-rise multifamily & Four-Family",
+                "Ground-floor commercial with commercial or residential above",
+                "Detached commercial",
+                "Schools (Elementary, Middle, High Schools)",
+                "Place of Worship",
+                "Community Center, Stand-Alone Daycare or Preschool in a Non-residential Area, and other Civic Buildings"
+            ]
+        },
+        "MX-2": {
+            "buildingTypes": [
+                "One-family",
+                "Two-family",
+                "Three-family",
+                "Townhouse",
+                "Low-rise multifamily & Four-Family",
+                "Ground-floor commercial with commercial or residential above",
+                "Industrial",
+                "Place of Worship",
+                "Community Center, Stand-Alone Daycare or Preschool in a Non-residential Area, and other Civic Buildings"
+            ]
+        },
+        "INST": {
+            "buildingTypes": [
+                "Townhouse",
+                "Low-rise multifamily & Four-Family",
+                "Mid-rise multifamily",
+                "Ground-floor commercial with commercial or residential above",
+                "University",
+                "Hospital or Medical Institution",
+                "Schools (Elementary, Middle, High Schools)",
+                "Place of Worship"
+            ]
+        },
+        "EWR-S": {
+            "buildingTypes": [
+                "Detached commercial",
+                "Industrial"
+            ]
+        }
+    },
+    "NotesFromPg114": {
+        "1": "Architectural elements such as towers and cupolas may break this limit but not by greater than 6 feet.",
+        "2": "Bay windows (with no wall section greater than 6 feet), balconies, stoops, and porches are permitted to encroach into the front setback area.",
+        "3": "For through lots, the street frontage where the closest principal buildings on each end of the lot that have the lesser setback shall be considered the front yard.",
+        "4": "For corner lots, the following special setback requirements apply to the street frontages of the two intersecting streets in R-2, R-3, R-4, MX-1, and MX-2: 1) one of the setbacks of a new structure shall match the lesser front setback of the closest principal building on that block and on that street frontage; 2) the other frontage’s setback shall be 6 feet or less.",
+        "5": [
+            "Side yard setback is allowed to be zero instead of 3 feet if the closest building on the adjacent lot has 3 feet of setback from the common lot line.",
+            "The side yard setback is also allowed to be zero instead of the minimum if the closest building on the adjacent lot has a zero setback from the common lot line and the new structure’s wall can be built flush with the adjacent building’s wall;",
+            "No new construction shall encroach within 3 feet of another building’s windows or other fenestrations nor block emergency access to those fenestrations. In cases where the side yard setback is to be zero, the setback area from that adjacent building’s fenestrations shall only extendfrom the location of the fenestration to the rear of the new structure;",
+            "No side yard shall be of a distance between zero and 3 feet."
+        ],
+        "6": [
+            "The side yard setback is allowed to be zero instead of 5 feet if the closest building on the adjacent lot has 5 feet of setback from the common lot line;",
+            "The side yard setback is also allowed to be zero instead of the minimum if the closest building on the adjacent lot has a zero setback from the common lot line and the new structure’s wall can be built flush with the adjacent building’s wall;",
+            "No new construction shall encroach within 5 feet of another building’s windows or other fenestrations nor block emergency access to those fenestrations. In cases where the side yard setback is to be zero, the setback area from that adjacent building’s fenestrations shall only extend from the location of the fenestration to the rear of the new structure;",
+            "No side yard shall be of a distance between zero and 5 feet."
+        ],
+        "7": [
+            "Accessory buildings may occupy forty (40%) percent of the required area of a rear yard up to a height of eighteen (18) feet above the curb level;",
+            "No accessory building shall be erected or altered in any interior lot fronting upon only one (1) street so as to encroach upon that half of the lot depth nearest the street;",
+            "No accessory building shall be erected or altered on an interior lot fronting upon two (2) streets so as to encroach upon that fourth of the lot depth nearest either street;",
+            "On corner lots, no accessory buildings shall be located within three (3) feet of its rear lot line or side lot line when such line forms part of the front half of the side line of an adjacent interior lot, or nearer any street line than the setback line to be observed by adjacent buildings, and in no case, less than four (4) feet from the street line;",
+            "The foregoing regulations shall not prohibit any accessory building fifty (50) feet or more from any street line. A private garage may be attached to an existing building provided the front of the garage does not extend beyond the front of the main building, and the garage shall conform to the architectural design and construction of the main building."
+        ],
+        "8": "Stoops may encroach into a front yard with the following dimensions: 1) Minimum depth: four feet; 2) Minimum length: ten (10) percent of building frontage; 3) Maximum length: twenty-five (25) percent of building frontage; 4) Maximum height: ninety-six inches.",
+        "9": "An open or lattice enclosed iron fire-escape, fireproof outside stairway, or solid-floored balcony to a fire tower may project not more than four (4) feet into a rear yard, except that: 1) An open or lattice-enclosed iron fire-escape may project not more than eight (8) feet into a rear yard, when it does not occupy more than twenty (20%) percent of the area of such yard; 2) The construction of fire escapes on single-family dwellings shall be prohibited at any street exposure. In every district, the construction of fire escapes on single-family dwellings shall be prohibited at any street exposure.",
+        "10": "The area required in a yard at any given level shall be open from such level to the sky unobstructed, except for the following: 1) Parapets, cornices and other ornamental features may extend into a yard no greater than eighteen (18) inches; 2) Window sills and belt courses may extend into a yard no greater than four (4) inches; 3) Bay windows with no wall section wider than six feet may extend into a front yard no greater than four (4) feet; 4) Upper-story balconies may extend into a yard no greater than five (5) feet.",
+        "11": "A one-story open porch may project into a required front yard for a distance not greater than eight (8) feet.",
+        "12": "Chimneys or flues may be erected within a side or rear yard, provided they do not project more than two (2) feet and they shall not obstruct ventilation.",
+        "13": "In computing the depth of a rear yard when the rear yard opens onto a public alley, one-half (1/2) of the width of the alley may be considered to be a portion of the rear yard."
+    }
+}
