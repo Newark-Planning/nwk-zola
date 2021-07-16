@@ -24,13 +24,13 @@ export class MapInfoService {
     return this.http.get<LayerInfoPaneContent>(`https://nwkehd.firebaseio.com/Zoning/${isRdv(zone)}.json`);
   }
   getLocalPaneInfo(id: string): Observable<LayerInfoPaneContent> {
-    return this.http.get<{[key: string]: LayerInfoPaneContent}>('/assets/data/paneInfo.json')
+    return this.http.get<{[key: string]: LayerInfoPaneContent}>('assets/data/paneInfo.json')
       .pipe(
         map((r: {[key: string]: LayerInfoPaneContent}) => r[id])
       );
   }
   getRDVPlanInfo(id: string): Observable<any> {
-    return this.http.get<Array<PlanDetails>>('/assets/data/redevelopment_plans.json')
+    return this.http.get<Array<PlanDetails>>('assets/data/redevelopment_plans.json')
       .pipe(
         map((r: Array<PlanDetails>) => r.find(p => p.ID === id)),
       );
@@ -45,7 +45,7 @@ export class MapInfoService {
       );
   }
   getInitLayerData(): Observable<Array<LayerDetail>> {
-    return this.http.get<Array<LayerDetailOptions>>('/assets/data/initLayers.json')
+    return this.http.get<Array<LayerDetailOptions>>('assets/data/initLayers.json')
     .pipe(
       map((r: Array<LayerDetailOptions>) => r.map(l => new LayerDetail(l, this.getLayerAttributions(l.className))))
     );
