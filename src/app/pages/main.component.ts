@@ -30,7 +30,6 @@ export class MainViewComponent implements AfterViewInit {
   }
   closeInfoPane(): void {
     this.mapView!.infoPaneActive = false;
-    this.mapView!.zoneClickSelector.getFeatures().clear();
     console.info('Info Pane Closed, Selection Reset!');
   }
   toggleLayersPane(): void {

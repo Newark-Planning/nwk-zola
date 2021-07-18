@@ -43,12 +43,12 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
   boundariesGroup: LayerGroup = new LayerGroup;
   economicDevelopmentGroup: LayerGroup = new LayerGroup;
   otherLayersGroup: LayerGroup = new LayerGroup;
+  hiddenLayersGroup: LayerGroup = new LayerGroup;
   pointerPopup: Overlay = new Overlay({});
   loadingIndicator = false;
   layersPaneActive = true;
   zoneSelection: FeatureLike | undefined;
   highlightStyle = (strokeColor = 'rgba(254, 241, 96, 0.85)') => new Style({zIndex:4, stroke: new Stroke({color: strokeColor, width: 3, lineDash: [3,1]})});
-  zoneClickSelector = new Select();
   hoverSelectionLayer = new VectorLayer({
     className: 'selection-hover',
     zIndex: 5,
@@ -61,13 +61,6 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
     style: new Style({stroke: new Stroke({color: 'rgba(0, 0, 0, 0.5)', width: 1.5})}),
     source: new VectorSource({wrapX: false})
   });
-  // parcelsLayer = new MapboxVector({
-  //     maxResolution: 1,
-  //     declutter: true,
-  //     styleUrl: 'mapbox://styles/nterwin714/ckpwqn5ho4tbu17njefoah795',
-  //     accessToken: 'pk.eyJ1IjoibnRlcndpbjcxNCIsImEiOiJjajhvOG9tMmIwMGwyMzJta2tobHNzdnp5In0.ARLvEr-BhYrmAQkpMSZ-QQ',
-  //     layers: ['choropleth-fill']
-  // });
   mouseTooltip = {layer: 'Zoning District', value: ''};
   @Output() readonly selection: EventEmitter<{layer: string; value: string;}> = new EventEmitter();
   constructor(
@@ -96,9 +89,9 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
       };
       this.pointerPopup.setPosition(e.coordinate);
       const features: Array<{layer: string; feat: FeatureLike}> = [];
-      this.instance.forEachFeatureAtPixel(e.pixel,(f,l,g) => {
+      this.instance.forEachFeatureAtPixel(e.pixel,(f,l) => {
         features.push({layer: l.getClassName(), feat: f});
-      }, {layerFilter: (l) => !['basemap','basemap-labels','selection-hover','selection-click'].includes(l.getClassName())});
+      }, {layerFilter: (l) => !['selection-hover','selection-click'].includes(l.getClassName())});
       if (features.length > 0) {
         this.hoverSelectionLayer.getSource().clear();
         const styleData = this.layerService.initialLayerData.filter(il => il.className === features[0].layer);
@@ -115,7 +108,7 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
       const features: Array<{layer: string; feat: FeatureLike}> = [];
       this.instance.forEachFeatureAtPixel(e.pixel,(f,l,g) => {
         features.push({layer: l.getClassName(), feat: f});
-      }, {layerFilter: (l) => !['basemap','basemap-labels','Census_Tracts','Zipcodes','Neighborhoods','Wards','selection-hover','selection-click'].includes(l.getClassName())});
+      }, {layerFilter: (l) => !['Census_Tracts','Zipcodes','Neighborhoods','Wards','selection-hover','selection-click'].includes(l.getClassName())});
       this.clickSelectionLayer.getSource().clear();
       this.infoPaneActive = features.length > 0;
       console.info(features);
@@ -139,8 +132,10 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
         this.instance.updateSize();
       },600);
     });
-    this.instance.getInteractions().on('add', (e) => {
-      console.log(e.element instanceof Draw)
+    this.instance.getInteractions().on(['add','remove'], (e) => {
+      if (e.element instanceof Draw) {
+        console.log(e);
+      }
     });
     this.instance.updateSize();
   }
@@ -158,12 +153,11 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
         this.instance.addLayer(grp);
       }
     );
+    this.hiddenLayersGroup.getLayers().extend([this.hoverSelectionLayer,this.clickSelectionLayer]);
+    this.instance.addLayer(this.hiddenLayersGroup);
     this.instance.getLayers().changed();
     this.controls.setBasemapLayer('base', this.basemapGroup);
     this.instance.addOverlay(this.pointerPopup);
-    this.instance.addLayer(this.hoverSelectionLayer);
-    this.instance.addLayer(this.clickSelectionLayer);
-    // this.instance.addLayer(this.parcelsLayer);
     this.instance.on('precompose', () => { this.loadingIndicator = true; });
     this.instance.on('rendercomplete', () => { this.loadingIndicator = false; });
   }
