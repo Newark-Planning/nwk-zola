@@ -25,7 +25,7 @@ import { getCenter } from 'ol/extent';
 import { MapControlsService } from '../../services/map-controls.service';
 import { MapService } from '../../services/map.service';
 import LayerGroup from 'ol/layer/Group';
-import { Draw, Select } from 'ol/interaction';
+import { Draw } from 'ol/interaction';
 import { MapInfoService } from '../../services/map-info.service';
 
 @Component({
@@ -36,7 +36,7 @@ import { MapInfoService } from '../../services/map-info.service';
 // tslint:disable: no-non-null-assertion
 export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
   instance: Map = new Map({});
-  infoPaneActive = false;
+  infoPaneActive = true;
   basemapGroup: LayerGroup = new LayerGroup;
   transitGroup: LayerGroup = new LayerGroup;
   parcelsZoningGroup: LayerGroup = new LayerGroup;
@@ -61,6 +61,7 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
     style: new Style({stroke: new Stroke({color: 'rgba(0, 0, 0, 0.5)', width: 1.5})}),
     source: new VectorSource({wrapX: false})
   });
+  drawInteraction: Draw | undefined;
   mouseTooltip = {layer: 'Zoning District', value: ''};
   @Output() readonly selection: EventEmitter<{layer: string; value: string;}> = new EventEmitter();
   constructor(
@@ -83,7 +84,7 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe(r => {this.layerService.initialLayerData = r;})
       .add(() => this.initLayers())
     this.instance.on('pointermove', (e) => {
-      if (e.dragging) {
+      if (e.dragging || (this.drawInteraction && this.drawInteraction.getActive())) {
         this.hoverSelectionLayer.getSource().clear();
         return;
       };
@@ -91,7 +92,7 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
       const features: Array<{layer: string; feat: FeatureLike}> = [];
       this.instance.forEachFeatureAtPixel(e.pixel,(f,l) => {
         features.push({layer: l.getClassName(), feat: f});
-      }, {layerFilter: (l) => !['selection-hover','selection-click'].includes(l.getClassName())});
+      }, {layerFilter: (l) => !['selection-hover','selection-click','DrawLayer'].includes(l.getClassName())});
       if (features.length > 0) {
         this.hoverSelectionLayer.getSource().clear();
         const styleData = this.layerService.initialLayerData.filter(il => il.className === features[0].layer);
@@ -105,14 +106,15 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     });
     this.instance.on('singleclick', (e) => {
+      if (!this.infoPaneActive || (this.drawInteraction && this.drawInteraction.getActive())) {
+        return;
+      };
       const features: Array<{layer: string; feat: FeatureLike}> = [];
       this.instance.forEachFeatureAtPixel(e.pixel,(f,l,g) => {
         features.push({layer: l.getClassName(), feat: f});
       }, {layerFilter: (l) => !['Census_Tracts','Zipcodes','Neighborhoods','Wards','selection-hover','selection-click'].includes(l.getClassName())});
       this.clickSelectionLayer.getSource().clear();
-      this.infoPaneActive = features.length > 0;
-      console.info(features);
-      if (this.infoPaneActive) {
+      if (features.length > 0) {
         const keyField = this.layerService.initialLayerData.filter(il => il.className === features[0].layer)[0].styles[0].keyField;
         let clickSelectionValue: string;
         if (features[0].layer === 'Zoning_Districts') {
@@ -127,6 +129,8 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
           zoom: 5,
           duration: 150
         })
+      } else {
+        this.selection.emit({layer: '', value: ''})
       }
       setTimeout(() => {
         this.instance.updateSize();
@@ -134,27 +138,26 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     this.instance.getInteractions().on(['add','remove'], (e) => {
       if (e.element instanceof Draw) {
-        console.log(e);
+        this.drawInteraction = e.type === 'add' ?  e.element : undefined;
       }
     });
     this.instance.updateSize();
   }
   initLayers(): void {
-    const lgname = ['Basemap', 'Parcels & Zoning', 'Transit', 'Boundaries','Economic Development', 'Other Layers'];
+    const lgname = ['Basemap', 'Parcels & Zoning', 'Transit', 'Boundaries','Economic Development', 'Other Layers', 'Hidden'];
     this.basemapGroup = this.layerService.makeLayerGroup('Basemap');
     this.parcelsZoningGroup = this.layerService.makeLayerGroup('Parcels & Zoning', ['Zoning_Districts']);
     this.transitGroup = this.layerService.makeLayerGroup('Transit', ['Commuter_Rail','Light_Rail']);
     this.boundariesGroup = this.layerService.makeLayerGroup('Boundaries');
     this.economicDevelopmentGroup = this.layerService.makeLayerGroup('Economic Development');
     this.otherLayersGroup = this.layerService.makeLayerGroup('Other Layers');
-    [ this.basemapGroup, this.parcelsZoningGroup, this.transitGroup, this.boundariesGroup, this.economicDevelopmentGroup, this.otherLayersGroup ].forEach(
+    this.hiddenLayersGroup.getLayers().extend([this.hoverSelectionLayer,this.clickSelectionLayer]);
+    [ this.basemapGroup, this.parcelsZoningGroup, this.transitGroup, this.boundariesGroup, this.economicDevelopmentGroup, this.otherLayersGroup, this.hiddenLayersGroup ].forEach(
       (grp: LayerGroup, i: number) => {
         grp.set('className', lgname[i]);
         this.instance.addLayer(grp);
       }
     );
-    this.hiddenLayersGroup.getLayers().extend([this.hoverSelectionLayer,this.clickSelectionLayer]);
-    this.instance.addLayer(this.hiddenLayersGroup);
     this.instance.getLayers().changed();
     this.controls.setBasemapLayer('base', this.basemapGroup);
     this.instance.addOverlay(this.pointerPopup);

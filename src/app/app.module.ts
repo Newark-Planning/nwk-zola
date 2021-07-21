@@ -10,6 +10,7 @@ import { filter } from 'rxjs/operators';
 
 import { AppComponent } from './app.component';
 import { MainViewComponent } from './pages/main.component';
+import { TestComponent } from './pages/test.component';
 import { APP_ROUTES } from './routing.module';
 import { SharedModule } from './shared/shared.module';
 import { storeReducers } from './store/store.reducers';
@@ -17,7 +18,8 @@ import { storeReducers } from './store/store.reducers';
   bootstrap: [AppComponent],
   declarations: [
     AppComponent,
-    MainViewComponent
+    MainViewComponent,
+    TestComponent
   ],
   imports: [
     BrowserModule,

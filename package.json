@@ -6,7 +6,7 @@
         "ng": "ng",
         "start": "ng serve",
         "build": "ng build",
-        "build-deploy": "ng build --base-href /nwk-zola/ --deploy-url https://newark-planning.github.io/nwk-zola/ && git add . && git commit -m \"generated files on `date +'%Y-%m-%d %H:%M:%S'`\" && git push -f",
+        "build-deploy": "ng build --base-href nwk-zola/ --deploy-url https://newark-planning.github.io/nwk-zola/ && git add . && git commit -m \"generated files on `date +'%Y-%m-%d %H:%M:%S'`\" && git push -f",
         "watch": "ng build --watch --configuration development",
         "test": "ng test"
     },

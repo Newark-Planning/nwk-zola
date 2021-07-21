@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Attribution, defaults as defaultControls, Zoom } from 'ol/control';
+import { Attribution, Control, defaults as defaultControls, Zoom } from 'ol/control';
 import {
   defaults as defaultInteractions, DragPan
 } from 'ol/interaction';
@@ -20,7 +20,8 @@ export class MapService {
  * Instantiate new map instance
  * @param targetEl Target element for map to initialize into
  */
-  initMap(targetEl: any): Map {
+  initMap(targetEl: any, options?: {defaultControls?: boolean}): Map {
+    const controls: Array<Control> = [new Attribution()];
     return new Map({
       layers: [],
       overlays: [],
@@ -29,9 +30,7 @@ export class MapService {
           // tslint:disable-next-line: no-string-literal
           [new DragPan({ condition: e => (e.originalEvent['which'] === 2) })]
         ),
-      controls: [
-        new Attribution()
-      ],
+      controls: options && options.defaultControls ? defaultControls().extend(controls) : controls,
       target: targetEl,
       view: new View({
         center: fromLonLat([-74.1723667, 40.735657]),

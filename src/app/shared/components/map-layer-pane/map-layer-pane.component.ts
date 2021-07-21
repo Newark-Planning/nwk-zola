@@ -51,7 +51,7 @@ export class MapLayerPaneComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.hasOwnProperty('map')) {
       this.map.getLayers().on('change', () => {
-        this.layers = this.map.getLayers().getArray().filter(l => l.getClassName().search(/(selection)/gi) <= 0);
+        this.layers = this.map.getLayers().getArray().filter(l => l.get('className') !== 'Hidden');
       });
     }
   }

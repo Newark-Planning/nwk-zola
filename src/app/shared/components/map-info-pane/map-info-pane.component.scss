@@ -36,7 +36,7 @@ section {
         line-height: 1rem;
         font-weight: 500;
     }
-    &:not(.R-1, .R-2, .R-3, .MX-1) {
+    &:not(.Zone_R-1, .Zone_R-2, .Zone_R-3, .Zone_MX-1) {
         color: white;
         -webkit-text-fill-color: white;
     }
@@ -55,7 +55,12 @@ $color in $zoningDistricts {
     }
 }
 
-$layers: ('Commuter_Rail': #0d47a1);
+.Zone_MX-1 {
+    color: grey;
+    -webkit-text-fill-color: grey;
+}
+
+$layers: ('Commuter_Rail': #0d47a1, 'Light_Rail': #0d47a1);
 @each $name,
 $color in $layers {
     .Layer_#{$name} {

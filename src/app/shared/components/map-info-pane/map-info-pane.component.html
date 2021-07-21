@@ -1,7 +1,7 @@
 <a mat-icon-button title="Close Info Pane" (click)="closePane()">
     <mat-icon>close</mat-icon>
 </a>
-<section *ngIf="paneContent | async as content">
+<section *ngIf="paneContent | async as content; else emptyMessage">
     <div class="pane-header">
         <div class="info-pane-header" [ngClass]="selection.layer === 'Zoning_Districts' ? 'Zone_'+selection.value : 'Layer_'+selection.layer">
             <span *ngIf="content.TYPE">{{content.TYPE}}</span>
@@ -105,3 +105,12 @@
         <p *ngIf="planDeets.DESCRIPTION">{{planDeets.DESCRIPTION}}</p>
     </div>
 </section>
+<ng-template #emptyMessage>
+    <div class="pane-header">
+        <div class="info-pane-header" [style.background]="'grey'">
+            <span>City of Newark</span>
+            <h5>Zoning & Land Use</h5>
+        </div>
+    </div>
+    <div class="info-pane-description">Welcome</div>
+</ng-template>
