@@ -27,6 +27,7 @@ section {
     flex: 1 1 50%;
     align-self: stretch;
     justify-content: space-evenly;
+    background: #686868;
     h5 {
         font-size: 3rem;
         margin: 0.5rem 0;
@@ -53,11 +54,6 @@ $color in $zoningDistricts {
     .Zone_#{$name} {
         background: $color;
     }
-}
-
-.Zone_MX-1 {
-    color: grey;
-    -webkit-text-fill-color: grey;
 }
 
 $layers: ('Commuter_Rail': #0d47a1, 'Light_Rail': #0d47a1);

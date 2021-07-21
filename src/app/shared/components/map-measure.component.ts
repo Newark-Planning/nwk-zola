@@ -1,23 +1,16 @@
-import { Component, ChangeDetectionStrategy, Input, ElementRef, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, OnChanges, SimpleChanges } from '@angular/core';
 import Map from 'ol/Map';
 import 'ol/ol.css';
-import Draw, { DrawEvent } from 'ol/interaction/Draw';
-import Overlay from 'ol/Overlay';
+import Draw from 'ol/interaction/Draw';
 import {Circle as CircleStyle, Fill, RegularShape, Stroke, Style, Text} from 'ol/style';
 import {LineString, Polygon, Point, Circle as CircleGeom} from 'ol/geom';
 import {Vector as VectorSource} from 'ol/source';
 import {Vector as VectorLayer} from 'ol/layer';
 import {getArea, getLength} from 'ol/sphere';
-import {unByKey} from 'ol/Observable';
-import Feature, { FeatureLike } from 'ol/Feature';
-import MapBrowserEvent from 'ol/MapBrowserEvent';
-import OverlayPositioning from 'ol/OverlayPositioning';
-import { Coordinate } from 'ol/coordinate';
+import { FeatureLike } from 'ol/Feature';
 import GeometryType from 'ol/geom/GeometryType';
-import { EventsKey } from 'ol/events';
 import LayerGroup from 'ol/layer/Group';
 import { Modify } from 'ol/interaction';
-import { StyleLike } from 'ol/style/Style';
 @Component({
   selector: 'map-measure',
   styles: [`:host {

@@ -23,10 +23,10 @@ export class MapInfoService {
     const isRdv = (z: string) => z.startsWith('RDV') ? 'RDV' : z;
     return this.http.get<LayerInfoPaneContent>(`https://nwkehd.firebaseio.com/Zoning/${isRdv(zone)}.json`);
   }
-  getLocalPaneInfo(id: string): Observable<LayerInfoPaneContent> {
+  getLocalPaneInfo(data: {layer: string; value: string;}): Observable<LayerInfoPaneContent> {
     return this.http.get<{[key: string]: LayerInfoPaneContent}>('assets/data/paneInfo.json')
       .pipe(
-        map((r: {[key: string]: LayerInfoPaneContent}) => r[id])
+        map((r: {[key: string]: LayerInfoPaneContent}) => r[data.value] ? r[data.value] : {NAME: data.value, TYPE: data.layer, DESCRIPTION: ''})
       );
   }
   getRDVPlanInfo(id: string): Observable<any> {

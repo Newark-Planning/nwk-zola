@@ -70,7 +70,8 @@ export class MapInfoPaneComponent implements OnInit, OnChanges {
           };
           break;
           default: {
-            this.paneContent = this.mapInfoService.getLocalPaneInfo(newSelection.value);
+            this.paneContent = this.mapInfoService.getLocalPaneInfo(newSelection);
+            this.planDetails = new Observable();
           };
           break;
         }

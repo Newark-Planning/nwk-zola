@@ -8,10 +8,6 @@ import {
   Output
 } from '@angular/core';
 import { Overlay } from 'ol';
-import { Coordinate } from 'ol/coordinate';
-import Point from 'ol/geom/Point';
-import Polygon from 'ol/geom/Polygon';
-import MultiPolygon from 'ol/geom/MultiPolygon';
 import VectorLayer from 'ol/layer/Vector';
 import Map from 'ol/Map';
 import OverlayPositioning from 'ol/OverlayPositioning';
@@ -47,8 +43,6 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
   pointerPopup: Overlay = new Overlay({});
   loadingIndicator = false;
   layersPaneActive = true;
-  zoneSelection: FeatureLike | undefined;
-  highlightStyle = (strokeColor = 'rgba(254, 241, 96, 0.85)') => new Style({zIndex:4, stroke: new Stroke({color: strokeColor, width: 3, lineDash: [3,1]})});
   hoverSelectionLayer = new VectorLayer({
     className: 'selection-hover',
     zIndex: 5,
@@ -86,6 +80,7 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
     this.instance.on('pointermove', (e) => {
       if (e.dragging || (this.drawInteraction && this.drawInteraction.getActive())) {
         this.hoverSelectionLayer.getSource().clear();
+        this.mouseTooltip = {layer: '', value: ''};
         return;
       };
       this.pointerPopup.setPosition(e.coordinate);
@@ -97,9 +92,9 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
         this.hoverSelectionLayer.getSource().clear();
         const styleData = this.layerService.initialLayerData.filter(il => il.className === features[0].layer);
         const keyField = styleData.length > 0 ? styleData[0].styles[0].keyField : '';
-        !['Commuter_Rail','Light_Rail'].includes(features[0].layer)
-        ? this.hoverSelectionLayer.getSource().addFeature(new Feature(features[0].feat.getGeometry()))
-        : console.info('No Hover Feature Added to Selected Layer');
+        ['Commuter_Rail','Light_Rail','High_Frequency_Bus','Standard_Bus'].includes(features[0].layer)
+        ? console.info('No Hover Feature Added to Selected Layer')
+        : this.hoverSelectionLayer.getSource().addFeature(new Feature(features[0].feat.getGeometry()));
         this.mouseTooltip = {layer: features[0].layer.replace(/_/gi," "), value: features[0].feat.get(keyField)};
       } else {
         this.mouseTooltip = {layer: '', value: ''};
@@ -173,49 +168,6 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   checkRDV(zone: string): string {
     return zone.startsWith('RDV') ? 'RDV' : zone;
-  }
-  makeZoningStyle(feat: FeatureLike, resolution: number, type: 'base' | 'click' = 'base'): [Style, Style] {
-    const zoneColor = `${this.layerService.zones[feat.get('ZONING') === undefined ? 'N/A' : this.checkRDV(feat.get('ZONING'))][1]}`;
-    const typeObj = {
-      base: {strokeWidth: 0.2, strokeColor: 'rgb(150,150,150)', fillOpacity: '66', fontSize: '14px', fontColor: 'grey', fontStrokeColor: 'white', fontStrokeWidth: 4 },
-      click: {strokeWidth: 1.5, strokeColor: 'rgb(50,50,50)', fillOpacity: '1A', fontSize: '16px', fontColor: 'white', fontStrokeColor: 'black', fontStrokeWidth: 6}
-    }
-    const polyStyle = new Style({
-      zIndex: 3,
-      stroke: new Stroke({width: typeObj[type].strokeWidth, color: typeObj[type].strokeColor}),
-      fill: new Fill({color: `${zoneColor}${typeObj[type].fillOpacity}`})
-    });
-    const zone = feat.get('ZONING') === 'RDV' ? `${feat.get('ZONING')} - ${feat.get('RDV_PLAN')}` : feat.get('ZONING')
-    const textStyle = new Style({
-      zIndex: 6,
-      text: resolution < 3 && (feat.getGeometry() as MultiPolygon).getArea() > 500 ? new Text({
-        overflow: true,
-        font: `bold ${typeObj[type].fontSize} SegoeUI,arial,sans-serif`,
-        text: zone,
-        fill: new Fill({color: typeObj[type].fontColor}),
-        stroke: new Stroke({ color: typeObj[type].fontStrokeColor, width: typeObj[type].fontStrokeWidth })
-      }) : undefined,
-      geometry: (feat: FeatureLike) => {
-        let retPoint: Coordinate;
-        let finalGeom: Polygon | Point | undefined;
-        const size = this.instance.getSize()!;
-        const extent = this.instance.getView().calculateExtent([size[0],size[1]]);
-        if (feat.getGeometry()?.getType() === 'MultiPolygon') {
-          const interiorPoints = (feat.getGeometry() as MultiPolygon).getInteriorPoints();
-          retPoint = (feat.getGeometry() as MultiPolygon).getClosestPoint(getCenter((feat.getGeometry() as MultiPolygon).getExtent()));
-          finalGeom = (feat.getGeometry() as MultiPolygon).getPolygons().filter(p => p.intersectsCoordinate(retPoint))[0]
-          ? (feat.getGeometry() as MultiPolygon).getPolygons().filter(p => p.intersectsCoordinate(retPoint))[0].getInteriorPoint()
-          : new Point(retPoint);
-          if (!finalGeom.intersectsExtent(extent) && interiorPoints.intersectsExtent(extent)) {
-            finalGeom = new Point(interiorPoints.getClosestPoint(this.instance.getView().getCenter()!));
-          }
-        } else if (feat.getGeometry()?.getType() === 'Polygon') {
-          finalGeom = (feat.getGeometry() as Polygon).getInteriorPoint();
-        }
-        return finalGeom;
-      }
-    });
-    return [polyStyle, textStyle];
   }
   ngAfterViewInit(): void { setTimeout(() => { this.instance.updateSize(); }, 500); }
   ngOnDestroy(): void { this.instance.dispose(); }

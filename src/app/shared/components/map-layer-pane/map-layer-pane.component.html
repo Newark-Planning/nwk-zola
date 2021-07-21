@@ -50,10 +50,6 @@
                             </button>
                                 <mat-menu #layerMenu="matMenu">
                                     <p class="menuTitle">{{replaceUnderscore(lyr.getClassName()) | titlecase}}</p>
-                                    <button mat-menu-item *ngIf="lyr.getVisible()" type="button" title="Highlight Layer" (click)="openDetails(lyr)">
-                                  <mat-icon>info</mat-icon>
-                                  <span>Highlight</span>
-                                </button>
                                     <button mat-menu-item type="button" title="See Item Details" (click)="openDetails(lyr)">
                                   <mat-icon>info</mat-icon>
                                   <span>Details</span>
