@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { ArcFeature, SearchItem } from '../shared/models';
+import { ArcFeature, ArcPropInfo, SearchItem } from '../shared/models';
 import * as fromStore from '../store/store.reducers';
 import * as MapPaneActions from './map-pane/map-pane.actions';
 import * as fromMapPane from './map-pane/map-pane.reducers';
@@ -57,7 +57,7 @@ export class StoreService {
     setPropPaneSelectedGeo(layer: string, selectedGeo: any): void {
         this.store.dispatch(PropPaneActions.setSelectedGeo({ payload: {layer, selectedGeo}}));
     }
-    setPropPanePropInfo(propInfo: ArcFeature['attributes']): void {
+    setPropPanePropInfo(propInfo: ArcPropInfo): void {
         this.store.dispatch(PropPaneActions.setPropInfo({ payload: propInfo}));
     }
 }

@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Input, ElementRef, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, ElementRef, OnChanges, SimpleChanges, AfterViewInit } from '@angular/core';
 import { Control } from 'ol/control';
 import LayerGroup from 'ol/layer/Group';
 import Map from 'ol/Map';
@@ -21,11 +21,11 @@ import { MapControlsService } from '../services/map-controls.service';
   </button>
   <mat-menu #basemapMenu="matMenu">
     <p class="menuTitle">Set Basemap</p>
-    <button mat-menu-item type="button" title="Set to Default Basemap" (click)="controlService.setBasemapLayer('base', basemapLayers)">
+    <button mat-menu-item type="button" title="Set to Default Basemap" (click)="setBasemap('base')">
       <mat-icon>public</mat-icon>
       <span>Base</span>
     </button>
-    <button mat-menu-item type="button" title="Set to Satellite Basemap" (click)="controlService.setBasemapLayer('satellite', basemapLayers)">
+    <button mat-menu-item type="button" title="Set to Satellite Basemap" (click)="setBasemap('satellite')">
       <mat-icon>satellite</mat-icon>
       <span>Satellite</span>
     </button>
@@ -35,7 +35,6 @@ import { MapControlsService } from '../services/map-controls.service';
 })
 export class MapBasemapsComponent implements OnChanges {
   @Input() map: Map = new Map({});
-  @Input() basemapLayers: LayerGroup = new LayerGroup;
   control: Control;
 
   constructor(private elementRef: ElementRef, readonly controlService: MapControlsService) {
@@ -47,5 +46,12 @@ export class MapBasemapsComponent implements OnChanges {
     if (changes.hasOwnProperty('map')) {
       this.map.addControl(this.control);
     }
+  }
+  setBasemap(type: 'base' | 'satellite'): void {
+    this.map.getLayers().forEach(l => {
+      if (l.get('className') === 'Basemap') {
+        this.controlService.setBasemapLayer(type, l as LayerGroup);
+      }
+    });
   }
 }

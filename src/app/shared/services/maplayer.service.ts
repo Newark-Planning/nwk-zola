@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Map } from 'ol';
 import Feature, { FeatureLike } from 'ol/Feature';
 import { MVT as MVTFormat } from 'ol/format';
 import GeoJSON from 'ol/format/GeoJSON';
@@ -16,9 +17,7 @@ import { MapInfoService } from './map-info.service';
 /**
  * Service to generate map groups and set up layers
  * @method makeBasemapGroup() Return Layer Group with Basemap and Basemap Labels layers
- * @method makeTransitGroup() Return Layer Group with Commuter and Light Rail layers
  * @method makeLayerGroup(): Return Layer Group with Poltiical Geographies or Overlay Layers
- * @method makeParcelGroup() Return Layer Group with Parcel and Parcel Grid Layers
  */
 @Injectable({ providedIn: 'root' })
 export class MapLayerService {
@@ -64,38 +63,17 @@ export class MapLayerService {
         '15F': ['Exempt: Other', 'rgba(102,119,205)'],
         Unclassed: ['Unclassed Properties', 'rgba(0,0,0,0.2)']
     };
-    basicColorRamp = ['#00334d','#d82929','#fb8100','#ffc14a','#ece4c0'];
     initialLayerData: Array<LayerDetail> = [];
-    initParcelData = [{ name: 'Parcels', group: 'Parcels', legendColor: [0, 0, 0], zIndex: 2 }];
-    constructor(readonly http: HttpClient, readonly mapInfoService: MapInfoService) {}
-    makeBasemapGroup(): LayerGroup {
-        return new LayerGroup({ layers: [
-                new TileLayer({ className: 'basemap', zIndex: 0, source: new XYZ({ crossOrigin: 'anonymous' }) }),
-                new TileLayer({ className: 'basemap-labels', zIndex: 4, opacity: 0.8, source: new XYZ({ crossOrigin: 'anonymous' }) })
-        ]});
-    }
-    makeTransitGroup(): LayerGroup {
-        return new LayerGroup({ layers: [
-            new VectorLayer({
-                className: 'Commuter Rail',
-                zIndex: 6,
-                source: new VectorSource({ url: 'assets/data/transit_njt.geojson', format: new GeoJSON() }),
-                style: (feat: FeatureLike) => new Style({
-                    image: new Icon({ src: `assets/img/icons/${feat.get('ICON')}.png`, crossOrigin: 'anonymous', scale: 0.5 }),
-                    text: this.makeText(feat.get('STATION'), undefined, undefined, 25, 0, 0.7, '#1a73e8', 'white')
-                })
-            }),
-            new VectorLayer({
-                className: 'Light Rail',
-                maxResolution:  9.554628535634155,
-                zIndex: 6,
-                source: new VectorSource({ url: 'assets/data/transit_nlr.geojson', format: new GeoJSON() }),
-                style: feat => new Style({
-                    image: new Icon({ src: 'assets/img/icons/Logo_NLR.png', crossOrigin: 'anonymous', scale: 0.6 }),
-                    text: this.makeText(feat.get('STATION'), undefined, undefined, 15, 0, 0.7, '#1a73e8', 'white')
-                })
-            })]
-        });
+    constructor(readonly mapInfoService: MapInfoService) {}
+    initLayers(instance: Map, initialLayerData: Array<LayerDetail>, layers: Array<{className: MapConstants['groups'], visibleLyrs?: Array<string>}>): void {
+      this.initialLayerData = initialLayerData;
+      layers.forEach(lyrInfo => {
+        const newlayer = this.makeLayerGroup(lyrInfo.className, lyrInfo.visibleLyrs);
+        newlayer.set('className', lyrInfo.className);
+        instance.addLayer(newlayer);
+      });
+      instance.getLayers().changed();
+      instance.changed();
     }
     makeLayerGroup(group: MapConstants['groups'], visibleLyrs: Array<string> = []): LayerGroup {
       const layerArray = this.initialLayerData.filter(il => il.group === group)
@@ -109,56 +87,29 @@ export class MapLayerService {
           minResolution: il.minResolution ? il.minResolution : undefined
         }, obj);
         switch (il.layerType.type) {
-          case 'TileLayer': return new TileLayer(baseLyrObj({source: new XYZ({ crossOrigin: 'anonymous', url: il.source.url })}));
+          case 'TileLayer': return new TileLayer(baseLyrObj({preload: Infinity, source: new XYZ({ crossOrigin: 'anonymous', url: il.source.url })}));
           case 'VectorTileLayer': return new VectorTileLayer(baseLyrObj({
-            source: new VectorTileSource({format: new MVTFormat(), url: il.source.url}),
-            style: il.styles ? (feat: Feature) => il.styles.map(s => (this.styleFunction(s, feat))) : undefined
+            source: new VectorTileSource({format: new MVTFormat({idProperty: 'LOT_BLOCK_LOT'}), url: il.source.url}),
+            style: il.styles ? (feat: FeatureLike, resolution: number) => il.styles.map(s => (this.styleFunction(s, feat, resolution))) : undefined
           }));
           default: return new VectorLayer(baseLyrObj({
             source: new VectorSource({url: il.source.url, format: new GeoJSON({featureProjection: 'EPSG:4326'}), attributions: il.attributions }),
-            style: il.styles ? (feat: Feature) => il.styles.map(s => (this.styleFunction(s, feat))) : undefined
+            style: il.styles ? (feat: FeatureLike, resolution: number) => il.styles.map(s => (this.styleFunction(s, feat, resolution))) : undefined
           }));
       }});
       console.info(group + ' layer group generated'+ (visibleLyrs.length > 0 ? `\n\t${visibleLyrs} visible` : ''));
       return new LayerGroup({layers: layerArray});
     }
-    setParcelStyle(attr: 'Zoning' | 'LandUse' | 'Base', feat: FeatureLike): Style {
-        const checkRDV = (zone: string) => zone.startsWith('RDV') ? 'RDV' : zone;
-        const styler = (l: string, f: FeatureLike) => {
-            switch (l) {
-            case 'Zoning': return ({color: `${this.zones[f.get('ZONING') === undefined ? 'N/A' : checkRDV(f.get('ZONING'))][1]}CC`});
-            case 'LandUse': return ({color: `${this.landUses[f.get('PROPCLASS') === undefined ? 'Unclassed' : f.get('PROPCLASS')][1].slice(0, -1)},.8)`});
-            default: return ({color: 'transparent'});
-        }};
-
-        return new Style({
-            fill: new Fill(styler(attr, feat)),
-            stroke: new Stroke({width: 0.2, color: 'grey'})
-        });
-    }
-    makeParcelGroup(layer: 'Zoning' | 'LandUse' | 'Base'): LayerGroup {
-        return new LayerGroup({ layers:
-            this.initParcelData.map(
-                (ip, i) => new VectorTileLayer({
-                    className: ip.name, zIndex: ip.zIndex,
-                    source: new VectorTileSource({
-                        format: new MVTFormat(),
-                        url: 'https://vectortileservices1.arcgis.com/WAUuvHqqP3le2PMh/arcgis/rest/services/Newark_Parcels_Zoning/VectorTileServer/tile/{z}/{y}/{x}.pbf'
-                    }),
-                    style: feat => this.setParcelStyle(layer, feat)
-                })
-        )});
-    }
     buildArcGISURL(resourceName: string, resourceNum: number, keyField: string): string {
       const checkHist = () => resourceName === 'Newark_Historic_Assets' && resourceNum === 1 ? ` AND "STATUS"='LISTED'` : '';
       return `https://services1.arcgis.com/WAUuvHqqP3le2PMh/ArcGIS/rest/services/${resourceName}/FeatureServer/${resourceNum}/query?where="OBJECTID" is not null${checkHist()}&outFields=${keyField}&returnGeometry=true&f=geojson`;
     }
-    styleFunction(styleOptions: StyleOptions, feature: FeatureLike): Style {
+    styleFunction(styleOptions: StyleOptions, feature: FeatureLike, resolution: number): Style {
         const featLabeller = styleOptions.labels;
         const colorToString = (rgba: [number,number,number,number?]) => `rgba(${rgba.join(',')})`;
         const textContent = (label: string): string => label.match(/(\[.*?\])/g) === null
         ? label
-        : label.match(/(\[.*?\])/g)!.reduce((p,c) => {return p.replace(c, feature.get(c.replace(/(\[|\])/g,'')));}, label);
+        : label.match(/(\[.*?\])/g)!.reduce((p,c) => {return p.replace(c, feature.get(c.replace(/(\[|\])/g,'')) === undefined ? feature.getId() : feature.get(c.replace(/(\[|\])/g,'')));}, label);
         const getText = (labeller: StyleOptions['labels']) => feature && labeller
         ? this.makeText(
           this.stringDivider(textContent(labeller.textContent), 20, '\n'),
@@ -177,8 +128,8 @@ export class MapLayerService {
           ? styleOpts.symbolCategories!.filter(c => c.class.value === checkRDV(feature.get(styleOpts.keyField)))[0]
           : styleOpts.defaultSymbol;
         const featStylerRamp = (styleOpts: StyleOptions) => styleOpts.symbolCategories && styleOpts.symbolCategories!.filter(c => eval(`${feature.get(c.class.rampKey!)} ${c.class.rampType} ${c.class.rampBreak}`)).length > 0
-        ? styleOpts.symbolCategories!.filter(c => eval(`${feature.get(c.class.rampKey!)} ${c.class.rampType} ${c.class.rampBreak}`))[0]
-        : styleOpts.defaultSymbol;
+          ? styleOpts.symbolCategories!.filter(c => eval(`${feature.get(c.class.rampKey!)} ${c.class.rampType} ${c.class.rampBreak}`))[0]
+          : styleOpts.defaultSymbol;
         const featStyler = styleOptions.type === 'ramp' ? featStylerRamp(styleOptions) : featStylerNonRamp(styleOptions);
         return new Style({
           fill: featStyler.fill ? new Fill({color: `rgba(${featStyler.fill.join(',')})`}) : undefined,

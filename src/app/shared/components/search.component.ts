@@ -53,9 +53,9 @@ export class MapSearchBarComponent {
     BLOCK_LOT: 'Search any Block-Lot'
   };
   options: Array<{field: string; name: string;}> = [
-    {field: 'BLOCK_LOT',name:'Block-Lot'},
-    {field: 'ADDR_STREET',name:'Street Address'},
-    {field: 'ADDR_LEGAL',name:'Legal Address'}
+    {field: 'BLOCK_LOT', name:'Block-Lot'},
+    {field: 'ADDR_STREET', name:'Street Address'},
+    {field: 'ADDR_LEGAL', name:'Legal Address'}
   ];
   @Input() overlay: Overlay = new Overlay({});
   constructor(
@@ -67,15 +67,13 @@ export class MapSearchBarComponent {
         map( res => res.features.map(r => r.properties))
       );
   }
-  displayFn(opt: ArcAddressPt['attributes']): string {
-    return opt && opt[this.searchType] ? opt[this.searchType] : '';
-  }
+  displayFn = (opt: ArcAddressPt['attributes']): string => opt && opt[this.searchType] ? opt[this.searchType] : '';
   goTo(e: MatAutocompleteSelectedEvent): any {
     const option: ArcAddressPt['attributes'] = e.option.value;
     const coordinates: Coordinate = fromLonLat([option.POINT_X, option.POINT_Y]);
     const pixel: Pixel= this.map.getPixelFromCoordinate(coordinates);
-    // const features = this.map.getFeaturesAtPixel(pixel)
-    //   .filter(ft => ft.get('layer') === 'Newark_Parcels_2020_07_31');
+    const features = this.map.getFeaturesAtPixel(pixel)
+      .filter(ft => ft.get('layer') === 'Newark_Parcels_2020_07_31');
     this.map.getView().animate({
       center: coordinates,
       resolution: 0.9

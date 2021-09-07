@@ -1,9 +1,3 @@
-:host {
-    flex: 1 1 50%;
-    height: 100vh;
-    padding: 0.5em;
-}
-
 section {
     overflow-y: auto;
     max-height: 95%;
@@ -48,22 +42,6 @@ section {
     line-height: 1.25rem;
 }
 
-$zoningDistricts: ("R-1": #FFFFBE, "R-2": #FFFF00, "R-3": #E6E600, "R-4": #e4a024, "R-5": #FF8C00, "R-6": #f37520, "C-1": #FFBEBE, "C-2": #FF7F7F, "C-3": #A80000, "I-1": #E8BEFF, "I-2": #DF73FF, "I-3": #8400A8, "MX-1": #BEFFE8, "MX-2": #00E6A9, "MX-3": #00A884, "INST": #73B2FF, "PARK": #98E600, "CEM": #70A800, "RDV": #E1E1E1, "EWR": #B2B2B2, "PORT": #686868);
-@each $name,
-$color in $zoningDistricts {
-    .Zone_#{$name} {
-        background: $color;
-    }
-}
-
-$layers: ('Commuter_Rail': #0d47a1, 'Light_Rail': #0d47a1);
-@each $name,
-$color in $layers {
-    .Layer_#{$name} {
-        background: $color;
-    }
-}
-
 .plan-details {
     h5 {
         font-size: 1rem;
@@ -75,7 +53,6 @@ $color in $layers {
 .plan-links {
     display: flex;
     flex-direction: column;
-    a {}
 }
 
 .zone-info-accordion {
@@ -227,5 +204,84 @@ $color in $layers {
         &.n-a {
             background: grey;
         }
+    }
+}
+
+map-pane-content-property {
+    font-size: 0.66em;
+    line-height: 1.15;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    table.prop-fields {
+        border-radius: 0.2em;
+        padding: 0.1em;
+        margin: 0.25em 1em 1em 0.25em;
+        border-collapse: collapse;
+    }
+    .prop-fields>tr {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        min-width: 33em;
+        padding: 0.2em;
+        &:first-of-type {
+            border: solid #0d47a1;
+            border-width: 0.15em 0 0 0;
+            color: #0d47a1;
+            margin: 0.5em 0;
+            padding: 0.2em;
+            border-radius: 0.2em;
+        }
+        &:last-of-type {
+            border: none;
+        }
+    }
+    td.prop-field {
+        flex: 1 1 50%;
+        padding: 0.2em 0.5em;
+        background: whitesmoke;
+        border-radius: 0.1em;
+        &.currency {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+    td.prop-alias {
+        flex: 1 1 50%;
+        padding: 0.2em 0.5em
+    }
+}
+
+$zoningDistricts: ( "R-1": #FFFFBE, "R-2": #FFFF00, "R-3": #E6E600, "R-4": #e4a024, "R-5": #FF8C00, "R-6": #f37520, "C-1": #FFBEBE, "C-2": #FF7F7F, "C-3": #A80000, "I-1": #E8BEFF, "I-2": #DF73FF, "I-3": #8400A8, "MX-1": #BEFFE8, "MX-2": #00E6A9, "MX-3": #00A884, "INST": #73B2FF, "PARK": #98E600, "CEM": #70A800, "RDV": #E1E1E1, "EWR": #B2B2B2, "PORT": #686868);
+@each $name,
+$color in $zoningDistricts {
+    .Zone_#{$name} {
+        background: $color !important;
+        &:not(.Zone_R-1, .Zone_R-2, .Zone_R-3, .Zone_C-1, .Zone_MX-1, .Zone_RDV) {
+            color: white;
+            -webkit-text-fill-color: white;
+        }
+    }
+}
+
+$propclassDesignations: ( "1": rgb(204, 204, 204), "2": rgb(255, 235, 175), "4A": rgb(255, 127, 127), "4B": rgb(170, 102, 205), "4C": rgb(230, 152, 0), "5A": rgb(78, 78, 78), "5B": rgb(78, 78, 78), "15A": rgb(190, 210, 255), "15B": rgb(190, 210, 255), "15C": rgb(158, 170, 215), "15D": rgb(122, 142, 245), "15E": rgb(163, 255, 115), "15F": rgb(102, 119, 205));
+@each $name,
+$color in $propclassDesignations {
+    .PROPCLASS_#{$name} {
+        background: $color !important;
+        &:not(.PROPCLASS_1, .PROPCLASS_2, .PROPCLASS_15A, .PROPCLASS_15B) {
+            color: white;
+            -webkit-text-fill-color: white;
+        }
+    }
+}
+
+$layers: ('Commuter_Rail': #0d47a1, 'Light_Rail': #ffcd03, 'Parcels-Zoning':#0d47a1);
+@each $name,
+$color in $layers {
+    .Layer_#{$name} {
+        background: $color;
     }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ArcGISItemInfo, LayerInfoPaneContent, LayerDetailOptions, PlanDetails } from '../models';
+import { ArcGISItemInfo, LayerInfoPaneContent, LayerDetailOptions, PlanDetails, ArcGeoJSONPropResponse } from '../models';
 import { map } from 'rxjs/operators';
 import { Layer } from 'ol/layer';
 import VectorSource from 'ol/source/Vector';
@@ -12,6 +12,40 @@ import { LayerDetail } from '../classes/layer-detail.class';
  */
 @Injectable({ providedIn: 'root' })
 export class MapInfoService {
+  propFields: {[group: string]: Array<{alias: string; field: string;}>} = {
+    'ID': [
+      {alias: 'Block-Lot', field: 'LOT_BLOCK_LOT'},
+      {alias: 'Primary Parcel', field: 'MOD4_BLOCK_LOT'},
+      {alias: 'Legal Address', field: 'PROPLOC'},
+      {alias: 'Related Lots', field: 'ADDLOTS'}
+    ],
+    'Designations': [
+      {alias: 'Zoning Designation', field: 'ZONING'},
+      {alias: 'Redevelopment Plan', field: 'RDV_PLAN'},
+      {alias: 'Redevelopment Zoning', field: 'RDV_CODE'},
+      {alias: 'Historic District', field: 'HIST_DIST'},
+      {alias: 'Historic Landmark', field: 'HIST_PROP'},
+      {alias: 'Opportunity Zone', field: 'OPPO_ZONE'},
+      {alias: 'Within UEZ', field: 'IN_UEZ'},
+      {alias: 'Property Use', field: 'PROPCLASS'},
+      {alias: 'Bldg. Description', field: 'BUILDDESC'},
+      {alias: 'Land Description', field: 'LANDDESC'},
+      {alias: 'Acreage', field: 'ACREAGE'},
+      {alias: 'Ward', field: 'CITYWARD'},
+      {alias: 'Commercial Type', field: 'CLASS4TYPE'}
+    ],
+    'Tax Info': [
+      {alias: 'Owner Name', field: 'OWNERSNAME'},
+      {alias: 'Tax Map Page', field: 'TAXMAP'},
+      {alias: 'Assessment - Land', field: 'LANDVALUE'},
+      {alias: 'Assessment - Improvements', field: 'IMPRVALUE'},
+      {alias: 'Assessment - Total', field: 'NETVALUE'},
+      {alias: 'Last Year Tax', field: 'LSTYRTAX'},
+      {alias: 'Old Block No.', field: 'OLDBLOCKNO'},
+      {alias: 'Old Lot No.', field: 'OLDLOTNO'},
+      {alias: 'Old Qual Code', field: 'OLDQUALCODE'}
+    ]
+  };
   constructor(
     private http: HttpClient
   ) {}
@@ -32,8 +66,24 @@ export class MapInfoService {
   getRDVPlanInfo(id: string): Observable<any> {
     return this.http.get<Array<PlanDetails>>('assets/data/redevelopment_plans.json')
       .pipe(
-        map((r: Array<PlanDetails>) => r.find(p => p.ID === id)),
+        map((r: Array<PlanDetails>) => r.find(p => p.ID === id))
       );
+  }
+  getPropInfo(queryType: 'LOT_BLOCK_LOT' | 'PROPLOC' | 'XY', queryValue: string | [number, number], outFields: 'basic' | 'detailed'): Observable<ArcGeoJSONPropResponse> {
+    const defaultFields = [ 'LOT_BLOCK_LOT', 'MOD4_BLOCK_LOT', 'PROPLOC', 'ADDLOTS', 'ZONING', 'RDV_PLAN', 'RDV_CODE', 'HIST_DIST', 'HIST_PROP', 'OPPO_ZONE', 'IN_UEZ' ];
+    const expandedFields: Array<string> = [];
+    if (outFields === 'detailed') {
+      Object.keys(this.propFields).forEach(k => {
+        this.propFields[k].forEach(f => expandedFields.push(f.field));
+      });
+    }
+    const arcBaseUrl = 'https://services1.arcgis.com/WAUuvHqqP3le2PMh/ArcGIS/rest/services/Newark_Parcels_with_Ownership/FeatureServer/0/query?';
+    const arcQuery = queryType === 'XY' ? `geometry={"x":${queryValue[0]},"y":${queryValue[1]},"spatialReference":{"wkid" : 4326}}` : `where="${queryType}"='${queryValue}'`;
+    const arcParams = `&outFields=${outFields === 'detailed' ? expandedFields.join(',') : defaultFields}&${arcQuery}&returnGeometry=false&resultRecordCount=1&f=geojson`;
+
+    return this.http.get<ArcGeoJSONPropResponse>(
+      `${arcBaseUrl}${arcParams}`
+    );
   }
   getLayerInfo(layer: Layer): Observable<ArcGISItemInfo> {
     const url: string = (layer.getSource() as VectorSource).getUrl()!.toString();

@@ -1,22 +1,28 @@
 import {
-    Component,
-    EventEmitter,
-    Input,
-    OnChanges,
-    OnInit,
-    Output,
-    SimpleChanges
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges
 } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { Map } from 'ol';
+import Map from 'ol/Map';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { LayerInfoPaneContent, FirebaseZoneUse, PlanDetails } from '../../models';
-import { MapInfoService } from '../../services/map-info.service';
-import { MapLayerService } from '../../services/maplayer.service';
+import { FirebaseZoneUse, LayerInfoPaneContent, PlanDetails } from '../../models';
+import { MapInfoService, MapLayerService } from '../../services';
 
 @Component({
     styleUrls: ['./map-info-pane.component.scss'],
+    styles: [
+      `:host {
+        flex: 1 1 50%;
+        height: 100vh;
+        padding: 0.5em;
+      }`
+    ],
     selector: 'map-info-pane',
     templateUrl: './map-info-pane.component.html'
 })
@@ -29,6 +35,25 @@ export class MapInfoPaneComponent implements OnInit, OnChanges {
     planDetails: Observable<PlanDetails>;
     zoneUsesSource = new MatTableDataSource<FirebaseZoneUse>();
     zoneUsesFilterStatus = {USE_TYPE: '', ALLOWANCE: ''};
+    bldgTypeLink = {
+      'One-family in R-1': '36749307',
+      'One-family': '36749308',
+      'Two-family': '36749309',
+      'Three-family': '36749310',
+      'Townhouse': '36749311',
+      'Low-rise multifamily & Four-family': '36749312',
+      'Mid-rise multifamily': '36749313',
+      'High-rise multifamily': '36749314',
+      'Ground-floor commercial with commercial or residential above': '36749315',
+      'Detached commercial': '36749316',
+      'Industrial': '36749317',
+      'University': '36749318',
+      'Hospital or Medical Institution': '36749319',
+      'Schools (Elementary, Middle, High Schools)': '36749320',
+      'Place of Worship': '36749321',
+      'Community Center, Stand-Alone Daycare or Preschool in a Non-residential Area, and other Civic Buildings': '36749322'
+    };
+    checkNotes = (index: number, rowData: LayerInfoPaneContent): boolean => rowData.NOTES ? rowData.NOTES.length > 0 : false;
     constructor(
         readonly layerService: MapLayerService,
         readonly mapInfoService: MapInfoService
@@ -37,18 +62,7 @@ export class MapInfoPaneComponent implements OnInit, OnChanges {
       this.planDetails = new Observable();
     }
     ngOnInit(): void {
-      this.zoneUsesSource.filterPredicate = (data: FirebaseZoneUse, filterValue: string) => {
-        const filter = filterValue.split('.');
-        this.zoneUsesFilterStatus[filter[0] as ('USE_TYPE'|'ALLOWANCE')] = filter[1] === 'All' ? '' : filter[1];
-        if (Object.values(this.zoneUsesFilterStatus).every(v => v === '')) {
-          return true;
-        } else if (Object.values(this.zoneUsesFilterStatus).includes('')) {
-          const entry = Object.entries(this.zoneUsesFilterStatus).filter(e => e[1] !== '')[0];
-          return data[entry[0] as ('USE_TYPE' | 'ALLOWANCE')] === entry[1];
-        } else {
-          return Object.entries(this.zoneUsesFilterStatus).every(v => data[v[0] as ('USE_TYPE'|'ALLOWANCE')] === v[1]);
-        }
-      }
+      this.zoneUsesSource.filterPredicate = this.filterPredicateFn;
     }
     ngOnChanges(changes: SimpleChanges): void {
       if (changes.hasOwnProperty('map')) {
@@ -67,8 +81,24 @@ export class MapInfoPaneComponent implements OnInit, OnChanges {
             this.planDetails = newSelection.value.startsWith('RDV')
             ? this.mapInfoService.getRDVPlanInfo(newSelection.value)
             : new Observable();
-          };
-          break;
+            };
+            break;
+          case 'Parcels-Zoning': {
+            this.mapInfoService.getPropInfo('LOT_BLOCK_LOT', newSelection.value, 'detailed')
+              .subscribe(r => {
+                const feat = r.features[0];
+                this.paneContent = new Observable(observer => observer.next({
+                  NAME: feat.properties['PROPLOC'],
+                  TYPE: 'Parcel',
+                  DESCRIPTION: '',
+                  TABLE: feat.properties
+               }));
+            });
+            this.planDetails = newSelection.value.startsWith('RDV')
+            ? this.mapInfoService.getRDVPlanInfo(newSelection.value)
+            : new Observable();
+            };
+            break;
           default: {
             this.paneContent = this.mapInfoService.getLocalPaneInfo(newSelection);
             this.planDetails = new Observable();
@@ -77,41 +107,27 @@ export class MapInfoPaneComponent implements OnInit, OnChanges {
         }
       }
     }
-    checkNotes(index: number, rowData: LayerInfoPaneContent): boolean {
-      return rowData.NOTES ? rowData.NOTES.length > 0 : false;
-    }
-    filterUses(type:string) {
-      this.zoneUsesSource.filter = type;
-    }
-    getBldgTypeLink(zone: string, bldgType: string): string {
-      const bldgTypeLink = {
-        'One-family in R-1': '36749307',
-        'One-family': '36749308',
-        'Two-family': '36749309',
-        'Three-family': '36749310',
-        'Townhouse': '36749311',
-        'Low-rise multifamily & Four-family': '36749312',
-        'Mid-rise multifamily': '36749313',
-        'High-rise multifamily': '36749314',
-        'Ground-floor commercial with commercial or residential above': '36749315',
-        'Detached commercial': '36749316',
-        'Industrial': '36749317',
-        'University': '36749318',
-        'Hospital or Medical Institution': '36749319',
-        'Schools (Elementary, Middle, High Schools)': '36749320',
-        'Place of Worship': '36749321',
-        'Community Center, Stand-Alone Daycare or Preschool in a Non-residential Area, and other Civic Buildings': '36749322'
-      };
-      if (zone === 'R-1') {
-        return `https://ecode360.com/36749296#${bldgTypeLink['One-family in R-1']}`;
+    filterPredicateFn(data: FirebaseZoneUse, filterValue: string): boolean {
+      const filter = filterValue.split('.');
+      this.zoneUsesFilterStatus[filter[0] as ('USE_TYPE'|'ALLOWANCE')] = filter[1] === 'All' ? '' : filter[1];
+      if (Object.values(this.zoneUsesFilterStatus).every(v => v === '')) {
+        return true;
+      } else if (Object.values(this.zoneUsesFilterStatus).includes('')) {
+        const entry = Object.entries(this.zoneUsesFilterStatus).filter(e => e[1] !== '')[0];
+        return data[entry[0] as ('USE_TYPE' | 'ALLOWANCE')] === entry[1];
       } else {
-        return `https://ecode360.com/36749296#${Object.entries(bldgTypeLink).filter(e => e[0].toLowerCase() === bldgType.toLowerCase())[0]?.[1]}`;
+        return Object.entries(this.zoneUsesFilterStatus).every(v => data[v[0] as ('USE_TYPE'|'ALLOWANCE')] === v[1]);
       }
     }
-    closePane() {
+    filterUses(type:string): void { this.zoneUsesSource.filter = type; }
+    getBldgTypeLink(zone: string, bldgType: string): string {
+      return zone === 'R-1'
+      ? `https://ecode360.com/36749296#${this.bldgTypeLink['One-family in R-1']}`
+      : `https://ecode360.com/36749296#${Object.entries(this.bldgTypeLink).filter(e => e[0].toLowerCase() === bldgType.toLowerCase())[0]?.[1]}`;
+    }
+    closePane(): void {
       this.paneOpen = false;
       this.paneClose.emit(false);
       setTimeout(() => {this.map.updateSize();},300)
     }
-
 }

@@ -9,6 +9,8 @@ import { MapExtentComponent } from './components/map-extent.component';
 import { MapBasemapsComponent } from './components/map-basemaps.component';
 import { MapZoomComponent } from './components/map-zoom.component';
 
+import { PaneContentPropertyComponent } from './components/map-info-pane/pane-content-property.component';
+
 import { GoogleService } from './services/google.service';
 import { JsonDataService } from './services/json-data.service';
 import { MapLayerService } from './services/maplayer.service';
@@ -28,6 +30,7 @@ export const components = [
   MapScaleComponent,
   MapZoomComponent,
   ModalComponent,
+  PaneContentPropertyComponent,
   SvgPinComponent
 ];
 
@@ -50,6 +53,8 @@ export * from './components/map-view/map-view.component';
 export * from './components/map-zoom.component';
 export * from './components/modal.component';
 export * from './components/map-elements/map-pin-svg.component';
+
+export * from './components/map-info-pane/pane-content-property.component';
 
 export * from './services/google.service';
 export * from './services/json-data.service';

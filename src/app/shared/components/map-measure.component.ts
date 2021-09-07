@@ -47,7 +47,6 @@ import { Modify } from 'ol/interaction';
 })
 export class MapMeasureComponent implements OnChanges {
   @Input() instance: Map = new Map({});
-  @Input() hiddenLayersGroup: LayerGroup = new LayerGroup;
   source = new VectorSource();
   drawInteraction: Draw;
   drawLayer = new VectorLayer({
@@ -142,11 +141,13 @@ export class MapMeasureComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.hasOwnProperty('instance')) {
       this.instance.addInteraction(this.modify);
-    }
-    if (changes.hasOwnProperty('hiddenLayersGroup')) {
-      this.hiddenLayersGroup.getLayers().getArray().find(l => l.getClassName() === 'DrawLayer')
-      ? this.hiddenLayersGroup.getLayers().extend([this.drawLayer])
-      : undefined;
+      this.instance.getLayers().forEach(l => {
+        if (l.get('className') === 'Hidden') {
+          (l as LayerGroup).getLayers().getArray().find(l => l.getClassName() === 'DrawLayer')
+          ? (l as LayerGroup).getLayers().extend([this.drawLayer])
+          : undefined;
+        }
+      });
     }
   }
   /**

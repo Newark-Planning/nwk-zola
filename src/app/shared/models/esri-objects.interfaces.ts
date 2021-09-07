@@ -17,18 +17,18 @@ export enum ArcGISSimpleFillSymbolType {
   Vertical = 'esriSFSVertical'
 }
 export enum ArcGISSimpleLineSymbolType {
-Dash = 'esriSLSDash',
-DashDot = 'esriSLSDashDot',
-DashDotDot = 'esriSLSDashDotDot',
-Dot = 'esriSLSDot',
-LongDash = 'esriSLSLongDash',
-LongDashDot = 'esriSLSLongDashDot',
-Null = 'esriSLSNull',
-ShortDash = 'esriSLSShortDash',
-ShortDashDot = 'esriSLSShortDashDot',
-ShortDashDotDot = 'esriSLSShortDashDotDot',
-ShortDot = 'esriSLSShortDot',
-Solid = 'esriSLSSolid'
+  Dash = 'esriSLSDash',
+  DashDot = 'esriSLSDashDot',
+  DashDotDot = 'esriSLSDashDotDot',
+  Dot = 'esriSLSDot',
+  LongDash = 'esriSLSLongDash',
+  LongDashDot = 'esriSLSLongDashDot',
+  Null = 'esriSLSNull',
+  ShortDash = 'esriSLSShortDash',
+  ShortDashDot = 'esriSLSShortDashDot',
+  ShortDashDotDot = 'esriSLSShortDashDotDot',
+  ShortDot = 'esriSLSShortDot',
+  Solid = 'esriSLSSolid'
 }
 export interface ArcGISSimpleLineSymbol {
   type: ArcGISSymbolType.SimpleLineSymbol;

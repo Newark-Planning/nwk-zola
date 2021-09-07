@@ -51,18 +51,18 @@
                                 <mat-menu #layerMenu="matMenu">
                                     <p class="menuTitle">{{replaceUnderscore(lyr.getClassName()) | titlecase}}</p>
                                     <button mat-menu-item type="button" title="See Item Details" (click)="openDetails(lyr)">
-                                  <mat-icon>info</mat-icon>
-                                  <span>Details</span>
-                                </button>
+                                      <mat-icon>info</mat-icon>
+                                      <span>Details</span>
+                                    </button>
                                     <button mat-menu-item type="button" title="Go to Item Source" (click)="goToLyrSource(lyr)">
-                                  <mat-icon>launch</mat-icon>
-                                  <span>Layer Source</span>
-                                </button>
+                                        <mat-icon>launch</mat-icon>
+                                        <span>Layer Source</span>
+                                    </button>
                                 </mat-menu>
                             </td>
                         </tr>
                         <tr *ngIf="lyr.getVisible() === true && row.get('className') !== 'Basemap'" class="layer-legend-row">
-                            <table *ngIf="getLegendInfo(lyr) as legendItems">
+                            <table *ngIf="currentLegendElements[lyr.getClassName()] as legendItems">
                                 <tr *ngFor="let item of legendItems">
                                     <td class="legend-patch" [ngSwitch]="item.type">
                                         <div *ngSwitchCase="'point'" class="point-img" [ngStyle]="{'border-color': 'transparent'}">
@@ -87,7 +87,7 @@
             </div>
         </td>
     </ng-container>
-    <mat-row class="row" *matRowDef="let row; columns: cols;" [class.example-expanded-row]="selection.isSelected(row)" (click)="selection.toggle(row)"></mat-row>
+    <mat-row class="row" *matRowDef="let row; columns: cols;" [class.example-expanded-row]="selection.isSelected(row)" (click)="selection.toggle(row); generateLegend(row)"></mat-row>
     <mat-row *matRowDef="let row; columns: ['opacity']" class="row-detail" [@rowExpand]="selection.isSelected(row) ? 'expanded' : 'collapsed'" style="overflow: hidden">
     </mat-row>
 </mat-table>

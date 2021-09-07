@@ -5,8 +5,8 @@
 </section>
 <map-zoom [map]="instance"></map-zoom>
 <map-extent [map]="instance"></map-extent>
-<map-measure [instance]="instance" [hiddenLayersGroup]="hiddenLayersGroup"></map-measure>
-<map-basemaps [map]="instance" [basemapLayers]="basemapGroup"></map-basemaps>
+<map-measure [instance]="instance"></map-measure>
+<map-basemaps [map]="instance"></map-basemaps>
 <div id="pointer-popup">
     <span [ngClass]="mouseTooltip.value !== '' ? '' : 'empty'" class="zoning-tooltip">{{mouseTooltip.layer}}: {{mouseTooltip.value}}</span>
 </div>

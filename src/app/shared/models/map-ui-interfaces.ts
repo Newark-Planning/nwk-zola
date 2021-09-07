@@ -1,6 +1,6 @@
 import { SafeResourceUrl } from "@angular/platform-browser";
 export interface MapConstants {
-  groups: 'Basemap' | 'Transit' | 'Parcels & Zoning' | 'Boundaries' | 'Economic Development' | 'Other Layers';
+  groups: 'Basemap' | 'Transit' | 'Parcels & Zoning' | 'Boundaries' | 'Economic Development' | 'Other Layers' | 'Hidden';
 }
 export interface StyleOptions {
   type: 'single'|'unique'|'ramp'|'special-zoning';

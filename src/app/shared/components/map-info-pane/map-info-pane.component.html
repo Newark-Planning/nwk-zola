@@ -11,14 +11,13 @@
         <img *ngIf="content.IMGSRC" [src]="content.IMGSRC">
     </div>
     <div class="info-pane-description" *ngIf="content.DESCRIPTION" [innerHtml]="content.DESCRIPTION"></div>
+    <map-pane-content-property *ngIf="selection.layer === 'Parcels-Zoning' && (paneContent | async).TABLE" [propInfo]="(paneContent | async).TABLE"></map-pane-content-property>
     <mat-accordion class="zone-info-accordion" *ngIf="selection.layer === 'Zoning_Districts'">
         <mat-expansion-panel *ngIf="content.BUILDING_TYPES && content.BUILDING_TYPES.length > 0">
             <mat-expansion-panel-header style="max-height: 2.5rem;">
                 <mat-panel-title>
                     Building Types Allowed within {{selection.value}}
                 </mat-panel-title>
-                <mat-panel-description>
-                </mat-panel-description>
             </mat-expansion-panel-header>
             <div class="bldg-types">
                 <mat-table [dataSource]="content.BUILDING_TYPES">
@@ -41,8 +40,6 @@
                 <mat-panel-title>
                     Uses Allowed within {{selection.value}}
                 </mat-panel-title>
-                <mat-panel-description>
-                </mat-panel-description>
             </mat-expansion-panel-header>
             <p class="uses-filter">
                 Filter Use Type:

@@ -1141,6 +1141,7 @@
             ],
             "labels": {
                 "textContent": "[LOT_BLOCK_LOT]",
+                "fontSize": 0.5,
                 "fill": [
                     255,
                     255,

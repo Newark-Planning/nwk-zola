@@ -1,26 +1,24 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import {
+  AfterViewInit,
   Component,
   Input,
-  OnChanges,
   SimpleChanges
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSliderChange } from '@angular/material/slider';
-import { Map } from 'ol';
-import { Layer } from 'ol/layer';
+import { DomSanitizer } from '@angular/platform-browser';
+import Map from 'ol/Map';
+import Layer from 'ol/layer/Layer';
 import BaseLayer from 'ol/layer/Base';
 import LayerGroup from 'ol/layer/Group';
 import TileLayer from 'ol/layer/Tile';
 import VectorLayer from 'ol/layer/Vector';
-import { XYZ } from 'ol/source';
+import XYZ from 'ol/source/XYZ';
 import { LegendItem } from '../../models';
-import { MapInfoService } from '../../services/map-info.service';
-import { MapLayerService } from '../../services/maplayer.service';
+import { MapInfoService, MapLayerService} from '../../services';
 import { rowExpand } from '../../utils/animations';
 import { ModalComponent } from '../modal.component';
-import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
     animations: [rowExpand],
@@ -28,19 +26,13 @@ import { DomSanitizer } from '@angular/platform-browser';
     templateUrl: './map-layer-pane.component.html',
     styleUrls: ['./map-layer-pane.component.scss']
 })
-export class MapLayerPaneComponent implements OnChanges {
+export class MapLayerPaneComponent implements AfterViewInit {
   @Input() map: Map = new Map({});
   @Input() paneopen = true;
   layers: Array<BaseLayer | LayerGroup> = [];
-  geoOpacity = 1;
-  geoVis = true;
-  parcelsOpacity = 1;
-  parcelsVis = true;
-  overlayOpacity = 1;
-  geographiesControl = new FormControl();
   isExpansionDetailRow = (i: number, row: BaseLayer) => row.hasOwnProperty('expanded');
-  expandedElement: BaseLayer | undefined;
   cols: Array<any> = ['expand',  'name', 'visible'];
+  currentLegendElements: {[layer: string]: Array<LegendItem>} = {};
   selection = new SelectionModel<BaseLayer>(false, []);
   constructor(
     readonly dialog: MatDialog,
@@ -48,12 +40,10 @@ export class MapLayerPaneComponent implements OnChanges {
     readonly mapInfoService: MapInfoService,
     readonly sanitizer: DomSanitizer) {
   }
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.hasOwnProperty('map')) {
-      this.map.getLayers().on('change', () => {
-        this.layers = this.map.getLayers().getArray().filter(l => l.get('className') !== 'Hidden');
-      });
-    }
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+        this.layers = this.map.getLayers().getArray().filter(l => l.get('className') !== 'Hidden') as Array<BaseLayer | LayerGroup>;
+      }, 1000);
   }
   goToLyrSource(lyr: Layer): void {
     let urlString: string;
@@ -68,13 +58,8 @@ export class MapLayerPaneComponent implements OnChanges {
         : (lyr.getSource() as XYZ).getUrls()![0]);
     window.open(urlString, '_blank')
   }
-  replaceUnderscore(layer: string): string {
-    const newtext = layer.replace(/[_\-]/gi, ' ');
-    return newtext;
-  }
-  setOpacity(e: MatSliderChange, layer: BaseLayer): void {
-    layer.setOpacity(e.value!);
-  }
+  replaceUnderscore = (layer: string): string => layer.replace(/[_\-]/gi, ' ');
+  setOpacity(e: MatSliderChange, layer: BaseLayer): void { layer.setOpacity(e.value!); }
   toggleVisible(e: MouseEvent, layer: BaseLayer, group?: LayerGroup): void {
     e.stopPropagation();
     layer.setVisible(!layer.getVisible());
@@ -84,6 +69,14 @@ export class MapLayerPaneComponent implements OnChanges {
         group.getLayers()
             .forEach(lyr => {if (lyr !== layer) { lyr.setVisible(false); } });
     }
+  }
+  generateLegend(lyr: LayerGroup) {
+    lyr.getLayers().forEach(l => {
+      if (!this.currentLegendElements.hasOwnProperty(l.getClassName())) {
+        const info = this.getLegendInfo(l as Layer);
+        this.currentLegendElements[l.getClassName()] = info;
+      }
+    });
   }
   getLegendInfo(lyr: Layer): Array<LegendItem> {
     const name = lyr.getClassName();
@@ -102,7 +95,7 @@ export class MapLayerPaneComponent implements OnChanges {
         image: c.image ? {
           src: c.image.src,
           imgSize: c.image.imgSize ? c.image.imgSize : imgSizeDefault,
-          svg: c.image.src.slice(-3) === 'svg' ? this.sanitizer.bypassSecurityTrustResourceUrl(c.image.src) : undefined
+          svg: c.image.src.slice(-3) === 'svg' ? this.sanitizer.bypassSecurityTrustUrl(c.image.src) : undefined
         } : undefined
       }));
       const defSymbol = styleInfo[0].styles[0].defaultSymbol;
@@ -116,7 +109,7 @@ export class MapLayerPaneComponent implements OnChanges {
         },
         image: defSymbol.image ? {
           src: defSymbol.image.src, imgSize: defSymbol.image.imgSize ? defSymbol.image.imgSize : imgSizeDefault,
-          svg: defSymbol.image.src.slice(-3) === 'svg' ? this.sanitizer.bypassSecurityTrustResourceUrl(defSymbol.image.src) : undefined
+          svg: defSymbol.image.src.slice(-3) === 'svg' ? this.sanitizer.bypassSecurityTrustUrl(defSymbol.image.src) : undefined
         } : undefined
       }))
       return cats;
@@ -133,7 +126,7 @@ export class MapLayerPaneComponent implements OnChanges {
         image: defSymbol.image ? {
           src: defSymbol.image.src,
           imgSize: defSymbol.image.imgSize ? defSymbol.image.imgSize : imgSizeDefault,
-          svg: defSymbol.image.src.slice(-3) === 'svg' ? this.sanitizer.bypassSecurityTrustResourceUrl(defSymbol.image.src) : undefined,
+          svg: defSymbol.image.src.slice(-3) === 'svg' ? this.sanitizer.bypassSecurityTrustUrl(defSymbol.image.src) : undefined,
           color: defSymbol.image.color ? `rgba(${Array(defSymbol.image.color).join(',')})` : undefined
         } : undefined
       })];
@@ -142,22 +135,6 @@ export class MapLayerPaneComponent implements OnChanges {
     }
   }
   openDetails(lyr: VectorLayer | TileLayer): void {
-    // const className: string = lyr.getClassName();
-    // const lyrInfo = this.lyrService.getLayerInfo(className);
-    // let urlString: string;
-    // if (['Zoning', 'Land Use', 'Base'].includes(className)) {
-    //     urlString = 'https://data-newgin.opendata.arcgis.com/datasets/newark-parcels?layer=0';
-    // } else {
-    //     const resourceinfo = this.lyrService.initialLayerData.filter(il => className.search(il.name) > -1)[0];
-    //     urlString = String(lyr instanceof VectorLayer
-    //         ? `https://data-newgin.opendata.arcgis.com/datasets/${resourceinfo.resource.toLowerCase().replace(/_/gi, '-')}?layer=${resourceinfo.resourceNum ? resourceinfo.resourceNum : 0}`
-    //         : (lyr.getSource() as XYZ).getUrls()![0]);
-    // }
-    // const addLink = className.search(/(Parcels|Grid|Basemap)/gi) === -1
-    //     ? `<tr><td class="side-header">Source</td><td class="propVals"><a class="mat-stroked-button" download="Newark_${className.replace(/\s/gi, '_')}.geojson"
-    //         href="${urlString}${urlString.startsWith('https://nzlur.carto.com/') ? ('&filename=Newark_').concat(className.replace(/\s/gi, '_')) : ''
-    //         }">${urlString.startsWith('https://nzlur.carto.com/') ? 'CARTO' : 'Data'} Source</a></td></tr>`
-    //     : '';
     const layerinfo = this.mapInfoService.getLayerInfo(lyr);
     layerinfo.subscribe(r => {
       this.dialog.open(ModalComponent, {

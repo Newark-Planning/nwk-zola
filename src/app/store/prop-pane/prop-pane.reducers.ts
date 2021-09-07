@@ -20,7 +20,7 @@ const initialState: State = {
   },
   propInfo: {
     PROPLOC: '',
-    MOD4_BLOCK_LOT: ''
+    LOT_BLOCK_LOT: ''
   },
   selectedGeo: {layer: '', selectedGeo: ''}
 };

@@ -47,6 +47,7 @@ div:active {
     border-radius: 0 0 0.15em 0;
     position: absolute;
     top: 0;
+    overflow: hidden;
     &:hover {
         background: rgba(100, 100, 100);
         transition: background 500ms cubic-bezier(0.075, 0.82, 0.165, 1);
