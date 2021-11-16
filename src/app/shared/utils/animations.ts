@@ -1,7 +1,5 @@
 import {
     animate,
-    query,
-    stagger,
     state,
     style,
     transition,

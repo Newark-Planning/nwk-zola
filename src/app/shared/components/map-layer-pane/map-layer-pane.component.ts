@@ -2,8 +2,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import {
   AfterViewInit,
   Component,
-  Input,
-  SimpleChanges
+  Input
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSliderChange } from '@angular/material/slider';
@@ -15,7 +14,7 @@ import LayerGroup from 'ol/layer/Group';
 import TileLayer from 'ol/layer/Tile';
 import VectorLayer from 'ol/layer/Vector';
 import XYZ from 'ol/source/XYZ';
-import { LegendItem } from '../../models';
+import { LegendItem, StyleOptions } from '../../models';
 import { MapInfoService, MapLayerService} from '../../services';
 import { rowExpand } from '../../utils/animations';
 import { ModalComponent } from '../modal.component';
@@ -80,14 +79,14 @@ export class MapLayerPaneComponent implements AfterViewInit {
   }
   getLegendInfo(lyr: Layer): Array<LegendItem> {
     const name = lyr.getClassName();
-    const styleInfo = this.lyrService.initialLayerData.filter(il => il.className === name);
+    const styleOptions = lyr.get('styleOptions') as Array<StyleOptions>;
     const imgSizeDefault = [5,5] as [number,number];
-    const hasStyle = styleInfo.length > 0 ? styleInfo[0].styles.length > 0 : false;
-    if (hasStyle && ['unique','special-zoning'].includes(styleInfo[0].styles[0].type)) {
-      const cats = styleInfo[0].styles[0].symbolCategories!.map(c => ({
+    const hasStyle = styleOptions.length > 0 ? styleOptions.length > 0 : false;
+    if (hasStyle && ['unique','special-zoning'].includes(styleOptions[0].type)) {
+      const cats = styleOptions[0].symbolCategories!.map(c => ({
         key: c.class.value,
         description: c.class.description,
-        type: styleInfo[0].layerType.geometryType,
+        type: lyr.get('layerType')?.geometryType,
         patch: c.image ? undefined : {
           outline: `rgba(${Array(c.outline ? c.outline.color : [100,100,100]).join(',')})`,
           fill: `rgba(${Array(c.fill ? c.fill : [0,0,0,0]).join(',')})`
@@ -98,11 +97,11 @@ export class MapLayerPaneComponent implements AfterViewInit {
           svg: c.image.src.slice(-3) === 'svg' ? this.sanitizer.bypassSecurityTrustUrl(c.image.src) : undefined
         } : undefined
       }));
-      const defSymbol = styleInfo[0].styles[0].defaultSymbol;
+      const defSymbol = styleOptions[0].defaultSymbol;
       cats.push(({
         key: defSymbol.class.value,
         description: defSymbol.class.description,
-        type: styleInfo[0].layerType.geometryType,
+        type: lyr.get('layerType')?.geometryType,
         patch: defSymbol.image ? undefined : {
           outline: `rgba(${Array(defSymbol.outline ? defSymbol.outline.color : [100,100,100]).join(',')})`,
           fill: `rgba(${Array(defSymbol.fill ? defSymbol.fill : [0,0,0,0]).join(',')})`
@@ -113,12 +112,12 @@ export class MapLayerPaneComponent implements AfterViewInit {
         } : undefined
       }))
       return cats;
-    } else if (hasStyle && styleInfo[0].styles[0].type === 'single') {
-      const defSymbol = styleInfo[0].styles[0].defaultSymbol;
+    } else if (hasStyle && styleOptions[0].type === 'single') {
+      const defSymbol = styleOptions[0].defaultSymbol;
       return [({
         key: defSymbol.class.value,
         description: defSymbol.class.description,
-        type: styleInfo[0].layerType.geometryType,
+        type: lyr.get('layerType')?.geometryType,
         patch: defSymbol.image ? undefined : {
           outline: `rgba(${Array(defSymbol.outline ? defSymbol.outline.color : [100,100,100]).join(',')})`,
           fill: `rgba(${Array(defSymbol.fill ? defSymbol.fill : [0,0,0,0]).join(',')})`

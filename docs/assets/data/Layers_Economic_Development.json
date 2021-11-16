@@ -1,0 +1,73 @@
+[{
+        "className": "Opportunity_Zones",
+        "group": "Economic Development",
+        "zIndex": 4,
+        "styles": [{
+            "type": "single",
+            "keyField": "NAMELSAD",
+            "defaultSymbol": {
+                "class": {
+                    "value": "Opportunity Zone"
+                },
+                "fill": [
+                    106,
+                    88,
+                    55,
+                    0.5
+                ],
+                "outline": {
+                    "color": [
+                        106,
+                        88,
+                        55
+                    ],
+                    "type": "dashed"
+                }
+            }
+        }],
+        "layerType": {
+            "type": "ArcGISVector",
+            "geometryType": "polygon"
+        },
+        "source": {
+            "type": "ArcGISVector",
+            "url": "https://services1.arcgis.com/WAUuvHqqP3le2PMh/ArcGIS/rest/services/Newark_Economic_Development/FeatureServer/1/query?where=\"OBJECTID\" is not null&outFields=\"NAMELSAD\"&returnGeometry=true&f=geojson"
+        }
+    },
+    {
+        "className": "Urban_Enterprise_Zone",
+        "group": "Economic Development",
+        "zIndex": 4,
+        "styles": [{
+            "type": "single",
+            "keyField": "UEZ_NAME",
+            "defaultSymbol": {
+                "class": {
+                    "value": "Urban Enterprise Zone"
+                },
+                "fill": [
+                    226,
+                    157,
+                    227,
+                    0.5
+                ],
+                "outline": {
+                    "color": [
+                        226,
+                        157,
+                        227
+                    ],
+                    "type": "dashed"
+                }
+            }
+        }],
+        "layerType": {
+            "type": "ArcGISVector",
+            "geometryType": "polygon"
+        },
+        "source": {
+            "type": "ArcGISVector",
+            "url": "https://services1.arcgis.com/WAUuvHqqP3le2PMh/ArcGIS/rest/services/Newark_Economic_Development/FeatureServer/2/query?where=\"OBJECTID\" is not null&outFields=\"UEZ_NAME\"&returnGeometry=true&f=geojson"
+        }
+    }
+]

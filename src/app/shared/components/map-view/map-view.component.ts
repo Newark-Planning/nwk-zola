@@ -7,8 +7,9 @@ import {
   OnInit,
   Output
 } from '@angular/core';
-import { Collection, MapBrowserEvent, Overlay } from 'ol';
+import { MapBrowserEvent, Overlay } from 'ol';
 import Feature, { FeatureLike } from 'ol/Feature';
+import { Geometry, Polygon } from 'ol/geom';
 import { Draw } from 'ol/interaction';
 import BaseLayer from 'ol/layer/Base';
 import LayerGroup from 'ol/layer/Group';
@@ -20,6 +21,8 @@ import { Stroke, Style } from 'ol/style';
 import { StoreService } from '../../../store/store.service';
 import { MapConstants } from '../../models';
 import { GoogleService, MapControlsService, MapInfoService, MapService, MapLayerService } from '../../services';
+import RenderFeature from 'ol/render/Feature';
+import GeometryLayout from 'ol/geom/GeometryLayout';
 
 @Component({
   selector: 'app-map-view',
@@ -33,9 +36,9 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
   loadingIndicator = false;
   layersPaneActive = true;
   drawInteraction: Draw | undefined;
-  mouseTooltip = {layer: 'Zoning District', value: ''};
+  mouseTooltip: {layer: string; props: Array<{prop: string; value: string;}>} = {layer: 'Zoning District', props: []};
   hiddenLayersGroup: LayerGroup = new LayerGroup;
-  pointerPopup: Overlay = new Overlay({});
+  pointerTooltip: Overlay = new Overlay({});
   hoverSelectionLayer = new VectorLayer({
     className: 'selection-hover',
     zIndex: 5,
@@ -57,7 +60,7 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
     {className:'Other Layers'},
     {className:'Hidden'}
   ];
-  @Output() readonly selection: EventEmitter<{layer: string; value: string;}> = new EventEmitter();
+  @Output() readonly selection: EventEmitter<{layer: string; value: string; details: Array<{prop: string, value: any}>}> = new EventEmitter();
   constructor(
     private readonly host: ElementRef,
     readonly controls: MapControlsService,
@@ -69,7 +72,7 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
     ) {}
   ngOnInit(): void {
     this.instance = this.mapService.initMap(this.host.nativeElement.firstElementChild);
-    this.pointerPopup = new Overlay({
+    this.pointerTooltip = new Overlay({
       className: 'ol-overlay-container ol-unselectable ol-pointer-tooltip',
       positioning: 'top-left' as OverlayPositioning,
       offset: [18,18],
@@ -86,12 +89,18 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
             this.getLayerByID('Basemap') as LayerGroup
           );
           (this.getLayerByID('Hidden') as LayerGroup).getLayers().extend([this.hoverSelectionLayer, this.clickSelectionLayer]);
-          this.instance.addOverlay(this.pointerPopup);
+          this.instance.addOverlay(this.pointerTooltip);
         }
       }
     );
     this.instance.on('pointermove', e => this.handleMapAction(e));
     this.instance.on('singleclick', e => this.handleMapAction(e));
+    this.instance.getView().on('change:resolution', e => {
+      if (e.target.get(e.key) <= 1) {
+        const clickFeats = this.clickSelectionLayer.getSource().getFeatures().filter(f => f.get('name') === 'Zoning_Districts');
+        // clickFeats.length > 0 ? clickFeats[0].
+      }
+    });
     this.instance.getInteractions().on(['add','remove'], (e) => {
       if (e.element instanceof Draw) {
         this.drawInteraction = e.type === 'add' ?  e.element : undefined;
@@ -100,50 +109,64 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
     this.instance.updateSize();
   }
   checkRDV = (zone: string): string => zone.startsWith('RDV') ? 'RDV' : zone;
-
   handleMapAction(e: MapBrowserEvent): void {
     if (e.dragging || (this.drawInteraction && this.drawInteraction.getActive())) {
       this.hoverSelectionLayer.getSource().clear();
-      this.mouseTooltip = {layer: '', value: ''};
+      this.mouseTooltip = {layer: '', props: []};
       return;
     }
     if (!this.infoPaneActive && e.type === 'singleclick') {
       return;
     }
-    const selectedFeat: {layer: string; feat: FeatureLike} | undefined = this.instance.forEachFeatureAtPixel(e.pixel,(f,l,g) => {
-      return ({layer: l.getClassName(), feat: f});
+    const selectedFeat: {layer: string; feat: FeatureLike; layerO?: any} | undefined = this.instance.forEachFeatureAtPixel(e.pixel,(f,l,g) => {
+      return ({layer: l.getClassName(), feat: f, layerO: l});
     }, {layerFilter: (l) => !['Census_Tracts','Zipcodes','Neighborhoods','Wards','DrawLayer','selection-hover','selection-click'].includes(l.getClassName())});
-    this.clickSelectionLayer.getSource().clear();
     if (selectedFeat) {
+      const addFeat = (geom: Geometry, type: 'click' | 'hover'): void => (
+        type === 'click' ? this.clickSelectionLayer : this.hoverSelectionLayer
+        ).getSource().addFeature(new Feature({geometry: geom, layer: selectedFeat.layer}));
       this.hoverSelectionLayer.getSource().clear();
       const styleData = this.layerService.initialLayerData.filter(il => il.className === selectedFeat.layer);
       const keyField = styleData.length > 0 ? styleData[0].styles[0].keyField : '';
       let clickSelectionValue: string;
+      let clickSelectionDetails: Array<{prop: string; value: any;}> = [];
       if (e.type === 'singleclick') {
+        this.clickSelectionLayer.getSource().clear();
         const fixRdv = (currentFeat: FeatureLike): string => currentFeat.get('ZONING') === 'RDV' ? `${currentFeat.get('ZONING')} - ${currentFeat.get('RDV_PLAN')}` : currentFeat.get('ZONING');
         if (selectedFeat.layer === 'Zoning_Districts') {
-          this.clickSelectionLayer.getSource().addFeature(new Feature(selectedFeat.feat.getGeometry()));
+          addFeat(selectedFeat.feat.getGeometry() as Geometry, 'click');
           clickSelectionValue = fixRdv(selectedFeat.feat);
         } else if (selectedFeat.layer === 'Parcels-Zoning') {
           clickSelectionValue = selectedFeat.feat.getId() as string;
+          console.info(selectedFeat.layerO);
+          const renderFeat = selectedFeat.feat as RenderFeature;
+          addFeat(new Polygon(renderFeat.getOrientedFlatCoordinates(), GeometryLayout.XY, renderFeat.getEnds() as Array<number>),'click');
         } else {
           clickSelectionValue = selectedFeat.feat.get(keyField) as string;
+          clickSelectionDetails = Object.entries(selectedFeat.feat.getProperties()).slice(1).map(item => ({prop: item[0], value: item[1]}));
         };
-        this.selection.emit({layer: selectedFeat.layer, value: clickSelectionValue || ''});
+        this.selection.emit({layer: selectedFeat.layer, value: clickSelectionValue || '', details: clickSelectionDetails || []});
         this.instance.getView().animate({
           center: e.coordinate,
           zoom: selectedFeat.layer === 'Parcels-Zoning' ? undefined : 5,
           duration: 150
         });
       } else {
-        this.pointerPopup.setPosition(e.coordinate);
+        this.pointerTooltip.setPosition(e.coordinate);
+        this.mouseTooltip = {layer: selectedFeat.layer.replace(/[_-]/gi," "), props: [{prop: keyField, value: selectedFeat.feat.get(keyField) as string}]};
         if (!['Commuter_Rail','Light_Rail','High_Frequency_Bus','Standard_Bus','Parcels-Zoning'].includes(selectedFeat.layer)) {
-          this.hoverSelectionLayer.getSource().addFeature(new Feature(selectedFeat.feat.getGeometry()));
+          addFeat(selectedFeat.feat.getGeometry() as Geometry, 'hover');
+        } else if (['Parcels-Zoning'].includes(selectedFeat.layer)) {
+          const renderFeat = selectedFeat.feat as RenderFeature;
+          addFeat(new Polygon(renderFeat.getOrientedFlatCoordinates(), GeometryLayout.XY, renderFeat.getEnds() as Array<number>),'hover');
+          this.mouseTooltip = {layer: selectedFeat.layer.replace(/[_-]/gi," "), props: [
+            {prop: 'Block-Lot', value: selectedFeat.feat.getId() as string},
+            {prop: 'Legal Address', value: selectedFeat.feat.get('PROPLOC') as string}
+          ]};
         }
-        this.mouseTooltip = {layer: selectedFeat.layer.replace(/[_-]/gi," "), value: selectedFeat.layer === 'Parcels-Zoning' ? (selectedFeat.feat.getId() as string): selectedFeat.feat.get(keyField)};
       }
     } else {
-      e.type === 'singleclick' ? this.selection.emit({layer: '', value: ''}) : this.mouseTooltip = {layer: '', value: ''};
+      e.type === 'singleclick' ? this.selection.emit({layer: '', value: '', details: []}) : this.mouseTooltip = {layer: '', props: []};
     }
     setTimeout(() => {
       this.instance.updateSize();

@@ -1,0 +1,181 @@
+[{
+        "className": "Census_Tracts",
+        "group": "Boundaries",
+        "zIndex": 5,
+        "styles": [{
+            "type": "single",
+            "keyField": "NAMELSAD",
+            "defaultSymbol": {
+                "class": {
+                    "value": "Census Tract"
+                },
+                "outline": {
+                    "color": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "type": "dashed"
+                }
+            },
+            "labels": {
+                "textContent": "[NAMELSAD]",
+                "fill": [
+                    255,
+                    255,
+                    255
+                ],
+                "outline": {
+                    "color": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            }
+        }],
+        "layerType": {
+            "type": "ArcGISVector",
+            "geometryType": "polygon"
+        },
+        "source": {
+            "type": "ArcGISVector",
+            "url": "https://services1.arcgis.com/WAUuvHqqP3le2PMh/ArcGIS/rest/services/Census_Geographies/FeatureServer/2/query?where=\"OBJECTID\" is not null&outFields=\"NAMELSAD\"&returnGeometry=true&f=geojson"
+        }
+    },
+    {
+        "className": "Zipcodes",
+        "group": "Boundaries",
+        "zIndex": 5,
+        "styles": [{
+            "type": "single",
+            "keyField": "ZCTA5CE10",
+            "defaultSymbol": {
+                "class": {
+                    "value": "Zipcode Boundary"
+                },
+                "outline": {
+                    "color": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "type": "dashed"
+                }
+            },
+            "labels": {
+                "textContent": "[ZCTA5CE10]",
+                "fill": [
+                    255,
+                    255,
+                    255
+                ],
+                "outline": {
+                    "color": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            }
+        }],
+        "layerType": {
+            "type": "ArcGISVector",
+            "geometryType": "polygon"
+        },
+        "source": {
+            "type": "ArcGISVector",
+            "url": "https://services1.arcgis.com/WAUuvHqqP3le2PMh/ArcGIS/rest/services/Census_Geographies/FeatureServer/3/query?where=\"OBJECTID\" is not null&outFields=\"ZCTA5CE10\"&returnGeometry=true&f=geojson"
+        }
+    },
+    {
+        "className": "Neighborhoods",
+        "group": "Boundaries",
+        "zIndex": 5,
+        "styles": [{
+            "type": "single",
+            "keyField": "name",
+            "defaultSymbol": {
+                "class": {
+                    "value": "Neighborhood"
+                },
+                "outline": {
+                    "color": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "type": "dashed"
+                }
+            },
+            "labels": {
+                "textContent": "[name]",
+                "fill": [
+                    255,
+                    255,
+                    255
+                ],
+                "outline": {
+                    "color": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            }
+        }],
+        "layerType": {
+            "type": "ArcGISVector",
+            "geometryType": "polygon"
+        },
+        "source": {
+            "type": "ArcGISVector",
+            "url": "https://services1.arcgis.com/WAUuvHqqP3le2PMh/ArcGIS/rest/services/Newark_Geographies/FeatureServer/0/query?where=\"OBJECTID\" is not null&outFields=\"name\"&returnGeometry=true&f=geojson"
+        }
+    },
+    {
+        "className": "Wards",
+        "group": "Boundaries",
+        "zIndex": 5,
+        "styles": [{
+            "type": "single",
+            "keyField": "WARD_NAME",
+            "defaultSymbol": {
+                "class": {
+                    "value": "Ward"
+                },
+                "outline": {
+                    "color": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "type": "dashed"
+                }
+            },
+            "labels": {
+                "textContent": "[WARD_NAME]",
+                "fill": [
+                    255,
+                    255,
+                    255
+                ],
+                "outline": {
+                    "color": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            }
+        }],
+        "layerType": {
+            "type": "ArcGISVector",
+            "geometryType": "polygon"
+        },
+        "source": {
+            "type": "ArcGISVector",
+            "url": "https://services1.arcgis.com/WAUuvHqqP3le2PMh/ArcGIS/rest/services/Newark_Geographies/FeatureServer/1/query?where=\"OBJECTID\" is not null&outFields=\"WARD_NAME\"&returnGeometry=true&f=geojson"
+        }
+    }
+]

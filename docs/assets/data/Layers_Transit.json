@@ -1,0 +1,163 @@
+[{
+        "className": "Commuter_Rail",
+        "group": "Transit",
+        "zIndex": 6,
+        "styles": [{
+            "type": "unique",
+            "keyField": "STATION",
+            "defaultSymbol": {
+                "class": {
+                    "value": "EWR"
+                },
+                "image": {
+                    "src": "assets/img/icons/Logo_Airport.png",
+                    "scale": 0.5
+                }
+            },
+            "symbolCategories": [{
+                    "class": {
+                        "value": "Broad St."
+                    },
+                    "image": {
+                        "src": "assets/img/icons/Logo_Broad.png",
+                        "scale": 0.5
+                    }
+                },
+                {
+                    "class": {
+                        "value": "Penn Stn."
+                    },
+                    "image": {
+                        "src": "assets/img/icons/Logo_Penn.png",
+                        "scale": 0.5
+                    }
+                }
+            ],
+            "labels": {
+                "textContent": "[STATION]",
+                "offsetXVal": 25,
+                "offsetYVal": 0,
+                "scaleVal": 0.7,
+                "fill": [
+                    26,
+                    115,
+                    232
+                ],
+                "outline": {
+                    "color": [
+                        255,
+                        255,
+                        255
+                    ]
+                }
+            }
+        }],
+        "layerType": {
+            "type": "ArcGISVector",
+            "geometryType": "point"
+        },
+        "source": {
+            "type": "LocalVector",
+            "url": "assets/data/transit_njt.geojson"
+        }
+    },
+    {
+        "className": "Light_Rail",
+        "group": "Transit",
+        "zIndex": 6,
+        "maxResolution": 9.554628535634155,
+        "styles": [{
+            "type": "single",
+            "keyField": "STATION",
+            "defaultSymbol": {
+                "class": {
+                    "value": "Newark Light Rail"
+                },
+                "image": {
+                    "src": "assets/img/icons/Logo_NLR.png",
+                    "scale": 0.5
+                }
+            },
+            "labels": {
+                "textContent": "[STATION]",
+                "offsetXVal": 15,
+                "offsetYVal": 0,
+                "scaleVal": 0.7,
+                "fill": [
+                    26,
+                    115,
+                    232
+                ],
+                "outline": {
+                    "color": [
+                        255,
+                        255,
+                        255
+                    ]
+                }
+            }
+        }],
+        "layerType": {
+            "type": "ArcGISVector",
+            "geometryType": "point"
+        },
+        "source": {
+            "type": "LocalVector",
+            "url": "assets/data/transit_nlr.geojson"
+        }
+    },
+    {
+        "className": "High_Frequency_Bus",
+        "group": "Transit",
+        "zIndex": 5,
+        "maxResolution": 9,
+        "styles": [{
+            "type": "single",
+            "keyField": "StopID_Location",
+            "defaultSymbol": {
+                "class": {
+                    "value": "Bus Stop: <10 min. Average Wait"
+                },
+                "image": {
+                    "src": "assets/img/icons/bus_highfrequency.png",
+                    "scale": 0.66
+                }
+            }
+        }],
+        "layerType": {
+            "type": "ArcGISVector",
+            "geometryType": "point"
+        },
+        "source": {
+            "type": "ArcGISVector",
+            "url": "https://services1.arcgis.com/WAUuvHqqP3le2PMh/arcgis/rest/services/Newark_Bus_Stops_by_Service/FeatureServer/0/query?where=OBJECTID+IS+NOT+NULL+AND+Weekday_Headway_Minutes+<=+10&outFields=\"StopID_NJT,StopID_GTFS,StopID_Location,Weekday_Lines,Weekend_Lines\"&returnGeometry=true&f=geojson"
+        }
+    },
+    {
+        "className": "Standard_Bus",
+        "group": "Transit",
+        "zIndex": 4,
+        "maxResolution": 9,
+        "styles": [{
+            "type": "single",
+            "keyField": "StopID_Location",
+            "defaultSymbol": {
+                "class": {
+                    "value": "Bus Stop: >10 min. Average Wait"
+                },
+                "image": {
+                    "src": "assets/img/icons/bus_lowfrequency.png",
+                    "scale": 0.5
+                }
+            }
+        }],
+        "layerType": {
+            "type": "ArcGISVector",
+            "geometryType": "point"
+        },
+        "source": {
+            "type": "ArcGISVector",
+            "url": "https://services1.arcgis.com/WAUuvHqqP3le2PMh/arcgis/rest/services/Newark_Bus_Stops_by_Service/FeatureServer/0/query?where=OBJECTID+IS+NOT+NULL+AND+Weekday_Headway_Minutes+>+10&outFields=\"StopID_NJT,StopID_GTFS,StopID_Location,Weekday_Lines,Weekend_Lines\"&returnGeometry=true&f=geojson"
+        }
+    }
+]

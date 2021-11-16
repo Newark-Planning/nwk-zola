@@ -8,7 +8,19 @@
 <map-measure [instance]="instance"></map-measure>
 <map-basemaps [map]="instance"></map-basemaps>
 <div id="pointer-popup">
-    <span [ngClass]="mouseTooltip.value !== '' ? '' : 'empty'" class="zoning-tooltip">{{mouseTooltip.layer}}: {{mouseTooltip.value}}</span>
+    <table [ngClass]="mouseTooltip.layer !== '' ? '' : 'empty'" class="tooltip-table">
+        <tr class="popup-layer">
+            <td>{{mouseTooltip.layer}}</td>
+        </tr>
+        <ng-container *ngFor="let row of mouseTooltip.props">
+            <tr class="popup-prop" *ngIf="mouseTooltip.props.length > 1">
+                <td>{{row.prop | titlecase}}</td>
+            </tr>
+            <tr class="popup-value">
+                <td>{{row.value}}</td>
+            </tr>
+        </ng-container>
+    </table>
 </div>
 <footer>
     <map-scale [map]="instance"></map-scale>

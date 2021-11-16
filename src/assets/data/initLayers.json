@@ -140,7 +140,7 @@
         "maxResolution": 9,
         "styles": [{
             "type": "single",
-            "keyField": "StopNum",
+            "keyField": "StopID_Location",
             "defaultSymbol": {
                 "class": {
                     "value": "Bus Stop: <10 min. Average Wait"
@@ -157,7 +157,7 @@
         },
         "source": {
             "type": "ArcGISVector",
-            "url": "https://services1.arcgis.com/WAUuvHqqP3le2PMh/arcgis/rest/services/Newark_Bus_Stops/FeatureServer/0/query?where=OBJECTID+IS+NOT+NULL+AND+MonTuesThu_Wait_Minutes+<=+10&outFields=\"StopNum,Weekday_Lines,Weekend_Lines\"&returnGeometry=true&f=geojson"
+            "url": "https://services1.arcgis.com/WAUuvHqqP3le2PMh/arcgis/rest/services/Newark_Bus_Stops_by_Service/FeatureServer/0/query?where=OBJECTID+IS+NOT+NULL+AND+Weekday_Headway_Minutes+<=+10&outFields=\"StopID_NJT,StopID_GTFS,StopID_Location,Weekday_Lines,Weekend_Lines\"&returnGeometry=true&f=geojson"
         }
     },
     {
@@ -167,7 +167,7 @@
         "maxResolution": 9,
         "styles": [{
             "type": "single",
-            "keyField": "StopNum",
+            "keyField": "StopID_Location",
             "defaultSymbol": {
                 "class": {
                     "value": "Bus Stop: >10 min. Average Wait"
@@ -184,7 +184,7 @@
         },
         "source": {
             "type": "ArcGISVector",
-            "url": "https://services1.arcgis.com/WAUuvHqqP3le2PMh/arcgis/rest/services/Newark_Bus_Stops/FeatureServer/0/query?where=OBJECTID+IS+NOT+NULL+AND+MonTuesThu_Wait_Minutes+>+10&outFields=\"StopNum,Weekday_Lines,Weekend_Lines\"&returnGeometry=true&f=geojson"
+            "url": "https://services1.arcgis.com/WAUuvHqqP3le2PMh/arcgis/rest/services/Newark_Bus_Stops_by_Service/FeatureServer/0/query?where=OBJECTID+IS+NOT+NULL+AND+Weekday_Headway_Minutes+>+10&outFields=\"StopID_NJT,StopID_GTFS,StopID_Location,Weekday_Lines,Weekend_Lines\"&returnGeometry=true&f=geojson"
         }
     },
     {
@@ -1143,17 +1143,8 @@
                 "textContent": "[LOT_BLOCK_LOT]",
                 "fontSize": 0.5,
                 "fill": [
-                    255,
-                    255,
-                    255
-                ],
-                "outline": {
-                    "color": [
-                        150,
-                        150,
-                        150
-                    ]
-                }
+                    0, 0, 0
+                ]
             }
         }],
         "layerType": {

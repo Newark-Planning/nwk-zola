@@ -69,17 +69,20 @@ export class MapInfoService {
         map((r: Array<PlanDetails>) => r.find(p => p.ID === id))
       );
   }
-  getPropInfo(queryType: 'LOT_BLOCK_LOT' | 'PROPLOC' | 'XY', queryValue: string | [number, number], outFields: 'basic' | 'detailed'): Observable<ArcGeoJSONPropResponse> {
-    const defaultFields = [ 'LOT_BLOCK_LOT', 'MOD4_BLOCK_LOT', 'PROPLOC', 'ADDLOTS', 'ZONING', 'RDV_PLAN', 'RDV_CODE', 'HIST_DIST', 'HIST_PROP', 'OPPO_ZONE', 'IN_UEZ' ];
-    const expandedFields: Array<string> = [];
+  getPropInfo(queryType: 'LOT_BLOCK_LOT' | 'PROPLOC' | 'XY', queryValue: string | [number, number], outFields: 'basic' | 'detailed' | 'geometry'): Observable<ArcGeoJSONPropResponse> {
+    const fields: {[type: string]: Array<string>;} = {
+      basic: [ 'LOT_BLOCK_LOT', 'MOD4_BLOCK_LOT', 'PROPLOC', 'ADDLOTS', 'ZONING', 'RDV_PLAN', 'RDV_CODE', 'HIST_DIST', 'HIST_PROP', 'OPPO_ZONE', 'IN_UEZ' ],
+      detailed: [],
+      geometry: ['LOT_BLOCK_LOT']
+    };
     if (outFields === 'detailed') {
       Object.keys(this.propFields).forEach(k => {
-        this.propFields[k].forEach(f => expandedFields.push(f.field));
+        this.propFields[k].forEach(f => fields.detailed.push(f.field));
       });
     }
     const arcBaseUrl = 'https://services1.arcgis.com/WAUuvHqqP3le2PMh/ArcGIS/rest/services/Newark_Parcels_with_Ownership/FeatureServer/0/query?';
     const arcQuery = queryType === 'XY' ? `geometry={"x":${queryValue[0]},"y":${queryValue[1]},"spatialReference":{"wkid" : 4326}}` : `where="${queryType}"='${queryValue}'`;
-    const arcParams = `&outFields=${outFields === 'detailed' ? expandedFields.join(',') : defaultFields}&${arcQuery}&returnGeometry=false&resultRecordCount=1&f=geojson`;
+    const arcParams = `&outFields=${fields[outFields].join(',')}&${arcQuery}&returnGeometry=${String(outFields === 'geometry')}&resultRecordCount=1&f=geojson`;
 
     return this.http.get<ArcGeoJSONPropResponse>(
       `${arcBaseUrl}${arcParams}`

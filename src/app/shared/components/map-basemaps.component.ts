@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Input, ElementRef, OnChanges, SimpleChanges, AfterViewInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, ElementRef, OnChanges, SimpleChanges } from '@angular/core';
 import { Control } from 'ol/control';
 import LayerGroup from 'ol/layer/Group';
 import Map from 'ol/Map';

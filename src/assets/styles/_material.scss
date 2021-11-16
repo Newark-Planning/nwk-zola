@@ -84,9 +84,9 @@ $custom-typography: mat-typography-config( $font-family: 'Segoe UI, sans-serif',
     margin-block: 0;
     line-height: 1em;
     text-align: center;
-    user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
+    user-select: none;
 }
 
 .zoom-extent-control {
@@ -203,9 +203,9 @@ map-search-bar {
         flex: 1 1 15%;
         height: auto !important;
         line-height: 1.25em;
-        user-select: none;
         -moz-user-select: none;
         -webkit-user-select: none;
+        user-select: none;
     }
     .search-box {
         background: white;

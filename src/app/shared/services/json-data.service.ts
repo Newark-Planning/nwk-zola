@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ArcGeoJSONPropResponse, ArcGeoJSONResponse, ArcPropResponse, SearchFeature, SearchResult } from '../models';
+import { ArcGeoJSONPropResponse, ArcGeoJSONResponse } from '../models';
 
 @Injectable({
   providedIn: 'root'

@@ -39,7 +39,7 @@ import { Modify } from 'ol/interaction';
     </button>
     <button mat-menu-item type="button" title="Measure Radius" (click)="drawType = 'radius';addInteraction()">
       <mat-icon>circle</mat-icon>
-      <span>radius</span>
+      <span>Radius</span>
     </button>
   </mat-menu>
   `,
@@ -114,7 +114,15 @@ export class MapMeasureComponent implements OnChanges {
       offsetX: 15
     })
   });
-
+  centroidStyle = new Style({
+    image: new CircleStyle({
+      radius: 5,
+      stroke: new Stroke({
+        color: 'rgba(0, 0, 0, 0.7)',
+      }),
+      fill: new Fill({ color: 'rgba(0, 0, 0, 0.4)' })
+    })
+  });
   segmentStyle = new Style({
     text: new Text({
       font: '12px Segoe UI,Calibri, sans-serif',
@@ -181,7 +189,7 @@ export class MapMeasureComponent implements OnChanges {
   formatRadius(circle: CircleGeom): string {
     const radius = circle.getRadius();
     const area = Math.PI * Math.pow(radius,2);
-    const output = `${Math.round(radius * 3.28084).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} ft\n${Math.round(area * 10.7639).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} ft\xB2`;
+    const output = `Radius: ${Math.round(radius * 3.28084).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} ft\nArea: ${Math.round(area * 10.7639).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} ft\xB2`;
 
     return output;
   }
@@ -233,7 +241,9 @@ export class MapMeasureComponent implements OnChanges {
       label = this.formatArea(geometry);
       line = new LineString((geometry as Polygon).getCoordinates()[0]);
     } else if (geometry instanceof CircleGeom) {
-      point = new Point(geometry.getLastCoordinate());
+      point = new Point(geometry.getCenter());
+      this.centroidStyle.setGeometry(point);
+      styles.push(this.centroidStyle);
       label = this.formatRadius(geometry);
       line = new LineString(geometry.getExtent());
     } else if (geometry instanceof LineString) {

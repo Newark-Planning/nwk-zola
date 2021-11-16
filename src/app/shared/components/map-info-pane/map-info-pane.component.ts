@@ -1,5 +1,6 @@
 import {
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   OnChanges,
@@ -29,7 +30,7 @@ import { MapInfoService, MapLayerService } from '../../services';
 export class MapInfoPaneComponent implements OnInit, OnChanges {
     @Input() map: Map = new Map({});
     @Input() paneOpen = false;
-    @Input() selection: {layer: string; value: string;} = {layer: '', value: ''};
+    @Input() selection: {layer: string; value: string; details: Array<{prop: string, value: any}>} = {layer: '', value: '', details: []};
     @Output() readonly paneClose: EventEmitter<boolean> = new EventEmitter();
     paneContent: Observable<LayerInfoPaneContent>;
     planDetails: Observable<PlanDetails>;
@@ -56,7 +57,8 @@ export class MapInfoPaneComponent implements OnInit, OnChanges {
     checkNotes = (index: number, rowData: LayerInfoPaneContent): boolean => rowData.NOTES ? rowData.NOTES.length > 0 : false;
     constructor(
         readonly layerService: MapLayerService,
-        readonly mapInfoService: MapInfoService
+        readonly mapInfoService: MapInfoService,
+        private readonly host: ElementRef
     ) {
       this.paneContent = new Observable();
       this.planDetails = new Observable();
@@ -94,9 +96,9 @@ export class MapInfoPaneComponent implements OnInit, OnChanges {
                   TABLE: feat.properties
                }));
             });
-            this.planDetails = newSelection.value.startsWith('RDV')
-            ? this.mapInfoService.getRDVPlanInfo(newSelection.value)
-            : new Observable();
+            const sectionEl = (this.host.nativeElement as HTMLElement).getElementsByTagName('section');
+            sectionEl.length > 0 ? sectionEl[0].scrollTo({top: 0, behavior: 'smooth'}) : undefined;
+            this.planDetails = new Observable();
             };
             break;
           default: {

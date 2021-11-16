@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { Map } from 'ol';
 import { MapViewComponent } from '../shared';
 import { togglePanel } from '../shared/utils/animations';
@@ -8,7 +8,7 @@ import { togglePanel } from '../shared/utils/animations';
   selector: 'app-main-view',
   template: `
   <map-layer-pane [@togglePanel]="map1.layersPaneActive ? 'shown' : 'hidden'" [paneopen]="layersPaneActive" [map]="mapInstance">
-    <map-search-bar header [map]="mapInstance"></map-search-bar>
+    <map-search-bar header [map]="mapInstance" (searchSelection)="selection = $event"></map-search-bar>
   </map-layer-pane>
   <app-map-view #map1 (selection)="selection = $event"></app-map-view>
   <map-info-pane *ngIf="map1.infoPaneActive" [map]="mapInstance" [selection]="selection" (paneClose)="closeInfoPane()"></map-info-pane>

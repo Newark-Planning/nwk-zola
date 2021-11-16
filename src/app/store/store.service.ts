@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { ArcFeature, ArcPropInfo, SearchItem } from '../shared/models';
+import { ArcPropInfo, SearchItem } from '../shared/models';
 import * as fromStore from '../store/store.reducers';
 import * as MapPaneActions from './map-pane/map-pane.actions';
 import * as fromMapPane from './map-pane/map-pane.reducers';

@@ -1,7 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Map } from 'ol';
-import Feature, { FeatureLike } from 'ol/Feature';
+import { FeatureLike } from 'ol/Feature';
 import { MVT as MVTFormat } from 'ol/format';
 import GeoJSON from 'ol/format/GeoJSON';
 import LayerGroup from 'ol/layer/Group';
@@ -17,7 +16,7 @@ import { MapInfoService } from './map-info.service';
 /**
  * Service to generate map groups and set up layers
  * @method makeBasemapGroup() Return Layer Group with Basemap and Basemap Labels layers
- * @method makeLayerGroup(): Return Layer Group with Poltiical Geographies or Overlay Layers
+ * @method makeLayerGroup() Return Layer Group with Poltiical Geographies or Overlay Layers
  */
 @Injectable({ providedIn: 'root' })
 export class MapLayerService {
@@ -80,16 +79,19 @@ export class MapLayerService {
       .map(il => {
         const baseLyrObj = (obj: any) => Object.assign({
           className: il.className,
+          group: il.group,
+          layerType: il.layerType,
           zIndex: il.zIndex,
           opacity: il.opacity,
           visible: visibleLyrs.length > 0 ? visibleLyrs.includes(il.className) : il.visible,
           maxResolution: il.maxResolution ? il.maxResolution : undefined,
-          minResolution: il.minResolution ? il.minResolution : undefined
+          minResolution: il.minResolution ? il.minResolution : undefined,
+          styleOptions: il.styles ? il.styles : undefined
         }, obj);
         switch (il.layerType.type) {
           case 'TileLayer': return new TileLayer(baseLyrObj({preload: Infinity, source: new XYZ({ crossOrigin: 'anonymous', url: il.source.url })}));
           case 'VectorTileLayer': return new VectorTileLayer(baseLyrObj({
-            source: new VectorTileSource({format: new MVTFormat({idProperty: 'LOT_BLOCK_LOT'}), url: il.source.url}),
+            source: new VectorTileSource({format: new MVTFormat({idProperty: il.styles && il.styles[0].keyField === 'ZONING' ? 'LOT_BLOCK_LOT' : il.styles[0].keyField}), url: il.source.url,overlaps: false}),
             style: il.styles ? (feat: FeatureLike, resolution: number) => il.styles.map(s => (this.styleFunction(s, feat, resolution))) : undefined
           }));
           default: return new VectorLayer(baseLyrObj({
@@ -120,7 +122,8 @@ export class MapLayerService {
           labeller.scaleVal ? labeller.scaleVal : 0.75,
           labeller.fill ? colorToString(labeller.fill) : undefined,
           labeller.outline ? colorToString(labeller.outline.color) : undefined,
-          labeller.placement
+          labeller.placement,
+          styleOptions.type === 'special-zoning'
           )
         : undefined;
         const checkRDV = (zone: string) => styleOptions.type === 'special-zoning' && zone.startsWith('RDV') ? 'RDV' : zone;
@@ -141,9 +144,9 @@ export class MapLayerService {
     }
     makeText(
         textContent: string, fontSize = 1, textAlignment = 'left', offsetXVal = 25, offsetYVal = 0,
-        scaleVal = 0.7, fillColor = '#1a73e8', strokeColor = 'white', placementVal = 'point' ): Text {
+        scaleVal = 0.7, fillColor = '#1a73e8', strokeColor = 'white', placementVal = 'point', justLot = false): Text {
         return new Text({
-            text: textContent,
+            text: justLot ? textContent.split('-')[1] : textContent,
             font: `500 calc(${(fontSize * 0.15).toString()}rem + 14.5px) 'Segoe UI Semibold', Verdana, sans-serif`,
             textAlign: textAlignment,
             offsetX: offsetXVal,

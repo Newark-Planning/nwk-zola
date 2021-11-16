@@ -32,9 +32,9 @@ mat-table {
             cursor: pointer;
         }
         mat-cell {
-            user-select: none;
             -webkit-user-select: none;
             -moz-user-select: none;
+            user-select: none;
             line-height: 1.5em !important;
             font-size: 18px !important;
         }

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Overlay } from 'ol';
@@ -9,7 +9,6 @@ import { ArcAddressPt } from '../models';
 import { JsonDataService } from '../services/json-data.service';
 import { fromLonLat } from 'ol/proj';
 import { Coordinate } from 'ol/coordinate';
-import { Pixel } from 'ol/pixel';
 
 @Component({
     selector: 'map-search-bar',
@@ -17,7 +16,7 @@ import { Pixel } from 'ol/pixel';
     template: `
       <mat-icon class="search-icon">search</mat-icon>
       <div class="search-box" matAutocompleteOrigin #origin="matAutocompleteOrigin">
-        <input type="text" [placeholder]="placeholderText[searchType]"
+        <input type="text" [placeholder]="placeholderText[searchType]" #input
             aria-label="Search Input" matInput [formControl]="searchControl" [matAutocomplete]="auto" [matAutocompleteConnectedTo]="origin" (ngModelChange)="_filter($event, searchType)">
         <button class="icon-button" *ngIf="searchControl.value" aria-label="Clear" (click)="searchControl.setValue('')">
           <mat-icon>close</mat-icon>
@@ -34,8 +33,8 @@ import { Pixel } from 'ol/pixel';
           </mat-optgroup>
         </mat-select>
       </div>
-      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="goTo($event)" autoActiveFirstOption="true">
-          <mat-option *ngFor="let option of (filteredOptions | async); let i = index" [value]="option">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="goTo($event, input)" autoActiveFirstOption="true">
+          <mat-option *ngFor="let option of (filteredOptions | async); let i = index" [disabled]="option.POINT_X === 0" [value]="option.POINT_X === 0 ? undefined : option">
             {{option[searchType]}}
           </mat-option>
       </mat-autocomplete>
@@ -58,28 +57,30 @@ export class MapSearchBarComponent {
     {field: 'ADDR_LEGAL', name:'Legal Address'}
   ];
   @Input() overlay: Overlay = new Overlay({});
+  @Output() readonly searchSelection: EventEmitter<{layer: string; value: string;}> = new EventEmitter();
   constructor(
     readonly searchData: JsonDataService
   ) {}
   _filter(value: any, type: 'BLOCK_LOT' | 'ADDR_STREET' | 'ADDR_LEGAL'): void {
     this.filteredOptions = this.searchData.getSearchOptions(value, type)
       .pipe(
-        map( res => res.features.map(r => r.properties))
+        map( res => res.features.length > 0
+          ? res.features.map(r => r.properties)
+          : [{ADDR_LEGAL: 'No Address Matches', ADDR_STREET: 'No Address Matches', BLOCK_LOT: 'No Block-Lot Matches', POINT_X: 0, POINT_Y: 0}])
       );
   }
   displayFn = (opt: ArcAddressPt['attributes']): string => opt && opt[this.searchType] ? opt[this.searchType] : '';
-  goTo(e: MatAutocompleteSelectedEvent): any {
+  goTo(e: MatAutocompleteSelectedEvent, inputEl: HTMLInputElement): void {
     const option: ArcAddressPt['attributes'] = e.option.value;
     const coordinates: Coordinate = fromLonLat([option.POINT_X, option.POINT_Y]);
-    const pixel: Pixel= this.map.getPixelFromCoordinate(coordinates);
-    const features = this.map.getFeaturesAtPixel(pixel)
-      .filter(ft => ft.get('layer') === 'Newark_Parcels_2020_07_31');
+    console.info(`Finding Info for ${option[this.searchType]}`);
+    this.searchSelection.emit({layer: 'Parcels-Zoning', value: option.BLOCK_LOT});
     this.map.getView().animate({
       center: coordinates,
-      resolution: 0.9
+      resolution: 0.5971642835598172,
+      duration: 300
     });
-    console.info(`Finding Info for ${option[this.searchType]}`);
-    this.searchControl.setValue(option[this.searchType]);
-    // this.popup.setPosition(coordinates);
-    }
+    this.searchControl.reset();
+    inputEl.blur();
+  }
 }

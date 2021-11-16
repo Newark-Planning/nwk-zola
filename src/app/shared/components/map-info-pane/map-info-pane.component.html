@@ -5,13 +5,21 @@
     <div class="pane-header">
         <div class="info-pane-header" [ngClass]="selection.layer === 'Zoning_Districts' ? 'Zone_'+selection.value : 'Layer_'+selection.layer">
             <span *ngIf="content.TYPE">{{content.TYPE}}</span>
-            <span *ngIf="content.NAME">{{content.NAME}}</span>
-            <h5 *ngIf="selection.value">{{selection.value}}</h5>
+            <span *ngIf="content.NAME && content.NAME !== selection.value">{{content.NAME}}</span>
+            <h5 *ngIf="selection.value" [ngStyle]="selection.value.length > 20 ? {'font-size':'2em'}:{}">{{selection.value}}</h5>
         </div>
         <img *ngIf="content.IMGSRC" [src]="content.IMGSRC">
     </div>
     <div class="info-pane-description" *ngIf="content.DESCRIPTION" [innerHtml]="content.DESCRIPTION"></div>
-    <map-pane-content-property *ngIf="selection.layer === 'Parcels-Zoning' && (paneContent | async).TABLE" [propInfo]="(paneContent | async).TABLE"></map-pane-content-property>
+    <div *ngIf="selection.details !== []">
+        <table class="prop-fields">
+            <tr *ngFor="let detail of selection.details">
+                <td class="prop-alias">{{ detail.prop }}</td>
+                <td class="prop-field">{{detail.value}}</td>
+            </tr>
+        </table>
+    </div>
+    <map-pane-content-property *ngIf="selection.layer === 'Parcels-Zoning' && (paneContent | async)?.TABLE" [propInfo]="(paneContent | async)?.TABLE"></map-pane-content-property>
     <mat-accordion class="zone-info-accordion" *ngIf="selection.layer === 'Zoning_Districts'">
         <mat-expansion-panel *ngIf="content.BUILDING_TYPES && content.BUILDING_TYPES.length > 0">
             <mat-expansion-panel-header style="max-height: 2.5rem;">

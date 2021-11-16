@@ -1,0 +1,28 @@
+[{
+        "className": "basemap",
+        "group": "Basemap",
+        "zIndex": 0,
+        "visible": true,
+        "layerType": {
+            "type": "TileLayer"
+        },
+        "source": {
+            "type": "XYZ",
+            "url": ""
+        }
+    },
+    {
+        "className": "basemap-labels",
+        "group": "Basemap",
+        "zIndex": 4,
+        "visible": true,
+        "opacity": 0.8,
+        "layerType": {
+            "type": "TileLayer"
+        },
+        "source": {
+            "type": "XYZ",
+            "url": ""
+        }
+    }
+]
